@@ -1,0 +1,738 @@
+<!-- 
+  =============================================================================================
+  PROYEK: IRMINSUL ARCHIVES (WEBSITE LORE GENSHIN IMPACT)
+  VERSI: 19 (FINAL SYNCED EDITION)
+  
+  CHANGELOG:
+  1. Sinkronisasi total teks Bahasa Inggris agar setara detailnya dengan Bahasa Indonesia.
+  2. Memastikan istilah-istilah lore (seperti "Shades", "Sovereigns", "Gnosis") konsisten.
+  
+  CARA MENGEDIT:
+  Cari variabel 'loreData' di bagian bawah script untuk mengubah teks.
+  =============================================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- JUDUL TAB BROWSER -->
+    <title>Irminsul Archives: Kronik Teyvat Lengkap</title>
+    <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5d/Genshin_Impact_logo.svg">
+
+    <!-- LIBRARY EKSTERNAL -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- KONFIGURASI TEMA -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        lore: {
+                            gold: '#C6A668',       
+                            goldDim: '#8A7342',    
+                            paper: '#Fdfbf7',      
+                            void: '#0F111A',       
+                            voidLight: '#1E2235',  
+                            accent: '#759BFF',     
+                            mystery: '#3730a3',    
+                            mysteryHover: '#4338ca' 
+                        },
+                        el: {
+                            anemo: '#72e2c3', geo: '#e3b342', electro: '#d094ea', 
+                            dendro: '#a5d63f', hydro: '#4cc2f1', pyro: '#ff7e5f', 
+                            cryo: '#a0e9ff', abyss: '#9c7af2', 
+                            lunar: '#E2E8F0' // Warna Putih Bulan
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Marcellus', 'serif'],
+                        sans: ['Nunito Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { transition: background-color 0.5s ease, color 0.5s ease; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .dark .glass {
+            background: rgba(20, 24, 40, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Hover Card */
+        .nation-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            z-index: 10;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .dark .nation-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Border Overrides */
+        .dark .border-thick-gold { border-left-color: #C6A668 !important; border-left-width: 4px; }
+        .dark .border-thick-accent { border-left-color: #759BFF !important; border-left-width: 4px; }
+        .dark .border-thick-dim { border-left-color: #8A7342 !important; border-left-width: 4px; }
+        .dark .border-bottom-mystery { border-bottom-color: #3730a3 !important; border-bottom-width: 4px; }
+
+        /* Timeline Connector */
+        .timeline-item {
+            position: relative;
+            padding-left: 3.5rem;
+            padding-bottom: 3rem;
+        }
+        .timeline-connector {
+            position: absolute;
+            height: calc(100% - 1.4rem + 1.6rem); 
+            width: 2px;
+            left: 1.35rem; 
+            top: 1.4rem;
+            background: linear-gradient(to bottom, #C6A668 0%, rgba(198, 166, 104, 0.5) 100%);
+            z-index: 0;
+        }
+        .dark .timeline-connector {
+            background: linear-gradient(to bottom, #8A7342 0%, rgba(138, 115, 66, 0.3) 100%);
+        }
+        .timeline-node {
+            position: absolute;
+            left: 0.7rem;
+            top: 0;
+            width: 1.4rem;
+            height: 1.4rem;
+            border-radius: 50%;
+            background-color: #Fdfbf7;
+            border: 3px solid #C6A668;
+            z-index: 20;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+        .dark .timeline-node {
+            background-color: #0F111A;
+            box-shadow: 0 0 0 4px rgba(15, 17, 26, 0.8);
+            border-color: #C6A668;
+        }
+        .glass:hover + .timeline-node, .glass:hover ~ .timeline-node { 
+            transform: scale(1.1);
+            background-color: #C6A668;
+        }
+
+        /* Watermark */
+        .card-watermark {
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-size: 6rem;
+            opacity: 0.05;
+            pointer-events: none;
+            transform: rotate(-15deg);
+            transition: transform 0.5s ease;
+        }
+        .glass:hover .card-watermark {
+            transform: rotate(0deg) scale(1.1);
+            opacity: 0.1;
+        }
+        .dark .card-watermark { opacity: 0.05; color: white; }
+
+        /* Accordion */
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .expandable-content.open {
+            max-height: 2000px;
+            transition: max-height 0.6s ease-in-out;
+        }
+
+        /* Animation & Scrollbar */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-enter { animation: fadeIn 0.4s ease-out forwards; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #8A7342; border-radius: 10px; }
+        
+        .royal-divider {
+            height: 1px;
+            width: 80%;
+            max-width: 600px;
+            background: linear-gradient(90deg, transparent 0%, #C6A668 50%, transparent 100%);
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-[#F2EFE9] dark:bg-lore-void text-gray-800 dark:text-gray-200 min-h-screen flex flex-col font-sans selection:bg-lore-gold selection:text-white">
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full z-50 glass transition-all duration-300 border-b border-lore-gold/10">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="app.nav('home')">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-lore-gold to-[#8A7342] flex items-center justify-center shadow-lg ring-2 ring-white/50 dark:ring-white/10">
+                    <span class="text-white font-serif font-bold text-xl">I</span>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <h1 class="font-serif font-bold text-lg tracking-[0.15em] text-gray-800 dark:text-white uppercase leading-none">Irminsul</h1>
+                    <span class="text-[0.6rem] text-lore-goldDim uppercase tracking-widest font-bold mt-0.5">Record of Teyvat</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1 rounded-full backdrop-blur-md">
+                <button onclick="app.nav('timeline')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_timeline">Kronologi</button>
+                <button onclick="app.nav('nations')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_nations">Wilayah</button>
+                <button onclick="app.nav('cosmology')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_cosmology">Kosmologi</button>
+                <button onclick="app.nav('theories')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_theories">Ramalan</button>
+            </nav>
+
+            <!-- Controls -->
+            <div class="flex items-center gap-3">
+                <button onclick="app.toggleLang()" class="px-3 py-1 rounded glass hover:border-lore-gold transition-all text-xs font-bold shadow-sm">
+                    <span id="lang-indicator">ID</span>
+                </button>
+                <button onclick="app.toggleTheme()" class="w-8 h-8 rounded-full glass hover:bg-lore-voidLight hover:text-white transition-all flex items-center justify-center text-sm shadow-sm">
+                    <span id="theme-icon">☾</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="pt-28 pb-8 px-4 text-center relative">
+        <h2 id="page-title" class="text-3xl md:text-5xl font-serif font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim animate-enter">Arsip Irminsul</h2>
+        <div class="royal-divider mb-4"></div>
+        <p id="page-subtitle" class="text-gray-500 dark:text-gray-400 font-serif italic text-sm md:text-base max-w-2xl mx-auto animate-enter" style="animation-delay: 0.1s;">
+            "Hutan mengingat segalanya."
+        </p>
+    </div>
+
+    <!-- Content -->
+    <main id="app-content" class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 pb-24 space-y-8"></main>
+
+    <!-- Mobile Nav -->
+    <div class="md:hidden fixed bottom-4 left-4 right-4 h-14 glass rounded-xl flex justify-around items-center z-50 shadow-2xl border border-white/20 dark:border-white/10">
+        <button onclick="app.nav('timeline')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">⏳</span></button>
+        <button onclick="app.nav('nations')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌍</span></button>
+        <button onclick="app.nav('cosmology')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌌</span></button>
+        <button onclick="app.nav('theories')" class="flex flex-col items-center justify-center w-full h-full text-indigo-500"><span class="text-lg">🔮</span></button>
+    </div>
+
+    <!-- Script -->
+    <script>
+        const db = {
+            id: {
+                nav: { timeline: "Kronologi", nations: "Wilayah", cosmology: "Kosmologi", theories: "Ramalan" },
+                titles: { timeline: "Garis Waktu Teyvat", nations: "Geopolitik & Faksi", cosmology: "Hukum & Struktur Dunia", theories: "Ramalan & Teori Fans", home: "Terminal Irminsul Online" },
+                subtitles: { timeline: "Dari Era Naga hingga Era Luna III.", nations: "Status Tujuh Bangsa dan Wilayah Otonom.", cosmology: "Langit Palsu, Lautan Gelap, dan Tiga Alam.", theories: "Analisis Masa Depan dan Kebenaran Tersembunyi.", home: "Akses data rahasia." },
+                ui: { read_more: "Lihat Detail", collapse: "Tutup", archon: "Archon", leader: "Pemimpin/Faksi", status: "Status", warning: "⚠ PERINGATAN: Mengandung Spoiler Berat (v6.2) & Spekulasi ⚠" }
+            },
+            en: {
+                nav: { timeline: "Timeline", nations: "Regions", cosmology: "Cosmology", theories: "Prophecy" },
+                titles: { timeline: "Timeline of Teyvat", nations: "Geopolitics & Factions", cosmology: "World Laws & Structure", theories: "Prophecy & Fan Theories", home: "Irminsul Terminal Online" },
+                subtitles: { timeline: "From Dragon Era to Luna III Era.", nations: "Status of The Seven and Autonomous Regions.", cosmology: "False Sky, Dark Sea, and Natural Laws.", theories: "Future analysis and hidden truths.", home: "Access classified data." },
+                ui: { read_more: "View Details", collapse: "Collapse", archon: "Archon", leader: "Leader/Faction", status: "Status", warning: "⚠ WARNING: Contains Heavy Spoilers (v6.2) & Speculation ⚠" }
+            }
+        };
+
+        const loreData = {
+            // == KRONOLOGI LENGKAP ==
+            timeline: [
+                // ERA PRA-MANUSIA
+                {
+                    era_id: "Era Dunia Lama (The Old World)", era_en: "The Old World", year: "Era Naga", icon: "🐉",
+                    desc_id: "Hegemoni Tujuh Penguasa Naga (Seven Sovereigns).",
+                    desc_en: "Hegemony of the Seven Sovereigns.",
+                    details_id: [
+                        "**Alam Vishap:** Dunia dikuasai oleh elemen murni yang kejam. Tidak ada peradaban manusia.",
+                        "**Raja Nibelung:** Raja Naga Nibelung memegang kekuasaan tertinggi dan mencari kekuatan 'kegelapan' (Abyss) dari luar dunia untuk mempertahankan takhta.",
+                        "**Otoritas:** Konsep 'Otoritas Elemen' lahir di sini, hak mutlak mengendalikan elemen yang kelak dicuri Celestia."
+                    ],
+                    details_en: [
+                        "**Vishap Realm:** The world was ruled by cruel, raw elements. There was no human civilization.",
+                        "**King Nibelung:** The Dragon King Nibelung held supreme power and sought 'dark' power (Abyss) from outside the world to maintain his throne.",
+                        "**Authority:** The concept of 'Elemental Authority' was born here, the absolute right to control elements, which was later stolen by Celestia."
+                    ]
+                },
+                {
+                    era_id: "Kedatangan Yang Primordial (Phanes)", era_en: "Arrival of The Primordial One", year: "Penciptaan", icon: "🥚",
+                    desc_id: "Penciptaan Langit Palsu dan Empat Bayangan.",
+                    desc_en: "Creation of the False Sky and Four Shades.",
+                    details_id: [
+                        "**Perang 40 Tahun:** Phanes mengalahkan Tujuh Naga dan memulai Era Langit.",
+                        "**Langit Palsu:** Phanes menggunakan cangkang telurnya untuk memisahkan 'Mikrokosmos Teyvat' dari 'Alam Semesta' demi melindungi dunia dari Abyss.",
+                        "**4 Bayangan:** Phanes menciptakan Istaroth (Waktu) dan 3 bayangan lain untuk membantunya."
+                    ],
+                    details_en: [
+                        "**40 Year War:** Phanes defeated the Seven Dragons and began the Era of the Heavens.",
+                        "**False Sky:** Phanes used their eggshell to separate the 'Microcosm of Teyvat' from the 'Universe' to protect the world from the Abyss.",
+                        "**4 Shades:** Phanes created Istaroth (Time) and 3 other shades to assist them."
+                    ]
+                },
+                {
+                    era_id: "Era Tiga Bulan & Hyperborea", era_en: "Era of Three Moons & Hyperborea", year: "Pra-Archon", icon: "🌕",
+                    desc_id: "Masa kejayaan Tiga Saudari Bulan dan Kota Emas.",
+                    desc_en: "Golden age of the Three Moon Sisters and the Golden City.",
+                    details_id: [
+                        "**Tiga Saudari:** Langit dihiasi 3 bulan: Aria (Eternal), Sonnet (Frost), Canon (Iridescent).",
+                        "**Hyperborea:** 'Kota Emas di Utara' (sekarang Nod-Krai) yang diberkati musim semi abadi.",
+                        "**Awal Kejatuhan:** Hyperborea dijatuhi Paku Langit, membekukan kota tersebut."
+                    ],
+                    details_en: [
+                        "**Three Sisters:** The sky was adorned with 3 moons: Aria (Eternal), Sonnet (Frost), and Canon (Iridescent).",
+                        "**Hyperborea:** The 'Golden City of the North' (now Nod-Krai) blessed with eternal spring.",
+                        "**The Fall:** Hyperborea was struck by a Celestial Nail, freezing the city."
+                    ]
+                },
+                {
+                    era_id: "Kedatangan Takhta Kedua", era_en: "The Second Throne", year: "Bencana I", icon: "🌑",
+                    desc_id: "Bencana Pembalikan Langit dan Kematian Bulan.",
+                    desc_en: "Heaven's Inversion and Moon Death.",
+                    details_id: [
+                        "**Perang Besar:** Phanes vs Second Throne. Langit dan bumi terbalik.",
+                        "**Kematian Bulan:** Aria dan Canon tewas. Sonnet tertidur. Kereta Perak hancur.",
+                        "**Enkanomiya:** Tenggelam ke dasar laut."
+                    ],
+                    details_en: [
+                        "**Great War:** Phanes vs Second Throne. The heavens and earth were inverted.",
+                        "**Moon Death:** Aria and Canon died. Sonnet fell dormant. The Silver Chariot was destroyed.",
+                        "**Enkanomiya:** Sank to the bottom of the sea."
+                    ]
+                },
+                {
+                    era_id: "Perang Archon", era_en: "Archon War", year: "3700-2000 TL", icon: "⚔️",
+                    desc_id: "Perebutan 7 Kursi Ilahi.",
+                    desc_en: "Battle for the 7 Divine Seats.",
+                    details_id: [
+                        "**Liyue:** Guizhong tewas. Morax menyegel Osial.",
+                        "**Mondstadt:** Venti & Bard gulingkan Decarabian.",
+                        "**Sumeru:** Raja Deshret terobsesi Pengetahuan Terlarang, membawa wabah Withering. Rukkhadevata menyusut.",
+                        "**Nod-Krai:** Wilayah ini terisolasi dan diperintah oleh sisa-sisa dinasti Bulan."
+                    ],
+                    details_en: [
+                        "**Liyue:** Guizhong died. Morax sealed Osial.",
+                        "**Mondstadt:** Venti & the Bard overthrew Decarabian.",
+                        "**Sumeru:** King Deshret became obsessed with Forbidden Knowledge, bringing the Withering plague. Rukkhadevata shrank.",
+                        "**Nod-Krai:** This region was isolated and ruled by the remnants of the Moon dynasty."
+                    ]
+                },
+                {
+                    era_id: "Bencana Khaenri'ah", era_en: "The Cataclysm", year: "500 TL", icon: "🔥",
+                    desc_id: "Kehancuran Dinasti Gerhana.",
+                    desc_en: "Fall of the Eclipse Dynasty.",
+                    details_id: [
+                        "**Ambisi:** Khaenri'ah mencoba menembus batas ilahi.",
+                        "**Gold:** Rhinedottir menciptakan Durin (Naga Bayangan).",
+                        "**Kematian Archon:** Makoto dan Rukkhadevata tewas.",
+                        "**Si Kembar:** Traveler disegel, Abyss Sibling menyaksikan kehancuran dan memimpin Abyss Order."
+                    ],
+                    details_en: [
+                        "**Ambition:** Khaenri'ah attempted to breach the divine boundary.",
+                        "**Gold:** Rhinedottir created Durin (the Shadow Dragon).",
+                        "**Archon Deaths:** Makoto and Rukkhadevata died.",
+                        "**The Twins:** The Traveler was sealed; the Abyss Sibling witnessed the destruction and led the Abyss Order."
+                    ]
+                },
+                // --- ERA TRAVELER (DIPECAH PER BABAK) ---
+                {
+                    era_id: "Era Traveler: Prologue (Mondstadt)", era_en: "Traveler Era: Prologue (Mondstadt)", year: "Tahun 1", icon: "🐉",
+                    desc_id: "Si Pengembara Menangkap Angin.",
+                    desc_en: "The Outlander Who Caught the Wind.",
+                    details_id: [
+                        "**Dvalin:** Diselamatkan dari racun.",
+                        "**Gnosis:** Signora mengambil Gnosis Venti.",
+                        "**Gelar:** Ksatria Kehormatan."
+                    ],
+                    details_en: [
+                        "**Dvalin:** Saved from poison.",
+                        "**Gnosis:** Signora took Venti's Gnosis.",
+                        "**Title:** Honorary Knight."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak I (Liyue)", era_en: "Traveler Era: Act I (Liyue)", year: "Tahun 1", icon: "⚖️",
+                    desc_id: "Perpisahan Tubuh Abadi.",
+                    desc_en: "Farewell, Archaic Lord.",
+                    details_id: [
+                        "**Exuvia:** Rex Lapis memalsukan kematian.",
+                        "**Osial:** Pertarungan laut.",
+                        "**Kontrak Akhir:** Gnosis diserahkan."
+                    ],
+                    details_en: [
+                        "**Exuvia:** Rex Lapis faked his death.",
+                        "**Osial:** Sea battle.",
+                        "**Final Contract:** Gnosis was handed over."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak II (Inazuma)", era_en: "Traveler Era: Act II (Inazuma)", year: "Tahun 2", icon: "⚡",
+                    desc_id: "Sang Mahahadir di Dunia Fana.",
+                    desc_en: "Omnipresence Over Mortals.",
+                    details_id: [
+                        "**Perang Saudara:** Shogunate vs Resistensi.",
+                        "**Duel:** Signora dieksekusi.",
+                        "**Euthymia:** Ei mencabut Dekrit."
+                    ],
+                    details_en: [
+                        "**Civil War:** Shogunate vs Resistance.",
+                        "**Duel:** Signora was executed.",
+                        "**Euthymia:** Ei lifted the Decree."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak III (Sumeru)", era_en: "Traveler Era: Act III (Sumeru)", year: "Tahun 3", icon: "🌳",
+                    desc_id: "Akasha Berdetak, Api Kalpa Berbunga.",
+                    desc_en: "Akasha Pulses, the Kalpa Flame Rises.",
+                    details_id: [
+                        "**Samsara:** Loop waktu 168 kali.",
+                        "**Shouki no Kami:** Scaramouche Dewa.",
+                        "**Irminsul:** Rukkhadevata dihapus."
+                    ],
+                    details_en: [
+                        "**Samsara:** 168 time loops.",
+                        "**Shouki no Kami:** Scaramouche became a God.",
+                        "**Irminsul:** Rukkhadevata was erased."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak IV (Fontaine)", era_en: "Traveler Era: Act IV (Fontaine)", year: "Tahun 4", icon: "💧",
+                    desc_id: "Masquerade Orang Berdosa.",
+                    desc_en: "Masquerade of the Guilty.",
+                    details_id: [
+                        "**Ramalan:** Air naik.",
+                        "**Hukuman:** Focalors mati.",
+                        "**Neuvillette:** Otoritas Penuh.",
+                        "**Narwhal:** Dikalahkan."
+                    ],
+                    details_en: [
+                        "**Prophecy:** The waters rose.",
+                        "**Punishment:** Focalors died.",
+                        "**Neuvillette:** Regained Full Authority.",
+                        "**Narwhal:** Defeated."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak V (Natlan)", era_en: "Traveler Era: Act V (Natlan)", year: "Tahun 5", icon: "🔥",
+                    desc_id: "Syair Kebangkitan.",
+                    desc_en: "Ode of Resurrection.",
+                    details_id: [
+                        "**Turnamen:** Capitano vs Mavuika.",
+                        "**Night Kingdom:** Perang Abyss.",
+                        "**Kebangkitan:** Rahasia jiwa kuno."
+                    ],
+                    details_en: [
+                        "**Tournament:** Capitano vs Mavuika.",
+                        "**Night Kingdom:** Abyss War.",
+                        "**Resurrection:** Secrets of ancient souls."
+                    ]
+                },
+                {
+                    era_id: "Era Traveler: Babak VI (Nod Krai)", era_en: "Traveler Era: Act VI (Nod Krai)", year: "Tahun 6", icon: "🌑",
+                    desc_id: "Di Bawah Cahaya Bulan Beku.",
+                    desc_en: "Beneath the Frozen Moonlight.",
+                    details_id: [
+                        "**Wilayah Baru:** Traveler mencapai Nod Krai (Sisa Bulan).",
+                        "**Konflik Faksi:** Frostmoon Scions vs Dottore.",
+                        "**Columbina:** Terungkap sebagai pewaris Sonnet.",
+                        "**Bulan Palsu:** Dottore mencoba menangkap kesadaran dewa.",
+                        "**Resolusi:** Penyatuan kembali Luna III untuk menembus langit."
+                    ],
+                    details_en: [
+                        "**New Region:** Traveler reaches Nod Krai (Moon Remnants).",
+                        "**Conflict:** Frostmoon Scions vs Dottore.",
+                        "**Columbina:** Revealed as Sonnet's heir.",
+                        "**Fake Moon:** Dottore attempts to trap divine consciousness.",
+                        "**Resolution:** Luna III reunited to pierce the sky."
+                    ]
+                }
+            ],
+            
+            // == 2. WILAYAH ==
+            nations: [
+                { id: "Mondstadt", el: "anemo", icon: "🍃", desc_id: "Kota Kebebasan.", desc_en: "City of Freedom.", leader_id: "Knights of Favonius", leader_en: "Knights of Favonius", archon: "Barbatos" },
+                { id: "Liyue", el: "geo", icon: "🔶", desc_id: "Kota Kontrak.", desc_en: "City of Contracts.", leader_id: "Liyue Qixing", leader_en: "Liyue Qixing", archon: "Morax (Retired)" },
+                { id: "Inazuma", el: "electro", icon: "⚡", desc_id: "Negeri Keabadian.", desc_en: "Land of Eternity.", leader_id: "Raiden Shogun", leader_en: "Raiden Shogun", archon: "Beelzebul" },
+                { id: "Sumeru", el: "dendro", icon: "🌿", desc_id: "Pusat Kebijaksanaan.", desc_en: "Center of Wisdom.", leader_id: "Nahida", leader_en: "Nahida", archon: "Buer" },
+                { id: "Fontaine", el: "hydro", icon: "💧", desc_id: "Bangsa Keadilan.", desc_en: "Nation of Justice.", leader_id: "Neuvillette", leader_en: "Neuvillette", archon: "Destroyed" },
+                { id: "Natlan", el: "pyro", icon: "🔥", desc_id: "Bangsa Perang.", desc_en: "Nation of War.", leader_id: "Mavuika", leader_en: "Mavuika", archon: "Mavuika" },
+                { id: "Snezhnaya", el: "cryo", icon: "❄️", desc_id: "Pusat Fatui.", desc_en: "Fatui HQ.", leader_id: "The Tsaritsa", leader_en: "The Tsaritsa", archon: "Tsaritsa" },
+                { id: "Nod Krai", el: "lunar", icon: "🌕", desc_id: "Wilayah Otonom / Sisa Bulan.", desc_en: "Autonomous Region / Moon Remnant.", leader_id: "Frostmoon Scions", leader_en: "Frostmoon Scions", archon: "Sonnet (Dormant)" },
+                { id: "Khaenri'ah", el: "abyss", icon: "🌑", desc_id: "Kerajaan Bawah Tanah.", desc_en: "Underground Kingdom.", leader_id: "Abyss Order", leader_en: "Abyss Order", archon: "None" }
+            ],
+
+            // == 3. KOSMOLOGI ==
+            cosmology: [
+                { title_id: "Irminsul", title_en: "Irminsul", text_id: "Pohon perak raksasa perekam ingatan dunia.", text_en: "Giant silver tree recording world memories.", icon: "🌳" },
+                { title_id: "Kuu-Vahki", title_en: "Kuu-Vahki", text_id: "Sihir kuno manipulasi cahaya bulan.", text_en: "Ancient magic of moon light manipulation.", icon: "✨" },
+                { title_id: "Langit Palsu", title_en: "False Sky", text_id: "Kubah pelindung ciptaan Phanes.", text_en: "Protective dome created by Phanes.", icon: "🌌" },
+                { title_id: "Lunar Bloom", title_en: "Lunar Bloom", text_id: "Reaksi elemen Dendro + Energi Bulan.", text_en: "Dendro + Moon Energy elemental reaction.", icon: "🌸" },
+                { title_id: "Lautan Kuantum", title_en: "Sea of Quanta", text_id: "Lautan kekacauan di luar Teyvat.", text_en: "Sea of chaos outside Teyvat.", icon: "🌊" },
+                { title_id: "Loom of Fate", title_en: "Loom of Fate", text_id: "Mesin penenun takdir Abyss.", text_en: "Fate weaving machine of the Abyss.", icon: "🧶" }
+            ],
+
+            // == 4. RAMALAN ==
+            theories: [
+                {
+                    title_id: "Columbina & Tiga Bulan", title_en: "Columbina & Three Moons",
+                    desc_id: "Columbina adalah pewaris Sonnet (Bulan Beku). Dottore mencoba memanen Aria.",
+                    desc_en: "Columbina is the heir of Sonnet (Frozen Moon). Dottore attempts to harvest Aria.",
+                    tag: "Canon Lore", icon: "🕊️"
+                },
+                {
+                    title_id: "Project Stuzha", title_en: "Project Stuzha",
+                    desc_id: "Rencana Tsaritsa membakar takdir lama dengan Gnosis.",
+                    desc_en: "Tsaritsa's plan to burn the old fate using Gnosis.",
+                    tag: "Endgame", icon: "♟️"
+                },
+                {
+                    title_id: "Bulan Palsu Dottore", title_en: "Dottore's Fake Moon",
+                    desc_id: "Dottore membangun bulan mekanis untuk menangkap dewa.",
+                    desc_en: "Dottore builds a mechanical moon to capture a god.",
+                    tag: "Plot 6.2", icon: "⚙️"
+                },
+                {
+                    title_id: "Durin Manusia", title_en: "Human Durin",
+                    desc_id: "Durin terlahir kembali sebagai manusia berhati murni.",
+                    desc_en: "Durin is reborn as a pure-hearted human.",
+                    tag: "Redemption", icon: "🐉"
+                }
+            ]
+        };
+
+        // --- APP LOGIC ---
+        const app = {
+            lang: 'id',
+            theme: 'light',
+            view: 'home',
+
+            init: function() {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) this.theme = 'dark';
+                this.applyTheme();
+                this.nav('timeline');
+            },
+
+            toggleTheme: function() {
+                this.theme = this.theme === 'light' ? 'dark' : 'light';
+                this.applyTheme();
+            },
+
+            applyTheme: function() {
+                document.documentElement.classList.toggle('dark', this.theme === 'dark');
+                document.getElementById('theme-icon').innerText = this.theme === 'dark' ? '☀' : '☾';
+            },
+
+            toggleLang: function() {
+                this.lang = this.lang === 'id' ? 'en' : 'id';
+                document.getElementById('lang-indicator').innerText = this.lang.toUpperCase();
+                this.updateUI();
+                this.nav(this.view);
+            },
+
+            updateUI: function() {},
+
+            toggleCard: function(index) {
+                const content = document.getElementById(`timeline-detail-${index}`);
+                const btn = document.getElementById(`timeline-btn-${index}`);
+                const dict = db[this.lang].ui;
+                
+                if (content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    btn.innerText = dict.read_more;
+                } else {
+                    document.querySelectorAll('.expandable-content').forEach(el => el.classList.remove('open'));
+                    document.querySelectorAll('.expandable-btn').forEach(el => el.innerText = dict.read_more);
+                    content.classList.add('open');
+                    btn.innerText = dict.collapse;
+                }
+            },
+
+            nav: function(target) {
+                this.view = target;
+                const dict = db[this.lang];
+                
+                document.getElementById('page-title').innerText = dict.titles[target];
+                document.getElementById('page-subtitle').innerText = dict.subtitles[target];
+
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    const id = btn.getAttribute('data-id');
+                    const isRamalan = id.includes('theories');
+                    
+                    btn.className = "nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300";
+
+                    if(id.includes(target)) {
+                        if (isRamalan) {
+                             btn.classList.add('bg-lore-mystery', 'text-white', 'shadow-md', 'hover:bg-lore-mysteryHover'); 
+                        } else {
+                             btn.classList.add('bg-lore-gold', 'text-white', 'shadow-md');
+                        }
+                    } else {
+                        if (isRamalan) {
+                             btn.classList.add('text-indigo-600', 'dark:text-indigo-400', 'hover:bg-indigo-50', 'dark:hover:bg-indigo-900/30'); 
+                        } else {
+                             btn.classList.add('text-gray-600', 'dark:text-gray-300', 'hover:bg-white/50', 'dark:hover:bg-white/10', 'hover:text-lore-gold');
+                        }
+                    }
+                });
+
+                const container = document.getElementById('app-content');
+                container.innerHTML = '';
+                
+                if (target === 'timeline') this.renderTimeline(container);
+                else if (target === 'nations') this.renderNations(container);
+                else if (target === 'cosmology') this.renderCosmology(container);
+                else if (target === 'theories') this.renderTheories(container);
+            },
+
+            renderTimeline: function(container) {
+                const data = loreData.timeline;
+                const ui = db[this.lang].ui;
+                let html = `<div class="max-w-4xl mx-auto space-y-0 relative">`; 
+
+                data.forEach((item, idx) => {
+                    const era = this.lang === 'id' ? item.era_id : item.era_en;
+                    const desc = this.lang === 'id' ? item.desc_id : item.desc_en;
+                    const details = this.lang === 'id' ? item.details_id : item.details_en;
+                    const isTraveler = item.era_id.includes('Traveler');
+                    const isLast = idx === data.length - 1;
+                    
+                    let borderClass = 'border-thick-gold border-l-lore-gold'; 
+                    if (isTraveler) borderClass = 'border-thick-accent border-l-lore-accent';
+
+                    html += `
+                        <div class="timeline-item animate-enter" style="animation-delay: ${idx * 0.05}s">
+                            ${!isLast ? '<div class="timeline-connector"></div>' : ''}
+                            <div class="timeline-node"></div>
+                            <div class="glass rounded-xl overflow-hidden border-l-4 ${borderClass}">
+                                <div class="card-watermark">${item.icon}</div>
+                                <div class="p-6 relative z-10 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors" onclick="app.toggleCard(${idx})">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="text-xl font-serif font-bold text-gray-800 dark:text-lore-gold">${era}</h3>
+                                        <span class="text-xs font-bold text-white bg-lore-goldDim px-2 py-1 rounded shadow-sm">${item.year}</span>
+                                    </div>
+                                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">${desc}</p>
+                                    <button id="timeline-btn-${idx}" class="expandable-btn text-xs font-bold uppercase tracking-widest text-lore-accent hover:text-lore-gold transition-colors">${ui.read_more}</button>
+                                </div>
+                                <div id="timeline-detail-${idx}" class="expandable-content bg-white/50 dark:bg-black/20 relative z-10">
+                                    <ul class="p-6 pt-0 space-y-3 text-sm text-gray-700 dark:text-gray-400">
+                                        <div class="h-[1px] w-full bg-lore-gold/20 mb-4"></div>
+                                        ${details.map(d => `<li class="leading-relaxed pl-4 border-l-2 border-lore-gold/30">${d.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900 dark:text-gray-200 block mb-1">$1</strong>')}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+
+            renderNations: function(container) {
+                const ui = db[this.lang].ui;
+                let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+
+                loreData.nations.forEach((nation, idx) => {
+                    const desc = this.lang === 'id' ? nation.desc_id : nation.desc_en;
+                    const leader = this.lang === 'id' ? nation.leader_id : nation.leader_en;
+                    
+                    html += `
+                        <div class="glass nation-card rounded-xl p-6 relative group duration-300 animate-enter" style="animation-delay: ${idx * 0.05}s">
+                            <div class="card-watermark">${nation.icon}</div>
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-50 text-el-${nation.el} group-hover:h-1.5 transition-all"></div>
+                            <div class="flex justify-between items-center mb-4 relative z-10">
+                                <span class="text-3xl filter drop-shadow-lg transform group-hover:scale-110 transition-transform">${nation.icon}</span>
+                                <span class="text-xs font-bold uppercase tracking-wider text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">${nation.el}</span>
+                            </div>
+                            <h3 class="text-2xl font-serif font-bold mb-2 text-el-${nation.el} relative z-10">${nation.id}</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 min-h-[40px] relative z-10">${desc}</p>
+                            
+                            <div class="space-y-3 text-sm border-t border-gray-200 dark:border-white/10 pt-4 relative z-10">
+                                <div class="flex justify-between">
+                                    <span class="text-[0.65rem] uppercase text-gray-400 font-bold">${ui.leader}</span>
+                                    <span class="font-bold text-gray-800 dark:text-gray-200 text-xs text-right">${leader}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-[0.65rem] uppercase text-gray-400 font-bold">${ui.archon}</span>
+                                    <span class="text-xs text-right">${nation.archon}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+
+            renderCosmology: function(container) {
+                let html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-enter">`;
+                
+                loreData.cosmology.forEach((c, idx) => {
+                    const title = this.lang === 'id' ? c.title_id : c.title_en;
+                    const text = this.lang === 'id' ? c.text_id : c.text_en;
+                    
+                    html += `
+                        <div class="glass p-8 rounded-xl border-l-4 border-thick-dim border-lore-goldDim relative group hover:bg-white/40 dark:hover:bg-white/5 transition-colors" style="animation-delay: ${idx * 0.05}s">
+                            <div class="card-watermark">${c.icon}</div>
+                            <h3 class="text-xl font-serif font-bold text-lore-gold mb-3 relative z-10">${title}</h3>
+                            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm relative z-10">${text}</p>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+
+            renderTheories: function(container) {
+                const ui = db[this.lang].ui;
+                let html = `<div class="max-w-4xl mx-auto space-y-6 animate-enter">`;
+                
+                html += `
+                    <div class="p-4 mb-6 rounded-lg bg-red-100 dark:bg-red-900/30 border border-red-500/50 text-red-600 dark:text-red-400 text-sm font-bold text-center animate-enter shadow-inner flex items-center justify-center gap-2">
+                        <span>⚠</span> ${ui.warning} <span>⚠</span>
+                    </div>
+                `;
+
+                loreData.theories.forEach((t, idx) => {
+                    const title = this.lang === 'id' ? t.title_id : t.title_en;
+                    const desc = this.lang === 'id' ? t.desc_id : t.desc_en;
+                    
+                    html += `
+                        <div class="glass p-8 rounded-2xl relative overflow-hidden group border-b-4 border-bottom-mystery border-indigo-500 transition-all hover:shadow-xl hover:-translate-y-1" style="animation-delay: ${idx * 0.1}s">
+                            <div class="card-watermark">${t.icon}</div>
+                            <div class="relative z-10">
+                                <span class="inline-block px-3 py-1 text-[0.6rem] font-bold uppercase tracking-widest text-white bg-indigo-500 rounded-full mb-3 shadow-md">${t.tag}</span>
+                                <h3 class="text-2xl font-serif font-bold text-gray-800 dark:text-gray-100 mb-4 group-hover:text-indigo-500 transition-colors">${title}</h3>
+                                <p class="text-base text-gray-600 dark:text-gray-300 leading-relaxed">${desc}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                container.innerHTML = html;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => app.init());
+    </script>
+</body>
+</html>
