@@ -544,9 +544,15 @@
             toggleLang: function() {
                 this.lang = this.lang === 'id' ? 'en' : 'id';
                 document.getElementById('lang-indicator').innerText = this.lang.toUpperCase();
+
+                // === Update Disclaimer Language ===
+                document.getElementById('disclaimer-id')?.classList.toggle('hidden', this.lang !== 'id');
+                document.getElementById('disclaimer-en')?.classList.toggle('hidden', this.lang !== 'en');
+
                 this.updateUI();
                 this.nav(this.view);
             },
+
 
             updateUI: function() {},
 
@@ -735,21 +741,48 @@
         document.addEventListener('DOMContentLoaded', () => app.init());
     </script>
 
-<!-- FAN-MADE DISCLAIMER -->
+<!-- FAN-MADE DISCLAIMER (BILINGUAL – STABLE) -->
 <footer class="mt-16 pb-10 px-4 text-center text-xs text-gray-500 dark:text-gray-400 font-sans">
-  <div class="max-w-3xl mx-auto border-t border-gray-300/30 dark:border-white/10 pt-6 space-y-2">
-    <p>
-      This is a <strong>fan-made, non-commercial</strong> project.
-    </p>
-    <p>
-      Genshin Impact and all related characters, lore, and assets are
-      <strong>© HoYoverse</strong>.
-    </p>
-    <p>
-      This site is <em>not affiliated with or endorsed by HoYoverse</em>.
-    </p>
+  <div class="max-w-3xl mx-auto">
+
+    <!-- divider -->
+    <div class="border-t border-gray-300/30 dark:border-white/10"></div>
+
+    <!-- fixed spacer (INI KUNCINYA) -->
+    <div class="h-6"></div>
+
+    <!-- Indonesian -->
+    <div id="disclaimer-id" class="space-y-1 leading-relaxed">
+      <p>
+        Proyek ini adalah <strong>karya penggemar (fan-made)</strong> dan
+        <strong>tidak bersifat komersial</strong>.
+      </p>
+      <p>
+        Genshin Impact beserta seluruh karakter, dunia, cerita, dan aset terkait
+        merupakan <strong>hak cipta © HoYoverse</strong>.
+      </p>
+      <p>
+        Situs ini <em>tidak berafiliasi dan tidak didukung secara resmi oleh HoYoverse</em>.
+      </p>
+    </div>
+
+    <!-- English -->
+    <div id="disclaimer-en" class="hidden space-y-1 leading-relaxed">
+      <p>
+        This is a <strong>fan-made, non-commercial</strong> project.
+      </p>
+      <p>
+        Genshin Impact and all related characters, lore, world, and assets are
+        <strong>© HoYoverse</strong>.
+      </p>
+      <p>
+        This site is <em>not affiliated with or endorsed by HoYoverse</em>.
+      </p>
+    </div>
+
   </div>
 </footer>
+
 
 </body>
 </html>
