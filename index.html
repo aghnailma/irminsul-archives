@@ -13,7 +13,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
 
     <!-- LIBRARY EKSTERNAL -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- KONFIGURASI TEMA -->
@@ -63,6 +63,48 @@
     <style>
         body { transition: background-color 0.5s ease, color 0.5s ease; }
         
+        /* Subtle Accent Pulse */
+        @keyframes pulse-gold {
+        0%, 100% {
+            box-shadow: 0 0 0 0 rgba(198,166,104, 0.35);
+        }
+        50% {
+            box-shadow: 0 0 0 6px rgba(198,166,104, 0);
+        }
+        }
+
+        .timeline-node {
+        animation: pulse-gold 3.5s ease-in-out infinite;
+        }
+
+        .timeline-item:hover .timeline-node {
+        animation: none;
+        }
+
+        @keyframes divider-glow {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+        }
+
+        .royal-divider {
+        animation: divider-glow 6s ease-in-out infinite;
+        }
+
+        /* Subtle lift & glow */
+        .glass:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0,0,0,.12);
+        }
+        .dark .glass:hover {
+        box-shadow: 0 12px 28px rgba(0,0,0,.45);
+        }
+
+        .nav-btn.active {
+        outline: 2px solid rgba(198,166,104,.35);
+        outline-offset: 2px;
+        }
+
+
         /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -184,6 +226,17 @@
 </head>
 <body class="bg-[#F2EFE9] dark:bg-lore-void text-gray-800 dark:text-gray-200 min-h-screen flex flex-col font-sans selection:bg-lore-gold selection:text-white">
 
+    <!-- SPOILER NOTICE -->
+<div id="spoiler-banner" class="fixed bottom-4 right-4 z-50 glass px-4 py-3 rounded-lg text-xs shadow-lg max-w-xs">
+  <p class="mb-2">
+    ⚠️ This site contains <strong>heavy story spoilers</strong>.
+  </p>
+  <button onclick="document.getElementById('spoiler-banner').remove()"
+    class="mt-1 px-3 py-1 bg-lore-gold text-white rounded text-xs font-bold">
+    I Understand
+  </button>
+</div>
+
     <!-- HEADER -->
     <header class="fixed top-0 w-full z-50 glass transition-all duration-300 border-b border-lore-gold/10">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -245,13 +298,13 @@
                 nav: { timeline: "Kronologi", nations: "Wilayah", cosmology: "Kosmologi", theories: "Ramalan" },
                 titles: { timeline: "Garis Waktu Teyvat", nations: "Geopolitik & Faksi", cosmology: "Hukum & Struktur Dunia", theories: "Ramalan & Teori Fans", home: "Terminal Irminsul Online" },
                 subtitles: { timeline: "Dari Era Naga hingga Era Luna III.", nations: "Status Tujuh Bangsa dan Wilayah Otonom.", cosmology: "Langit Palsu, Lautan Gelap, dan Tiga Alam.", theories: "Analisis Masa Depan dan Kebenaran Tersembunyi.", home: "Akses data rahasia." },
-                ui: { read_more: "Lihat Detail", collapse: "Tutup", archon: "Archon", leader: "Pemimpin/Faksi", status: "Status", warning: "⚠ PERINGATAN: Mengandung Spoiler Berat (v6.2) & Spekulasi ⚠" }
+                ui: { read_more: "Lihat Detail", collapse: "Tutup", archon: "Archon", leader: "Pemimpin/Faksi", status: "Status", warning: " PERINGATAN: Mengandung Spoiler Berat & Spekulasi " }
             },
             en: {
                 nav: { timeline: "Timeline", nations: "Regions", cosmology: "Cosmology", theories: "Prophecy" },
                 titles: { timeline: "Timeline of Teyvat", nations: "Geopolitics & Factions", cosmology: "World Laws & Structure", theories: "Prophecy & Fan Theories", home: "Irminsul Terminal Online" },
                 subtitles: { timeline: "From Dragon Era to Luna III Era.", nations: "Status of The Seven and Autonomous Regions.", cosmology: "False Sky, Dark Sea, and Natural Laws.", theories: "Future analysis and hidden truths.", home: "Access classified data." },
-                ui: { read_more: "View Details", collapse: "Collapse", archon: "Archon", leader: "Leader/Faction", status: "Status", warning: "⚠ WARNING: Contains Heavy Spoilers (v6.2) & Speculation ⚠" }
+                ui: { read_more: "View Details", collapse: "Collapse", archon: "Archon", leader: "Leader/Faction", status: "Status", warning: "WARNING: Contains Heavy Spoilers & Speculation" }
             }
         };
 
@@ -526,7 +579,7 @@
             view: 'home',
 
             init: function() {
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) this.theme = 'dark';
+                this.theme = 'dark'; // default dark mode
                 this.applyTheme();
                 this.nav('timeline');
             },
@@ -573,6 +626,7 @@
             },
 
             nav: function(target) {
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // ← TAMBAHKAN INI
                 this.view = target;
                 const dict = db[this.lang];
                 
@@ -607,12 +661,21 @@
                 else if (target === 'nations') this.renderNations(container);
                 else if (target === 'cosmology') this.renderCosmology(container);
                 else if (target === 'theories') this.renderTheories(container);
-            },
+            
+                // tandai nav aktif
+                document.querySelector(`[data-id="nav_${target}"]`)?.classList.add('active');
+                },
+            
+            
 
             renderTimeline: function(container) {
                 const data = loreData.timeline;
                 const ui = db[this.lang].ui;
-                let html = `<div class="max-w-4xl mx-auto space-y-0 relative">`; 
+
+                let html = `
+                <div class="royal-divider my-6"></div>
+                <div class="max-w-4xl mx-auto space-y-0 relative">
+                `; 
 
                 data.forEach((item, idx) => {
                     const era = this.lang === 'id' ? item.era_id : item.era_en;
@@ -654,7 +717,11 @@
 
             renderNations: function(container) {
                 const ui = db[this.lang].ui;
-                let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+
+                let html = `
+                <div class="royal-divider my-6"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                `;
 
                 loreData.nations.forEach((nation, idx) => {
                     const desc = this.lang === 'id' ? nation.desc_id : nation.desc_en;
@@ -689,7 +756,11 @@
             },
 
             renderCosmology: function(container) {
-                let html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-enter">`;
+                
+                let html = `
+                <div class="royal-divider my-6"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-enter">
+                `;
                 
                 loreData.cosmology.forEach((c, idx) => {
                     const title = this.lang === 'id' ? c.title_id : c.title_en;
@@ -710,7 +781,11 @@
 
             renderTheories: function(container) {
                 const ui = db[this.lang].ui;
-                let html = `<div class="max-w-4xl mx-auto space-y-6 animate-enter">`;
+
+                let html = `
+                <div class="royal-divider my-6"></div>
+                <div class="max-w-4xl mx-auto space-y-6 animate-enter">
+                `;
                 
                 html += `
                     <div class="p-4 mb-6 rounded-lg bg-red-100 dark:bg-red-900/30 border border-red-500/50 text-red-600 dark:text-red-400 text-sm font-bold text-center animate-enter shadow-inner flex items-center justify-center gap-2">
@@ -746,7 +821,12 @@
   <div class="max-w-3xl mx-auto">
 
     <!-- divider -->
-    <div class="border-t border-gray-300/30 dark:border-white/10"></div>
+    <div class="relative my-4">
+  <div class="border-t border-lore-gold/40"></div>
+  <span class="absolute left-1/2 -translate-x-1/2 -top-2 bg-[#0F111A] px-2 text-lore-gold text-xs font-serif">
+    IRMINSUL ARCHIVES
+  </span>
+</div>
 
     <!-- fixed spacer (INI KUNCINYA) -->
     <div class="h-6"></div>
