@@ -669,8 +669,38 @@
                 document.getElementById('disclaimer-en')?.classList.toggle('hidden', this.lang !== 'en');
 
                 this.nav('timeline');
+
+                // --- PERBAIKAN SEARCH MOBILE (Start) ---
+                const mobileInput = document.getElementById('mobile-search-input');
+                const mobileBtn = document.getElementById('mobile-search-btn');
+
+                if (mobileInput && mobileBtn) {
+                    // Fungsi eksekusi pencarian agar tidak berulang
+                    const runSearch = () => {
+                        const query = mobileInput.value.trim();
+                        if (query) {
+                            this.closeMobileSearch();
+                            this.search(query);
+                            mobileInput.blur(); // Menutup keyboard HP otomatis
+                        }
+                    };
+
+                    // 1. Listener untuk Tombol "Cari"
+                    mobileBtn.addEventListener('click', runSearch);
+
+                    // 2. Listener untuk Tombol Enter di Keyboard HP
+                    mobileInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault(); // Mencegah reload form
+                            runSearch();
+                        }
+                    });
+                }
+                // --- PERBAIKAN SEARCH MOBILE (End) ---
+          
             },
 
+            
             toggleTheme: function() {
                 this.theme = this.theme === 'light' ? 'dark' : 'light';
                 this.applyTheme();
@@ -974,57 +1004,7 @@
 
             app.search(query);
         });
-        
-        // ===== MOBILE SEARCH BUTTON =====
-        document.getElementById('mobile-search-btn')?.addEventListener('click', () => {
-            const input = document.getElementById('mobile-search-input');
-            const query = input.value.trim();
-            if (!query) return;
 
-            app.closeMobileSearch();
-            app.search(query);
-        });
-
-        // ===== MOBILE ENTER FALLBACK =====
-        document.getElementById('mobile-search-input')?.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('mobile-search-btn')?.click();
-            }
-        });
-
-        document.getElementById('mobile-search-input')?.addEventListener('keydown', function(e) {
-            if (e.key !== 'Enter') return;
-
-            const query = this.value.trim();
-            if (!query) return;
-
-            app.closeMobileSearch(); // tutup overlay
-            app.search(query);
-        });
-
-        
-        // MOBILE: tekan Enter di overlay search -> jalankan pencarian & tutup overlay
-        document.getElementById('mobile-search-input')?.addEventListener('keydown', function(e) {
-            if (e.key !== 'Enter') return;
-
-            const query = this.value.trim();
-            if (!query) return;
-
-            // tutup overlay mobile dulu lalu render hasil di halaman utama
-            app.closeMobileSearch();
-            app.search(query);
-        });
-
-        // optional: tekan Escape untuk langsung menutup overlay mobile
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                // kalau overlay open, close
-                const overlay = document.getElementById('mobile-search');
-                if (overlay && !overlay.classList.contains('hidden')) {
-                    app.closeMobileSearch();
-                }
-            }
-        });
 
     </script>
 
@@ -1050,7 +1030,6 @@
 
 </footer>
 
-<!-- MOBILE SEARCH OVERLAY -->
 <!-- MOBILE SEARCH OVERLAY -->
 <div id="mobile-search"
   class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm hidden"
