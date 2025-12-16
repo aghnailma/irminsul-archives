@@ -660,7 +660,21 @@
 
                 this.theme = saved.theme || 'dark';
                 this.lang = saved.lang || 'id';
-
+                
+                 // --- APPLY SAVED LANGUAGE UI (Start) ---
+                const isId = this.lang === 'id';
+                const uiText = {
+                    ph: isId ? "Cari di Irminsul..." : "Search Irminsul...",
+                    btn: isId ? "Cari" : "Search",
+                    help: isId ? "Tekan tombol Cari atau Enter" : "Press Search or Enter"
+                };
+                
+                document.getElementById('simple-search').placeholder = uiText.ph;
+                document.getElementById('mobile-search-input').placeholder = uiText.ph;
+                document.getElementById('mobile-search-btn').innerText = uiText.btn;
+                document.getElementById('mobile-help-text').innerText = uiText.help;
+                // --- APPLY SAVED LANGUAGE UI (End) ---
+                
                 this.applyTheme();
                 document.getElementById('lang-indicator').innerText = this.lang.toUpperCase();
 
@@ -714,6 +728,24 @@
 
             toggleLang: function() {
                 this.lang = this.lang === 'id' ? 'en' : 'id';
+
+                // --- TRANSLATE STATIC UI (Start) ---
+                const isId = this.lang === 'id';
+                const uiText = {
+                    ph: isId ? "Cari di Irminsul..." : "Search Irminsul...",
+                    btn: isId ? "Cari" : "Search",
+                    help: isId ? "Tekan tombol Cari atau Enter" : "Press Search or Enter"
+                };
+                
+                // 1. Update Placeholder Desktop & Mobile
+                document.getElementById('simple-search').placeholder = uiText.ph;
+                document.getElementById('mobile-search-input').placeholder = uiText.ph;
+                
+                // 2. Update Tombol & Teks Mobile
+                document.getElementById('mobile-search-btn').innerText = uiText.btn;
+                document.getElementById('mobile-help-text').innerText = uiText.help;
+                // --- TRANSLATE STATIC UI (End) ---
+
                 document.getElementById('lang-indicator').innerText = this.lang.toUpperCase();
 
                 // === Update Disclaimer Language ===
@@ -1065,7 +1097,7 @@
       Cari
     </button>
 
-    <p class="text-xs text-gray-500 italic mt-2 text-center">
+    <p id="mobile-help-text" class="text-xs text-gray-500 italic mt-2 text-center">
       Tekan tombol Cari atau Enter
     </p>
   </div>
