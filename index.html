@@ -99,7 +99,14 @@
         }
 
         .royal-divider {
-        animation: divider-glow 6s ease-in-out infinite;
+            height: 1px;        /* Tetap tipis elegan */
+            width: 100%;        /* Lebar penuh mengikuti container parent */
+            max-width: 400px;   /* Kita pendekkan sedikit biar lebih fokus ke teks */
+            /* Gradasi baru: Solid di tengah (40%-60%), pudar di ujung */
+            background: linear-gradient(90deg, transparent 0%, #C6A668 40%, #C6A668 60%, transparent 100%);
+            margin: 0 auto;     /* Posisi tengah */
+            opacity: 1;         /* HAPUS transparan biar tajam */
+            border: none;       /* Pastikan tidak ada border bawaan */
         }
 
         /* Subtle lift & glow */
@@ -287,7 +294,7 @@
             position: absolute;
             bottom: -10px;
             /* Ganti 0.8 jadi 0.4 agar lebih transparan/tipis */
-            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(198,166,104,0) 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(198,166,104,0) 70%);
             border-radius: 50%;
             opacity: 0;
             animation: floatUp linear infinite;
@@ -295,7 +302,7 @@
 
         .dark .particle {
             /* Ganti 0.8 jadi 0.4 juga */
-            background: radial-gradient(circle, rgba(129,140,248,0.4) 0%, rgba(30,58,138,0) 70%);
+            background: radial-gradient(circle, rgba(129,140,248,0.2) 0%, rgba(30,58,138,0) 70%);
         }
 
         @keyframes floatUp {
@@ -418,19 +425,21 @@
     </header>
 
     <!-- Hero -->
-    <div class="pt-28 pb-8 px-4 text-center relative">
-        
-    <h2 id="page-title" class="text-3xl md:text-5xl font-serif font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim animate-enter">
-        Arsip Irminsul
-    </h2>
+    <div class="pt-24 pb-4 px-4 text-center relative z-10"> <h2 id="page-title" class="text-3xl md:text-5xl font-serif font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim animate-enter">
+            Arsip Irminsul
+        </h2>
 
-    <div class="royal-divider mb-4"></div>
+        <div class="max-w-xl mx-auto">
+            <div class="royal-divider"></div>
 
-    <p id="page-subtitle"
-    class="text-gray-500 dark:text-gray-400 font-serif italic text-sm md:text-base max-w-2xl mx-auto animate-enter mb-3"
-    style="animation-delay: 0.1s;">
-        "Akses data rahasia."
-    <div class="royal-divider mt-4"></div>
+            <p id="page-subtitle"
+               class="text-gray-500 dark:text-gray-400 font-serif italic text-sm md:text-base animate-enter py-3 leading-none"
+               style="animation-delay: 0.1s;">
+                "Akses data rahasia."
+            </p>
+
+            <div class="royal-divider"></div>
+        </div>
 
     </div>
 
@@ -488,191 +497,195 @@
 
         const loreData = {
             
-            // == KRONOLOGI LENGKAP (LORE BIBLE EDITION) ==
+            // == KRONOLOGI LENGKAP (ULTRA DETAILED - DIRECTOR'S CUT) ==
             timeline: [
-                // --- ERA 1: GENESIS & DUNIA LAMA ---
+                // --- EPOCH 1: PRIMORDIAL CHAOS ---
                 {
-                    era_id: "Era Vishap & Dunia Lama", era_en: "Vishap Era & The Old World", year: "Pre-Genesis", icon: "🐉",
-                    desc_id: "Hegemoni Tujuh Penguasa Naga (Seven Sovereigns) di bawah Raja Nibelung.",
-                    desc_en: "Hegemony of the Seven Dragon Sovereigns under King Nibelung.",
+                    era_id: "Era Vishap: Siklus Murni", era_en: "Vishap Era: The Pure Cycle", year: "Pre-Genesis", icon: "🐉",
+                    desc_id: "Teyvat sebagai 'Alam Cahaya' di bawah kekuasaan Tujuh Raja Naga.",
+                    desc_en: "Teyvat as the 'Light Realm' under the Seven Dragon Sovereigns.",
                     details_id: [
-                        "**Alam Vishap:** Teyvat purba adalah 'Alam Cahaya' (Light Realm) yang liar, dikuasai elemen murni. 'Mikrokosmos' belum terpisah dari 'Lautan Kuantum'.",
-                        "**Raja Nibelung:** Raja Naga Nibelung memegang otoritas tertinggi. Menyadari ancaman dari langit, ia mencari 'Pengetahuan Terlarang' (Abyss) dari luar dunia.",
-                        "**Perang Pertama:** Nibelung memimpin naga melawan 'Takhta Pertama' (Phanes) tetapi kalah dan melarikan diri ke kehampaan."
+                        "**Mikrokosmos:** Teyvat belum memiliki batas. Elemen mengalir liar dari Lautan Kuantum (Sea of Quanta).",
+                        "**Raja Nibelung:** Naga Nibelung menguasai dunia. Ia menolak peringatan dari 'The Voyager' (Descender Ke-2) tentang ancaman kosmik.",
+                        "**Penciptaan Awal:** Untuk menjaga stabilitas elemen, Nibelung menciptakan tiga entitas astral (Bulan) sebagai jangkar realitas."
                     ],
                     details_en: [
-                        "**Vishap Realm:** Primal Teyvat was a wild 'Light Realm'. The 'Microcosm' was not yet separated from the 'Sea of Quanta'.",
-                        "**King Nibelung:** Dragon King Nibelung held supreme authority. Sensing a threat, he sought 'Forbidden Knowledge' (Abyss).",
-                        "**First War:** Nibelung led dragons against the 'First Throne' (Phanes) but lost and fled into the void."
+                        "**Microcosm:** Teyvat had no boundaries. Elements flowed wildly from the Sea of Quanta.",
+                        "**King Nibelung:** Dragon Nibelung ruled. He rejected warnings from 'The Voyager' (2nd Descender) about cosmic threats.",
+                        "**Early Creation:** To stabilize elements, Nibelung created three astral entities (Moons) as anchors of reality."
                     ]
                 },
                 {
-                    era_id: "Kedatangan Phanes (The Primordial One)", era_en: "Arrival of Phanes", year: "Genesis", icon: "🕊️",
-                    desc_id: "Penciptaan Langit Palsu, Manusia, dan Siklus Samsara.",
-                    desc_en: "Creation of False Sky, Humanity, and the Samsara Cycle.",
+                    era_id: "Kedatangan Phanes: The First War", era_en: "Arrival of Phanes: The First War", year: "Genesis", icon: "🕊️",
+                    desc_id: "Invasi Takhta Pertama & Pembentukan Langit Palsu.",
+                    desc_en: "Invasion of the First Throne & Formation of False Sky.",
                     details_id: [
-                        "**Cangkang Telur:** Phanes memisahkan Teyvat dari alam semesta menggunakan cangkang telurnya, menciptakan 'Langit Palsu' untuk melindungi dunia dari Abyss.",
-                        "**4 Bayangan:** Phanes membelah diri menjadi 4 bayangan: Istaroth (Waktu/Angin), Life (Hidup), Death (Kematian/Ronova), dan Void (Ruang).",
-                        "**Peradaban Terpadu:** Manusia diciptakan dan hidup dalam satu peradaban besar tanpa perbedaan bahasa, dibimbing langsung oleh utusan langit (Seelie)."
+                        "**Perang 40 Tahun:** Phanes (Descender 1) dan 4 Bayangannya (Istaroth, Asmoday, dll) membantai ras Naga. Nibelung melarikan diri ke Void.",
+                        "**The Firmament:** Phanes menciptakan 'Cangkang Telur' (Langit Palsu) untuk memisahkan Teyvat dari alam semesta asli dan memblokir kekuatan Naga.",
+                        "**Era Ark:** Phanes menciptakan manusia pertama. Peradaban terpadu dimulai, dibimbing oleh utusan langit (Seelie)."
                     ],
                     details_en: [
-                        "**Eggshell:** Phanes separated Teyvat from the universe using their eggshell, creating the 'False Sky' to protect the world from the Abyss.",
-                        "**4 Shades:** Phanes split into 4 shades: Istaroth (Time/Wind), Life, Death (Ronova), and Void (Space).",
-                        "**Unified Civilization:** Humans lived in one great civilization with no language barriers, guided by celestial envoys (Seelie)."
-                    ]
-                },
-                
-                // --- ERA 2: TRAGEDI BULAN & SEELIE ---
-                {
-                    era_id: "Era Tiga Bulan (Moon Sisters)", era_en: "Era of Three Moons", year: "Golden Age", icon: "🌕",
-                    desc_id: "Aliansi Peradaban Kuno dengan Istana Bulan Perak.",
-                    desc_en: "Alliance of Ancient Civilizations with the Silver Moon Palace.",
-                    details_id: [
-                        "**Tiga Saudari:** Aria, Sonnet, dan Canon adalah entitas purba yang mengatur siklus malam, bergantian menaiki Kereta Perak tiga kali sebulan.",
-                        "**Pernikahan Terlarang:** Leluhur Seelie jatuh cinta pada 'Traveler dari Jauh'. Mereka menikah di istana bulan disaksikan Tiga Saudari, memicu kemarahan Surga.",
-                        "**Invasi Takhta Kedua:** Perang pecah antara Phanes vs Penjajah. Langit dan bumi terbalik. Enkanomiya tenggelam ke dasar laut."
-                    ],
-                    details_en: [
-                        "**Three Sisters:** Aria, Sonnet, and Canon governed the night cycle, riding the Silver Chariot in turns.",
-                        "**Forbidden Marriage:** A Seelie ancestor fell in love with a 'Traveler from Afar'. Their wedding triggered Heaven's wrath.",
-                        "**Second Throne War:** War broke out between Phanes and Invaders. Heavens and earth inverted. Enkanomiya sank."
-                    ]
-                },
-                {
-                    era_id: "Kematian Bulan & Kutukan Seelie", era_en: "Death of Moons & Seelie Curse", year: "Cataclysm I", icon: "🌑",
-                    desc_id: "Akhir dari Era Emas. Bulan saling membunuh.",
-                    desc_en: "End of Golden Age. Moons turning on each other.",
-                    details_id: [
-                        "**Nasib Tiga Bulan:** Dalam kekacauan, Saudari Bulan saling serang. Aria & Canon tewas (menjadi bulan mati). Sonnet terluka parah dan tertidur (Dormant).",
-                        "**Kutukan Seelie:** Karena menyaksikan 'dosa' dan tragedi ini, ras Seelie dikutuk kehilangan bentuk fisik & memori, merosot menjadi roh kecil.",
-                        "**Larangan:** Celestia memutus jalur ke langit. Manusia tidak lagi bisa mendengar wahyu langsung. Siklus kehancuran (Samsara) dimulai."
-                    ],
-                    details_en: [
-                        "**Fate of Moons:** The Sisters attacked each other. Aria & Canon died. Sonnet fell dormant.",
-                        "**Seelie Curse:** Witnessing this tragedy, Seelies were cursed to lose forms & memories, devolving into wisps.",
-                        "**The Ban:** Celestia cut off the path to the sky. Humans could no longer hear revelations. The cycle of destruction began."
+                        "**40-Year War:** Phanes (Descender 1) and 4 Shades (Istaroth, Asmoday, etc) slaughtered the Dragons. Nibelung fled to the Void.",
+                        "**The Firmament:** Phanes created the 'Eggshell' (False Sky) to separate Teyvat from the real universe and block Dragon power.",
+                        "**Ark Era:** Phanes created the first humans. Unified civilization began, guided by celestial envoys (Seelie)."
                     ]
                 },
 
-                // --- ERA 3: KONFLIK REGIONAL (ARCHON WAR) ---
+                // --- EPOCH 2: LUNA & SEELIE (THE GOLDEN AGE) ---
                 {
-                    era_id: "Perang Archon (Liyue & Mondstadt)", era_en: "Archon War (Liyue & Mondstadt)", year: "3700-2600 BP", icon: "⚔️",
-                    desc_id: "Pembentukan Tujuh Kursi di Utara dan Timur.",
-                    desc_en: "Formation of Seven Seats in North and East.",
+                    era_id: "Era Tiga Bulan (Hyperborea)", era_en: "Era of Three Moons (Hyperborea)", year: "Golden Age", icon: "🌕",
+                    desc_id: "Puncak peradaban kuno di bawah cahaya Aria, Sonnet, dan Canon.",
+                    desc_en: "Peak of ancient civilization under the light of Aria, Sonnet, and Canon.",
                     details_id: [
-                        "**Guili Assembly:** Guizhong tewas melindungi rakyatnya di utara Liyue. Morax menenggelamkan banyak dewa di Guyun Stone Forest.",
-                        "**Old Mondstadt:** Decarabian mengurung rakyatnya dalam badai. Amos, Venti (wisp), dan Bard memimpin pemberontakan.",
-                        "**Andrius:** Serigala Utara menyadari anginnya terlalu dingin untuk manusia, memilih mati dan menyerahkan posisi Anemo Archon pada Barbatos."
+                        "**Hyperborea:** Peradaban utara (leluhur Snezhnaya/Nod-Krai) yang menyembah Tiga Bulan. Mereka hidup abadi tanpa mengenal kematian.",
+                        "**Pernikahan Terlarang:** Koitar (Malaikat Fajar/Seelie) jatuh cinta pada manusia (reinkarnasi Seutervoinen). Ini melanggar hukum Phanes.",
+                        "**Tari Hexerei:** Para penyihir awal (proto-Hexenzirkel) mulai mempelajari sihir bulan untuk menentang takdir langit."
                     ],
                     details_en: [
-                        "**Guili Assembly:** Guizhong died protecting her people. Morax buried many gods in Guyun Stone Forest.",
-                        "**Old Mondstadt:** Decarabian trapped his people in storms. Amos, Venti, and the Bard led the rebellion.",
-                        "**Andrius:** Realizing his winds were too cold for humans, he chose death and yielded the Anemo throne to Barbatos."
+                        "**Hyperborea:** Northern civilization (ancestors of Snezhnaya/Nod-Krai) worshipping the Three Moons. They lived eternally without death.",
+                        "**Forbidden Marriage:** Koitar (Dawn Angel/Seelie) fell in love with a human (Seutervoinen reincarnation). This violated Phanes' law.",
+                        "**Dance of Hexerei:** Early witches (proto-Hexenzirkel) began studying moon magic to defy celestial fate."
                     ]
                 },
                 {
-                    era_id: "Perang Archon (Sumeru & Fontaine)", era_en: "Archon War (Sumeru & Fontaine)", year: "3000-2000 BP", icon: "🏺",
-                    desc_id: "Tragedi Triumvirate dan Jatuhnya Remuria.",
-                    desc_en: "Tragedy of the Triumvirate and Fall of Remuria.",
+                    era_id: "Perang Takhta Kedua (The Funerals)", era_en: "War of the Second Throne (The Funerals)", year: "Cataclysm I", icon: "🌑",
+                    desc_id: "Nibelung kembali membawa Abyss. Kematian Bulan & Saarelainen.",
+                    desc_en: "Nibelung returns with Abyss. Death of Moons & Saarelainen.",
                     details_id: [
-                        "**Triumvirate:** Deshret, Rukkhadevata, & Nabu Malikata (Goddess of Flowers) memimpin Sumeru. Nabu Malikata mengorbankan diri agar Deshret bisa melihat 'kebenaran'.",
-                        "**Kegilaan Deshret:** Menolak Gnosis, Deshret membawa Pengetahuan Terlarang. Rukkhadevata menyusut menjadi anak kecil untuk menahan dampaknya.",
-                        "**Remuria:** Remus mencoba mengganti takdir (Fate) dengan musik (Phobos) di Fontaine, tapi hancur karena kesombongan. Egeria mengambil alih."
+                        "**Invasi Abyss:** Nibelung kembali dengan 'Pengetahuan Terlarang'. Perang menghancurkan daratan, Enkanomiya tenggelam.",
+                        "**Kematian Bulan:** Dalam kekacauan, Saudari Bulan saling membunuh. Aria & Sonnet hancur menjadi debu. Canon (Frost Moon) tertidur/dormant.",
+                        "**Tragedi Saarelainen:** Descender Ke-3 (Saarelainen) mencoba menengahi tapi dibunuh. Tulang-tulangnya dimutilasi Phanes menjadi 7 Gnosis (Jantung Dewa).",
+                        "**Kutukan:** Ras Seelie kehilangan bentuk fisik. Manusia kehilangan keabadian."
                     ],
                     details_en: [
-                        "**Triumvirate:** Deshret, Rukkhadevata, & Nabu Malikata led Sumeru. Malikata sacrificed herself for Deshret.",
-                        "**Deshret's Madness:** Rejecting Gnosis, Deshret brought Forbidden Knowledge. Rukkhadevata shrank to contain it.",
-                        "**Remuria:** Remus tried to replace Fate with music (Phobos) but fell. Egeria took over."
-                    ]
-                },
-
-                // --- ERA 4: BENCANA 500 TAHUN LALU ---
-                {
-                    era_id: "Bencana Khaenri'ah (The Cataclysm)", era_en: "The Cataclysm", year: "500 BP", icon: "🔥",
-                    desc_id: "Runtuhnya Dinasti Gerhana & Bulan Merah. Kebocoran Abyss.",
-                    desc_en: "Fall of Eclipse & Crimson Moon Dynasties. Abyss Leak.",
-                    details_id: [
-                        "**The Sinner:** 5 Pendosa Khaenri'ah (Rerir, Gold, Hroptatyr, dll) merobek langit, membanjiri Teyvat dengan monster.",
-                        "**Kematian Archon:** Makoto tewas di Khaenri'ah (diselamatkan kesadarannya oleh Ei). Rukkhadevata terkontaminasi total. Egeria tewas di Tunigi Hollow.",
-                        "**Kutukan:** Celestia menjatuhkan paku. Darah murni dikutuk abadi (Immortality), darah campuran jadi monster (Wilderness).",
-                        "**Durin:** Naga ciptaan Gold menyerang Mondstadt, dikalahkan Dvalin. Darahnya meracuni Dvalin selama 500 tahun."
-                    ],
-                    details_en: [
-                        "**The Sinner:** 5 Sinners of Khaenri'ah (Rerir, Gold, etc) tore the sky, flooding Teyvat with monsters.",
-                        "**Archon Deaths:** Makoto died. Rukkhadevata corrupted. Egeria died at Tunigi Hollow.",
-                        "**Curse:** Pure bloods cursed with Immortality, mixed bloods became monsters.",
-                        "**Durin:** Gold's dragon attacked Mondstadt, defeated by Dvalin."
+                        "**Abyss Invasion:** Nibelung returned with 'Forbidden Knowledge'. War shattered the land, Enkanomiya sank.",
+                        "**Death of Moons:** In chaos, Moon Sisters killed each other. Aria & Sonnet turned to dust. Canon (Frost Moon) fell dormant.",
+                        "**Tragedy of Saarelainen:** 3rd Descender (Saarelainen) tried to mediate but was killed. His bones were mutilated by Phanes into 7 Gnoses.",
+                        "**The Curse:** Seelie race lost physical forms. Humans lost immortality."
                     ]
                 },
 
-                // --- ERA 5: PERJALANAN TRAVELER (ACT I-V) ---
+                // --- EPOCH 3: THE ARCHON WAR (SELECTION) ---
                 {
-                    era_id: "Traveler: Act I - III (Contracts & Eternity)", era_en: "Traveler: Act I - III (Contracts & Eternity)", year: "Year 1-3", icon: "⚖️",
-                    desc_id: "Kematian Palsu Rex Lapis & Guncangan Inazuma.",
-                    desc_en: "Fake Death of Rex Lapis & Inazuma Shaken.",
+                    era_id: "Perang Archon: Perebutan Gnosis", era_en: "Archon War: Battle for Gnosis", year: "3700-2000 BP", icon: "⚔️",
+                    desc_id: "Celestia membuka 'Kursi Ilahi' untuk menstabilkan dunia yang retak.",
+                    desc_en: "Celestia opens 'Divine Seats' to stabilize the fractured world.",
                     details_id: [
-                        "**Liyue:** Zhongli menandatangani 'Kontrak Akhir' dengan Tsaritsa, menukar Gnosis dengan rahasia yang belum terungkap (diduga kebenaran Khaenri'ah).",
-                        "**Inazuma:** Ei mencabut Dekrit Perburuan Vision. Yae Miko menukar Gnosis Elektro dengan Scaramouche demi nyawa Traveler.",
-                        "**Sumeru:** Nahida menghapus Rukkhadevata dari Irminsul. Dottore menukar rahasia 'Langit Palsu' dengan Gnosis Dendro & Elektro."
+                        "**Aturan:** Hanya 7 pemenang yang berhak memegang Gnosis (Sisa tubuh Saarelainen) untuk beresonansi dengan Celestia.",
+                        "**Liyue (Guili):** Guizhong tewas di Lembah Guili. Morax terpaksa menyegel banyak dewa tua (Osial, Chi) di dasar laut.",
+                        "**Mondstadt:** Pemberontakan Barbatos & Amos menjatuhkan Decarabian. Andrius memilih mati agar angin utara tidak membekukan rakyat.",
+                        "**Sumeru:** Raja Deshret menolak Gnosis, memilih jalur terlarang Abyss bersama Nabu Malikata, berujung pada kegilaannya."
                     ],
                     details_en: [
-                        "**Liyue:** Zhongli signed 'Final Contract' with Tsaritsa, trading Gnosis for undisclosed secrets.",
-                        "**Inazuma:** Ei abolished Vision Hunt Decree. Yae traded Electro Gnosis for Traveler's life.",
-                        "**Sumeru:** Nahida erased Rukkhadevata from Irminsul. Dottore traded 'False Sky' knowledge for Gnoses."
+                        "**The Rule:** Only 7 victors could hold a Gnosis (Remains of Saarelainen) to resonate with Celestia.",
+                        "**Liyue (Guili):** Guizhong died in Guili. Morax was forced to seal many old gods (Osial, Chi) under the sea.",
+                        "**Mondstadt:** Barbatos & Amos rebellion toppled Decarabian. Andrius chose death so northern winds wouldn't freeze the people.",
+                        "**Sumeru:** King Deshret rejected Gnosis, choosing the forbidden Abyss path with Nabu Malikata, leading to his madness."
                     ]
                 },
                 {
-                    era_id: "Traveler: Act IV & V (Justice & Resurrection)", era_en: "Traveler: Act IV & V (Justice & Resurrection)", year: "Year 4-5", icon: "💧",
-                    desc_id: "Hancurnya Takhta Hydro & Perang Natlan.",
-                    desc_en: "Destruction of Hydro Throne & Natlan War.",
+                    era_id: "Era Tujuh Archon (The Seven)", era_en: "Era of The Seven", year: "2000-500 BP", icon: "🏛️",
+                    desc_id: "Teyvat dibentuk ulang menjadi 7 Bangsa di bawah Prinsip Surgawi.",
+                    desc_en: "Teyvat reshaped into 7 Nations under Heavenly Principles.",
                     details_id: [
-                        "**Fontaine:** Focalors menipu Celestia selama 500 tahun, menghukum mati dirinya sendiri untuk menghancurkan Takhta Hydro dan mengembalikan Otoritas Naga ke Neuvillette.",
-                        "**Natlan:** Mavuika bertarung dengan Capitano. Terungkap Gnosis Pyro dipakai sebagai bahan bakar 'Jaring Leyline' untuk menahan Abyss.",
-                        "**Resolusi:** Mavuika mengorbankan keilahiannya (Godhood) untuk membangkitkan pejuang Natlan dan menstabilkan Api Suci."
+                        "**Struktur:** Archon bertugas memfilter energi elemen dan memberikan Vision kepada manusia terpilih (Allogenes).",
+                        "**Khaenri'ah:** Bangsa tanpa dewa didirikan di bawah tanah oleh Dainsleif dan Pierro, menolak kekuasaan Celestia.",
+                        "**Egeria:** Egeria (Hydro Archon) menciptakan manusia baru menggunakan Air Primordial untuk menggantikan ras kuno Fontaine."
                     ],
                     details_en: [
-                        "**Fontaine:** Focalors executed herself to destroy Hydro Throne, returning Dragon Authority to Neuvillette.",
-                        "**Natlan:** Mavuika fought Capitano. Pyro Gnosis used as fuel for Leyline Web.",
-                        "**Resolution:** Mavuika sacrificed godhood to resurrect Natlan's warriors."
+                        "**Structure:** Archons filter elemental energy and grant Visions to chosen humans (Allogenes).",
+                        "**Khaenri'ah:** Godless nation founded underground by Dainsleif and Pierro, rejecting Celestia's rule.",
+                        "**Egeria:** Egeria (Hydro Archon) created new humans using Primordial Water to replace Fontaine's ancient race."
                     ]
                 },
 
-                // --- ERA 6: SNEZHNAYA & NOD KRAI (FUTURE PLOT) ---
+                // --- EPOCH 4: THE ECLIPSE (CATACLYSM II) ---
                 {
-                    era_id: "Traveler: Act VI (Snezhnaya / Project Stuzha)", era_en: "Traveler: Act VI (Snezhnaya / Project Stuzha)", year: "Year 6", icon: "❄️",
-                    desc_id: "Persiapan Akhir Tsaritsa: Membakar Dunia Lama.",
-                    desc_en: "Tsaritsa's Final Prep: Burning the Old World.",
+                    era_id: "Bencana Khaenri'ah (The Eclipse)", era_en: "The Cataclysm (The Eclipse)", year: "500 BP", icon: "🔥",
+                    desc_id: "Pemberontakan 'Pendosa' dan Runtuhnya Tatanan Dunia.",
+                    desc_en: "Rebellion of 'Sinners' and Collapse of World Order.",
                     details_id: [
-                        "**Motivasi:** Tsaritsa mengumpulkan 7 Gnosis bukan untuk kekuatan, tapi sebagai kunci untuk menyalakan 'Api Pemurnian' yang membakar takdir Celestia.",
-                        "**Bronya:** Sang Dewa Cinta yang membekukan hatinya sendiri agar tidak lagi merasakan kesedihan rakyatnya.",
-                        "**Loom of Fate:** Alat buatan Abyss Sibling telah sempurna, siap menenun takdir baru menggantikan Irminsul yang mulai sekarat."
+                        "**Lima Pendosa:** Rhinedottir (Gold), Rerir, Hroptatyr, Surtalogi, dan Vedrfolnir membuka gerbang Abyss untuk mencapai 'Transendensi'.",
+                        "**Langit Hitam:** Monster Abyss membanjiri Teyvat. Durin menyerang Mondstadt, Elynas menyerang Fontaine.",
+                        "**Kematian Archon:** Makoto tewas di Khaenri'ah. Rukkhadevata terkontaminasi dan harus bereinkarnasi. Egeria tewas di Tunigi Hollow.",
+                        "**Kutukan Abadi:** Celestia menjatuhkan paku. Darah murni Khaenri'ah dikutuk hidup abadi (Immortality), darah campuran jadi Hilichurl."
                     ],
                     details_en: [
-                        "**Motivation:** Tsaritsa collects Gnoses to ignite 'Purifying Fire' and burn Celestia's fate.",
-                        "**Bronya:** The God of Love who froze her own heart.",
-                        "**Loom of Fate:** Abyss Sibling's device is ready to weave new fate, replacing the dying Irminsul."
+                        "**Five Sinners:** Rhinedottir (Gold), Rerir, Hroptatyr, Surtalogi, and Vedrfolnir opened Abyss gates to achieve 'Transcendence'.",
+                        "**Black Sky:** Abyss monsters flooded Teyvat. Durin attacked Mondstadt, Elynas attacked Fontaine.",
+                        "**Archon Deaths:** Makoto died in Khaenri'ah. Rukkhadevata corrupted and reincarnated. Egeria died at Tunigi Hollow.",
+                        "**Eternal Curse:** Celestia dropped nails. Pure bloods cursed with immortality, mixed bloods became Hilichurls."
+                    ]
+                },
+
+                // --- EPOCH 5: TRAVELER'S JOURNEY (PRESENT) ---
+                {
+                    era_id: "Traveler: Prologue - Act III (Inazuma)", era_en: "Traveler: Prologue - Act III (Inazuma)", year: "Year 1-3", icon: "⚖️",
+                    desc_id: "Awal perjalanan. Gnosis mulai dikumpulkan Fatui.",
+                    desc_en: "Journey begins. Fatui starts collecting Gnoses.",
+                    details_id: [
+                        "**Mondstadt:** Venti membiarkan Gnosis-nya diambil Signora sebagai bentuk penebusan diam-diam.",
+                        "**Liyue:** Zhongli menukar Gnosis dengan Tsaritsa dalam 'Kontrak Akhir'. Isi kontrak diduga berkaitan dengan kebenaran Khaenri'ah.",
+                        "**Inazuma:** Ei memutuskan koneksi dengan Celestia. Yae Miko menyerahkan Gnosis Elektro pada Scaramouche."
+                    ],
+                    details_en: [
+                        "**Mondstadt:** Venti let Signora take his Gnosis as a form of silent atonement.",
+                        "**Liyue:** Zhongli traded Gnosis with Tsaritsa in 'Final Contract'. Content likely relates to Khaenri'ah's truth.",
+                        "**Inazuma:** Ei severed ties with Celestia. Yae Miko handed Electro Gnosis to Scaramouche."
                     ]
                 },
                 {
-                    era_id: "Babak Final: Nod Krai (The Black Elysium)", era_en: "Final Act: Nod Krai (The Black Elysium)", year: "Endgame", icon: "🌌",
-                    desc_id: "Rahasia Bulan Keempat & Gerbang Langit.",
-                    desc_en: "Secret of 4th Moon & Sky Gate.",
+                    era_id: "Traveler: Act IV - V (Sumeru/Fontaine)", era_en: "Traveler: Act IV - V (Sumeru/Fontaine)", year: "Year 4-5", icon: "💧",
+                    desc_id: "Penghapusan Irminsul & Hancurnya Takhta Hydro.",
+                    desc_en: "Irminsul Deletion & Destruction of Hydro Throne.",
                     details_id: [
-                        "**Nod Krai:** Wilayah di utara Snezhnaya, sisa peradaban Hyperborea yang menjaga 'bangkai' Bulan Keempat.",
-                        "**Columbina:** Terungkap sebagai 'Kuutar' (Seraphim/Bulan Baru) yang jatuh. Ia bernyanyi untuk membangunkan yang tertidur.",
-                        "**The Wild Hunt:** Dipimpin oleh Rerir (salah satu Sinner), pasukan ini memburu 'Moon Marrow' untuk membangkitkan Nibelung.",
-                        "**Frostmoon Scions:** Dipimpin oleh Lauma, mereka berusaha menyatukan kembali pecahan bulan (Luna III) untuk menembus cangkang dunia."
+                        "**Irminsul:** Nahida menghapus eksistensi Rukkhadevata dari memori dunia untuk menyembuhkan Pohon Dunia. Scaramouche mencoba menjadi dewa.",
+                        "**Masquerade:** Focalors menipu Celestia selama 500 tahun. Ia menghukum mati dirinya sendiri untuk menghancurkan Takhta Hydro dan mengembalikan Otoritas Naga ke Neuvillette.",
+                        "**Wahyu:** Skirk mengungkapkan bahwa Gnosis hanyalah 'Sisa-sisa Descender Ketiga' yang membawa sial."
                     ],
                     details_en: [
-                        "**Nod Krai:** Region north of Snezhnaya, guarding the corpse of the 4th Moon.",
-                        "**Columbina:** Revealed as fallen 'Kuutar'. She sings to awaken the sleeper.",
-                        "**The Wild Hunt:** Led by Rerir, hunting 'Moon Marrow' to resurrect Nibelung.",
-                        "**Frostmoon Scions:** Led by Lauma, trying to reunite moon fragments (Luna III) to pierce the world shell."
+                        "**Irminsul:** Nahida erased Rukkhadevata from world memory to heal the World Tree. Scaramouche tried to become a god.",
+                        "**Masquerade:** Focalors deceived Celestia for 500 years. She executed herself to destroy Hydro Throne, returning Dragon Authority to Neuvillette.",
+                        "**Revelation:** Skirk revealed that Gnoses are merely 'Remains of the 3rd Descender' and bring misfortune."
+                    ]
+                },
+
+                // --- EPOCH 6: THE FUTURE (SPECULATIVE / DOCS LORE) ---
+                {
+                    era_id: "Act VI: Natlan & Snezhnaya (Project Stuzha)", era_en: "Act VI: Natlan & Snezhnaya (Project Stuzha)", year: "Year 6", icon: "🔥",
+                    desc_id: "Kebangkitan Api Suci & Pembakaran Dunia Lama.",
+                    desc_en: "Resurrection of Sacred Flame & Burning of Old World.",
+                    details_id: [
+                        "**Natlan:** Capitano mencari Gnosis Pyro bukan untuk Tsaritsa, tapi untuk menyelamatkan Natlan dari Abyss (Night Kingdom).",
+                        "**Project Stuzha:** Rencana Tsaritsa menggunakan ke-7 Gnosis untuk membekukan 'Waktu' Celestia, menghentikan siklus erosi.",
+                        "**Bronya/Tsaritsa:** Sang Dewa Cinta yang membuang emosinya demi memimpin pemberontakan melawan Surga."
+                    ],
+                    details_en: [
+                        "**Natlan:** Capitano seeks Pyro Gnosis not for Tsaritsa, but to save Natlan from the Abyss (Night Kingdom).",
+                        "**Project Stuzha:** Tsaritsa's plan to use all 7 Gnoses to freeze Celestia's 'Time', halting the erosion cycle.",
+                        "**Bronya/Tsaritsa:** The God of Love who discarded her emotions to lead the rebellion against Heaven."
+                    ]
+                },
+                {
+                    era_id: "Babak Final: Nod Krai (Black Elysium)", era_en: "Final Act: Nod Krai (Black Elysium)", year: "Endgame", icon: "🌌",
+                    desc_id: "Wilayah Terlarang di Utara Snezhnaya. Kebenaran Bulan.",
+                    desc_en: "Forbidden Region North of Snezhnaya. Truth of the Moon.",
+                    details_id: [
+                        "**Nod Krai:** Sisa peradaban Hyperborea yang menjaga bangkai 'Bulan Keempat' (Luna IV).",
+                        "**Columbina:** Terungkap sebagai 'Kuutar' (Bulan Baru/Seraphim) yang jatuh. Ia bernyanyi untuk membangunkan yang tertidur.",
+                        "**Faksi Akhir:** 'The Wild Hunt' (Rerir) vs 'Frostmoon Scions' (Lauma). Perebutan 'Moon Marrow' untuk membangkitkan Nibelung.",
+                        "**Loom of Fate:** Abyss Sibling menggunakan alat ini untuk menenun ulang takdir, menciptakan 'Langit Baru' tanpa Celestia."
+                    ],
+                    details_en: [
+                        "**Nod Krai:** Remnants of Hyperborea guarding the corpse of the '4th Moon' (Luna IV).",
+                        "**Columbina:** Revealed as fallen 'Kuutar' (New Moon/Seraphim). She sings to awaken the sleeper.",
+                        "**Final Factions:** 'The Wild Hunt' (Rerir) vs 'Frostmoon Scions' (Lauma). Battle for 'Moon Marrow' to resurrect Nibelung.",
+                        "**Loom of Fate:** Abyss Sibling uses this device to reweave fate, creating a 'New Sky' without Celestia."
                     ]
                 }
-            ],            
+            ],           
             
-            // == 2. WILAYAH & FAKSI (UPDATED: ALL FACTIONS) ==
+            // == 2. WILAYAH & FAKSI (EXPANDED EDITION) ==
             nations: [
                 // -- A. TUJUH BANGSA UTAMA --
                 { id: "Mondstadt", el: "anemo", icon: "🍃", desc_id: "Kota Kebebasan & Angin Utara.", desc_en: "City of Freedom & Northern Wind.", leader_id: "Knights of Favonius", leader_en: "Knights of Favonius", archon: "Barbatos" },
@@ -683,65 +696,220 @@
                 { id: "Natlan", el: "pyro", icon: "🔥", desc_id: "Tanah Kebangkitan. Api Suci stabil.", desc_en: "Land of Resurrection. Sacred Flame stabilized.", leader_id: "Mavuika (Weakened)", leader_en: "Mavuika (Weakened)", archon: "Mavuika" },
                 { id: "Snezhnaya", el: "cryo", icon: "❄️", desc_id: "Tanah Tanpa Kasih. Persiapan 'Stuzha'.", desc_en: "Land of Loveless Snow. Preparing 'Stuzha'.", leader_id: "The Tsaritsa", leader_en: "The Tsaritsa", archon: "Tsaritsa" },
                 
-                // -- B. WILAYAH KHUSUS (ANCIENT/LOST) --
+                // -- B. WILAYAH KHUSUS (ANCIENT/LOST/FORBIDDEN) --
                 { id: "Nod Krai", el: "lunar", icon: "🌕", desc_id: "Sisa Bulan Keempat. Tanah 'Black Elysium'.", desc_en: "Remnant of 4th Moon. The 'Black Elysium'.", leader_id: "Lauma (Moonchanter)", leader_en: "Lauma (Moonchanter)", archon: "Sonnet (Dormant)" },
                 { id: "Khaenri'ah", el: "abyss", icon: "🌑", desc_id: "Puing-puing Dinasti Gerhana & Bulan Merah.", desc_en: "Ruins of Eclipse & Crimson Moon Dynasties.", leader_id: "Abyss Order", leader_en: "Abyss Order", archon: "None" },
                 { id: "Vishap Realm", el: "void", icon: "🐲", desc_id: "Dunia lama sebelum manusia. Alam Tujuh Naga.", desc_en: "Old World before humanity. Realm of Seven Dragons.", leader_id: "Dragon King Nibelung", leader_en: "Dragon King Nibelung", archon: "Sovereigns" },
+                { id: "Enkanomiya", el: "void", icon: "🐍", desc_id: "Negeri Malam Putih di bawah laut. Asal usul Orobashi.", desc_en: "The underwater Land of White Night. Origin of Orobashi.", leader_id: "Helios (Artificial Sun)", leader_en: "Helios (Artificial Sun)", archon: "Orobashi (Slain)" },
+                { id: "Remuria", el: "hydro", icon: "🏛️", desc_id: "Kerajaan Musik yang tenggelam di Lautan Masa Lalu.", desc_en: "Kingdom of Music sunken in the Sea of Bygone Eras.", leader_id: "God-King Remus", leader_en: "God-King Remus", archon: "None" },
+                { id: "Sal Vindagnyr", el: "cryo", icon: "🏔️", desc_id: "Kerajaan kuno di Dragonspine yang dihancurkan Paku Langit.", desc_en: "Ancient kingdom in Dragonspine destroyed by the Celestial Nail.", leader_id: "Princess of Sal Vindagnyr", leader_en: "Princess of Sal Vindagnyr", archon: "None" },
+                { id: "The Dark Sea", el: "abyss", icon: "🌊", desc_id: "Wilayah di luar benua Teyvat tempat dewa kalah melarikan diri.", desc_en: "Lands outside Teyvat where defeated gods fled.", leader_id: "Unknown Gods", leader_en: "Unknown Gods", archon: "Chaos" },
+                { id: "Mare Jivari", el: "pyro", icon: "🌋", desc_id: "Lautan abu tanpa angin tempat pahlawan mati.", desc_en: "Windless sea of ash where heroes die.", leader_id: "None", leader_en: "None", archon: "None" },
 
-                // -- C. ORGANISASI & FAKSI (GLOBAL/SECRET) --
+                // -- C. ORGANISASI & FAKSI --
                 { id: "Celestia", el: "lunar", icon: "✨", desc_id: "Pulau Langit. Takhta Prinsip Surgawi.", desc_en: "Sky Island. Throne of Heavenly Principles.", leader_id: "The Primordial One", leader_en: "The Primordial One", archon: "Supreme" },
                 { id: "Hexenzirkel", el: "mystery", icon: "🔮", desc_id: "Meja Teh Penyihir Agung. Penjaga batas.", desc_en: "Tea Table of Great Witches. Boundary Keepers.", leader_id: "Alice (Elder)", leader_en: "Alice (Elder)", archon: "None" },
                 { id: "Fatui Harbingers", el: "cryo", icon: "🎭", desc_id: "Eksekutor Kehendak Tsaritsa.", desc_en: "Executors of Tsaritsa's Will.", leader_id: "Pierro (The Jester)", leader_en: "Pierro (The Jester)", archon: "Tsaritsa" },
                 { id: "Abyss Order", el: "abyss", icon: "👁️", desc_id: "Musuh Kemanusiaan. Mengubah takdir.", desc_en: "Enemy of Humanity. Reweaving fate.", leader_id: "The Prince/Princess", leader_en: "The Prince/Princess", archon: "Sinner" },
-                { id: "Narzissenkreuz Ordo", el: "hydro", icon: "🗡️", desc_id: "Perkumpulan rahasia Fontaine yang ingin mencegah kiamat.", desc_en: "Fontaine secret society trying to prevent the apocalypse.", leader_id: "Rene de Petrichor", leader_en: "Rene de Petrichor", archon: "Egeria (Late)" },
-                { id: "Temple of Silence", el: "electro", icon: "🏺", desc_id: "Penjaga pengetahuan Raja Deshret & Hermanubis.", desc_en: "Guardians of King Deshret & Hermanubis knowledge.", leader_id: "Sethos / Cyno", leader_en: "Sethos / Cyno", archon: "Deshret (Late)" },
-                { id: "Adventurers' Guild", el: "void", icon: "⚓", desc_id: "Jaringan global. Asal-usul terhubung ke Snezhnaya.", desc_en: "Global network. Origins linked to Snezhnaya.", leader_id: "Katheryne (Bionic)", leader_en: "Katheryne (Bionic)", archon: "Unknown" },
+                { id: "The Adepti", el: "geo", icon: "☁️", desc_id: "Makhluk Iluminasi penjaga kontrak Liyue.", desc_en: "Illuminated Beasts guarding Liyue's contracts.", leader_id: "Moon Carver / Cloud Retainer", leader_en: "Moon Carver / Cloud Retainer", archon: "Morax" },
+                { id: "House of the Hearth", el: "pyro", icon: "🏠", desc_id: "Panti asuhan Arlecchino untuk intelijen Fatui.", desc_en: "Arlecchino's orphanage for Fatui intelligence.", leader_id: "Arlecchino (The Knave)", leader_en: "Arlecchino (The Knave)", archon: "Tsaritsa" },
+                { id: "The Eremites", el: "dendro", icon: "🧣", desc_id: "Tentara bayaran gurun, anak-anak Raja Deshret.", desc_en: "Desert mercenaries, children of King Deshret.", leader_id: "Various Tribes", leader_en: "Various Tribes", archon: "Deshret (Late)" },
+                { id: "Shuumatsuban", el: "electro", icon: "🥷", desc_id: "Organisasi ninja rahasia di bawah Yashiro Commission.", desc_en: "Secret ninja organization under Yashiro Commission.", leader_id: "Kamisato Ayato", leader_en: "Kamisato Ayato", archon: "Raiden" },
+                { id: "Spina di Rosula", el: "geo", icon: "🌹", desc_id: "Organisasi 'mafia' pelindung rakyat bawah tanah Fontaine.", desc_en: "'Mafia' organization protecting Fontaine's underground.", leader_id: "Navia", leader_en: "Navia", archon: "Hydro Dragon" },
+                { id: "Narzissenkreuz Ordo", el: "hydro", icon: "🗡️", desc_id: "Perkumpulan rahasia pencegah kiamat.", desc_en: "Secret society preventing apocalypse.", leader_id: "Rene de Petrichor", leader_en: "Rene de Petrichor", archon: "None" },
+                { id: "Temple of Silence", el: "electro", icon: "🏺", desc_id: "Penjaga pengetahuan Raja Deshret.", desc_en: "Guardians of King Deshret's knowledge.", leader_id: "Sethos / Cyno", leader_en: "Sethos / Cyno", archon: "Deshret" },
+                { id: "Adventurers' Guild", el: "void", icon: "⚓", desc_id: "Jaringan global petualang.", desc_en: "Global adventurer network.", leader_id: "Katheryne", leader_en: "Katheryne", archon: "Unknown" },
                 { id: "The Wild Hunt", el: "void", icon: "🐺", desc_id: "Pasukan Abyssal Elit pengejar Moon Marrow.", desc_en: "Elite Abyssal Force hunting Moon Marrow.", leader_id: "Rerir (The Sinner)", leader_en: "Rerir (The Sinner)", archon: "Sinner" },
                 { id: "Frostmoon Scions", el: "lunar", icon: "🙏", desc_id: "Pemuja Dewi Sonnet di Utara.", desc_en: "Worshippers of Sonnet in the North.", leader_id: "Lauma", leader_en: "Lauma", archon: "Sonnet" }
             ],
 
-            // == 5. PUSTAKA (LIBRARY - ARSIP AGUNG) ==
+            // == 5. PUSTAKA AGUNG (100+ ENTRI) ==
             library: [
-                {
-                    title_id: "Hymns of the Far North", title_en: "Hymns of the Far North",
-                    type: "Book", icon: "📜",
-                    desc_id: "Naskah yang hilang. Mengungkap bahwa Dewi Bulan adalah ciptaan Raja Naga Nibelung, bukan Phanes.",
-                    desc_en: "Lost text. Reveals Moon Sisters were created by Dragon King Nibelung, not Phanes."
-                },
-                {
-                    title_id: "The Little Witch's Dictionary", title_en: "The Little Witch's Dictionary",
-                    type: "Grimoire", icon: "🧙‍♀️",
-                    desc_id: "Panduan dari Hexenzirkel untuk membuka potensi 'Hexerei' (Sihir Murni) dalam Vision pengguna.",
-                    desc_en: "Hexenzirkel guide to unlocking 'Hexerei' (Pure Magic) potential within Visions."
-                },
-                {
-                    title_id: "Moon Marrow Samples", title_en: "Moon Marrow Samples",
-                    type: "Relic", icon: "🧪",
-                    desc_id: "Sampel esensi Aria (Bulan Abadi) yang diekstrak Dottore untuk menciptakan 'Bulan Palsu'.",
-                    desc_en: "Essence samples of Aria (Eternal Moon) extracted by Dottore to create a 'Fake Moon'."
-                },
-                {
-                    title_id: "Lullaby for Columbula", title_en: "Lullaby for Columbula",
-                    type: "Song", icon: "🎵",
-                    desc_id: "Lagu kuno Nod-Krai yang mengonfirmasi identitas Columbina sebagai 'Kuutar' (Bulan Baru).",
-                    desc_en: "Ancient Nod-Krai song confirming Columbina's identity as 'Kuutar' (New Moon)."
-                },
-                {
-                    title_id: "Paralogism: Durin's Record", title_en: "Paralogism: Durin's Record",
-                    type: "Report", icon: "🐲",
-                    desc_id: "Catatan tentang pemurnian jiwa Durin menjadi manusia melalui intervensi Albedo & Hexenzirkel.",
-                    desc_en: "Records of Durin's soul purification into human form via Albedo & Hexenzirkel intervention."
-                }
+                // --- KATEGORI: NASKAH TERLARANG & KUNO ---
+                { title_id: "Before Sun and Moon", title_en: "Before Sun and Moon", type: "Banned Book", icon: "🌑", desc_id: "Satu-satunya catatan tertulis tentang Phanes dan penciptaan dunia sebelum Takhta Kedua.", desc_en: "Only record of Phanes and creation before the Second Throne." },
+                { title_id: "The Byakuyakoku Collection", title_en: "The Byakuyakoku Collection", type: "Archive", icon: "🐍", desc_id: "Sejarah Enkanomiya dan eksperimen 'bunuh diri' Orobashi.", desc_en: "History of Enkanomiya and Orobashi's 'suicide' experiment." },
+                { title_id: "Hymns of the Far North", title_en: "Hymns of the Far North", type: "Ancient Text", icon: "📜", desc_id: "Mengungkap Dewi Bulan adalah ciptaan Nibelung, bukan Phanes.", desc_en: "Reveals Moon Sisters were created by Nibelung, not Phanes." },
+                { title_id: "Perinheri", title_en: "Perinheri", type: "History", icon: "🏰", desc_id: "Sejarah Dinasti Crimson Moon Khaenri'ah dan panti asuhan Arlecchino.", desc_en: "History of Crimson Moon Dynasty and Arlecchino's orphanage." },
+                { title_id: "The Pale Princess & Six Pygmies", title_en: "The Pale Princess & Six Pygmies", type: "Fairy Tale", icon: "👑", desc_id: "Buku terpenting. Nubuat tentang Traveler menyelamatkan Teyvat dari Bunda Malam.", desc_en: "Crucial prophecy of Traveler saving Teyvat from the Night Mother." },
+                
+                // --- KATEGORI: ARTEFAK MONDSTADT ---
+                { title_id: "Gladiator's Finale", title_en: "Gladiator's Finale", type: "Artifact", icon: "⚔️", desc_id: "Kisah Vanessa sang Gladiator yang membebaskan Mondstadt.", desc_en: "Story of Vanessa the Gladiator liberating Mondstadt." },
+                { title_id: "Wanderer's Troupe", title_en: "Wanderer's Troupe", type: "Artifact", icon: "🎶", desc_id: "Kisah rombongan musisi yang mencoba membunuh bangsawan tiran.", desc_en: "Troupe of musicians attempting to assassinate aristocrats." },
+                { title_id: "Viridescent Venerer", title_en: "Viridescent Venerer", type: "Artifact", icon: "🍃", desc_id: "Pemburu yang melupakan namanya demi memburu monster Bencana.", desc_en: "Hunter who forgot her name to hunt Cataclysm monsters." },
+                { title_id: "Thundering Fury", title_en: "Thundering Fury", type: "Artifact", icon: "⚡", desc_id: "Tragedi Ruu dan Thunderbird di Pulau Tsurumi.", desc_en: "Tragedy of Ruu and the Thunderbird on Tsurumi Island." },
+                { title_id: "Maiden Beloved", title_en: "Maiden Beloved", type: "Artifact", icon: "🌹", desc_id: "Cinta tragis antara 'The White Knight' dan gadis yang menunggunya.", desc_en: "Tragic love between 'The White Knight' and the maiden." },
+
+                // --- KATEGORI: ARTEFAK LIYUE ---
+                { title_id: "Crimson Witch of Flames", title_en: "Crimson Witch of Flames", type: "Artifact", icon: "🔥", desc_id: "Masa lalu Signora (Rosalyne) sebelum menjadi Fatui Harbinger.", desc_en: "Past of Signora (Rosalyne) before becoming a Fatui Harbinger." },
+                { title_id: "Noblesse Oblige", title_en: "Noblesse Oblige", type: "Artifact", icon: "👑", desc_id: "Sejarah klan bangsawan Lawrence, Gunnhildr, dan Imunlaukr.", desc_en: "History of Lawrence, Gunnhildr, and Imunlaukr clans." },
+                { title_id: "Archaic Petra", title_en: "Archaic Petra", type: "Artifact", icon: "🔶", desc_id: "Legenda Rex Lapis saat membelah gunung di masa perang.", desc_en: "Legend of Rex Lapis splitting mountains during the war." },
+                { title_id: "Retracing Bolide", title_en: "Retracing Bolide", type: "Artifact", icon: "☄️", desc_id: "Kisah tentang Kitsune dan Festival Musim Panas.", desc_en: "Story of the Kitsune and the Summer Festival." },
+                { title_id: "Bloodstained Chivalry", title_en: "Bloodstained Chivalry", type: "Artifact", icon: "🩸", desc_id: "Ksatria Putih yang ternoda oleh darah Abyss karena keadilan.", desc_en: "White Knight stained by Abyss blood for justice." },
+
+                // --- KATEGORI: ARTEFAK INAZUMA ---
+                { title_id: "Emblem of Severed Fate", title_en: "Emblem of Severed Fate", type: "Artifact", icon: "⚡", desc_id: "Kenangan Ei tentang Makoto, Chiyo, dan Saiguu.", desc_en: "Ei's memories of Makoto, Chiyo, and Saiguu." },
+                { title_id: "Shimenawa's Reminiscence", title_en: "Shimenawa's Reminiscence", type: "Artifact", icon: "🎀", desc_id: "Kisah Asase Hibiki dan bajak laut Ako Domeki.", desc_en: "Story of Asase Hibiki and pirate Ako Domeki." },
+                { title_id: "Husk of Opulent Dreams", title_en: "Husk of Opulent Dreams", type: "Artifact", icon: "🎎", desc_id: "Masa lalu Scaramouche (Kunikuzushi) saat baru diciptakan.", desc_en: "Past of Scaramouche (Kunikuzushi) when first created." },
+                { title_id: "Ocean-Hued Clam", title_en: "Ocean-Hued Clam", type: "Artifact", icon: "🐚", desc_id: "Pengorbanan Orobashi demi rakyat Watatsumi.", desc_en: "Orobashi's sacrifice for the people of Watatsumi." },
+                
+                // --- KATEGORI: ARTEFAK SUMERU ---
+                { title_id: "Deepwood Memories", title_en: "Deepwood Memories", type: "Artifact", icon: "🌳", desc_id: "Persahabatan Rukkhadevata dan Dewi Bunga.", desc_en: "Friendship of Rukkhadevata and Goddess of Flowers." },
+                { title_id: "Gilded Dreams", title_en: "Gilded Dreams", type: "Artifact", icon: "🏺", desc_id: "Ambisi Raja Deshret menolak Celestia.", desc_en: "King Deshret's ambition to reject Celestia." },
+                { title_id: "Flower of Paradise Lost", title_en: "Flower of Paradise Lost", type: "Artifact", icon: "🌺", desc_id: "Kisah tragis Dewi Bunga (Nabu Malikata).", desc_en: "Tragic story of the Goddess of Flowers (Nabu Malikata)." },
+                { title_id: "Desert Pavilion Chronicle", title_en: "Desert Pavilion Chronicle", type: "Artifact", icon: "🏜️", desc_id: "Sejarah dinasti manusia di gurun pasca kematian Deshret.", desc_en: "History of human dynasties in desert after Deshret's death." },
+
+                // --- KATEGORI: ARTEFAK FONTAINE ---
+                { title_id: "Nymph's Dream", title_en: "Nymph's Dream", type: "Artifact", icon: "💧", desc_id: "Kisah Direktur Lyris dan Institut Narzissenkreuz.", desc_en: "Story of Director Lyris and Narcissus Institute." },
+                { title_id: "Vourukasha's Glow", title_en: "Vourukasha's Glow", type: "Artifact", icon: "🌸", desc_id: "Pengorbanan Egeria dan Burung Simurgh.", desc_en: "Sacrifice of Egeria and the Simurgh Bird." },
+                { title_id: "Marechaussee Hunter", title_en: "Marechaussee Hunter", type: "Artifact", icon: "🕵️", desc_id: "Asal usul Pasukan Pemburu Bayangan (Phantom).", desc_en: "Origin of the Marechaussee Phantom hunters." },
+                { title_id: "Golden Troupe", title_en: "Golden Troupe", type: "Artifact", icon: "🎺", desc_id: "Kejatuhan Remuria dan Raja God-King Remus.", desc_en: "Fall of Remuria and God-King Remus." },
+
+                // --- KATEGORI: ARTEFAK NATLAN (NEW) ---
+                { title_id: "Obsidian Codex", title_en: "Obsidian Codex", type: "Artifact", icon: "🔥", desc_id: "Ramalan tentang 'Sage of Stolen Flame' (Xbalanque).", desc_en: "Prophecy of 'Sage of Stolen Flame' (Xbalanque)." },
+                { title_id: "Scroll of the Hero", title_en: "Scroll of the Hero", type: "Artifact", icon: "📜", desc_id: "Legenda pahlawan pertama Natlan melawan Abyss.", desc_en: "Legend of Natlan's first hero against the Abyss." },
+
+                // --- KATEGORI: LORE SENJATA (WEAPONS) ---
+                { title_id: "Kagura's Verity", title_en: "Kagura's Verity", type: "Weapon", icon: "⚡", desc_id: "Tarian terakhir Kitsune Saiguu.", desc_en: "Kitsune Saiguu's final dance." },
+                { title_id: "Polar Star", title_en: "Polar Star", type: "Weapon", icon: "❄️", desc_id: "Sumpah setia Childe pada Tsaritsa.", desc_en: "Childe's oath of loyalty to Tsaritsa." },
+                { title_id: "Staff of Homa", title_en: "Staff of Homa", type: "Weapon", icon: "🔥", desc_id: "Ritual pembersihan mayat dewa di Liyue.", desc_en: "God corpse cleansing ritual in Liyue." },
+                { title_id: "Primordial Jade Cutter", title_en: "Primordial Jade Cutter", type: "Weapon", icon: "🗡️", desc_id: "Rex Lapis membunuh temannya sendiri.", desc_en: "Rex Lapis slaying his own friend." },
+                { title_id: "Mistsplitter Reforged", title_en: "Mistsplitter Reforged", type: "Weapon", icon: "🟣", desc_id: "Pedang yang diberikan Ei kepada Shogun.", desc_en: "Sword given by Ei to the Shogun." },
+                { title_id: "Elegy for the End", title_en: "Elegy for the End", type: "Weapon", icon: "🏹", desc_id: "Lagu perpisahan Venti untuk Dvalin.", desc_en: "Venti's farewell song for Dvalin." },
+                { title_id: "Skyward Harp", title_en: "Skyward Harp", type: "Weapon", icon: "🍃", desc_id: "Asal usul Dvalin sang Naga Timur.", desc_en: "Origin of Dvalin the Dragon of the East." },
+                { title_id: "Wolf's Gravestone", title_en: "Wolf's Gravestone", type: "Weapon", icon: "🐺", desc_id: "Makam serigala Boreas (Andrius).", desc_en: "Grave of the Wolf Boreas (Andrius)." },
+                { title_id: "The Catch", title_en: "The Catch", type: "Weapon", icon: "🎣", desc_id: "Trisula rampasan bandit Ako Domeki.", desc_en: "Trident looted by bandit Ako Domeki." },
+                { title_id: "Dodoco Tales", title_en: "Dodoco Tales", type: "Weapon", icon: "📕", desc_id: "Buku cerita buatan Alice untuk Klee.", desc_en: "Storybook made by Alice for Klee." },
+                { title_id: "Festering Desire", title_en: "Festering Desire", type: "Weapon", icon: "☠️", desc_id: "Pedang terkutuk berisi darah Durin.", desc_en: "Cursed sword containing Durin's blood." },
+                { title_id: "Cinnabar Spindle", title_en: "Cinnabar Spindle", type: "Weapon", icon: "🖌️", desc_id: "Alat alkimia Rhinedottir.", desc_en: "Rhinedottir's alchemy tool." },
+
+                // --- KATEGORI: BUKU DUNIA (WORLD BOOKS) ---
+                { title_id: "Teyvat Travel Guide", title_en: "Teyvat Travel Guide", type: "Guide", icon: "📓", desc_id: "Panduan perjalanan kacau tulisan Alice.", desc_en: "Chaotic travel guide written by Alice." },
+                { title_id: "The Boar Princess", title_en: "The Boar Princess", type: "Fairy Tale", icon: "🐗", desc_id: "Alegori korupsi Abyss di Dragonspine.", desc_en: "Allegory of Abyss corruption in Dragonspine." },
+                { title_id: "Legend of the Shattered Halberd", title_en: "Legend of the Shattered Halberd", type: "Novel", icon: "⚔️", desc_id: "Kisah fiksi yang ternyata menyimpan lokasi senjata dewa.", desc_en: "Fiction that hides god weapon locations." },
+                { title_id: "Heart's Desire", title_en: "Heart's Desire", type: "Novel", icon: "💎", desc_id: "Kisah tentang toko antik misterius di Liyue.", desc_en: "Story about a mysterious antique shop in Liyue." },
+                { title_id: "Flowers for Princess Fischl", title_en: "Flowers for Princess Fischl", type: "Novel", icon: "🏰", desc_id: "Novel yang memprediksi kiamat dunia lain (Honkai?).", desc_en: "Novel predicting other worlds' apocalypse." },
+                { title_id: "Vera's Melancholy", title_en: "Vera's Melancholy", type: "Novel", icon: "📖", desc_id: "Kisah teman masa kecil yang terpisah dimensi.", desc_en: "Story of childhood friends separated by dimensions." },
+                { title_id: "Rex Incognito", title_en: "Rex Incognito", type: "Folklore", icon: "🔶", desc_id: "Kumpulan cerita penyamaran Morax.", desc_en: "Collection of Morax's disguises." },
+                { title_id: "Yakshas: The Guardian Adepti", title_en: "Yakshas: The Guardian Adepti", type: "History", icon: "👹", desc_id: "Nasib tragis 5 Yaksha utama.", desc_en: "Tragic fate of the 5 main Yakshas." },
+                { title_id: "Customs of Liyue", title_en: "Customs of Liyue", type: "Culture", icon: "🏮", desc_id: "Tradisi dan ritual pernikahan kuno Liyue.", desc_en: "Ancient Liyue wedding traditions and rituals." },
+                { title_id: "Diary of Roald", title_en: "Diary of Roald", type: "Journal", icon: "📝", desc_id: "Catatan petualang yang pelupa.", desc_en: "Journal of a forgetful adventurer." },
+
+                // --- KATEGORI: MATERIAL BOSS & RELIK ---
+                { title_id: "Molten Moment", title_en: "Molten Moment", type: "Relic", icon: "🔥", desc_id: "Sisa kekuatan Signora (Crimson Witch).", desc_en: "Remnant of Signora's power." },
+                { title_id: "Hellfire Butterfly", title_en: "Hellfire Butterfly", type: "Relic", icon: "🦋", desc_id: "Kupu-kupu api, simbol kebebasan Signora.", desc_en: "Fire butterfly, symbol of Signora's freedom." },
+                { title_id: "Ashen Heart", title_en: "Ashen Heart", type: "Relic", icon: "🖤", desc_id: "Jantung beku Signora yang dihancurkan Raiden.", desc_en: "Signora's frozen heart destroyed by Raiden." },
+                { title_id: "Puppet Strings", title_en: "Puppet Strings", type: "Relic", icon: "🧵", desc_id: "Tali pengendali Shouki no Kami (Scaramouche).", desc_en: "Control strings of Shouki no Kami." },
+                { title_id: "Mirror of Mushin", title_en: "Mirror of Mushin", type: "Relic", icon: "🪞", desc_id: "Cermin yang memisahkan kebenaran dan ilusi.", desc_en: "Mirror separating truth and illusion." },
+                { title_id: "Daka's Bell", title_en: "Daka's Bell", type: "Relic", icon: "🔔", desc_id: "Lonceng kenangan Scaramouche.", desc_en: "Scaramouche's bell of memories." },
+                { title_id: "Lightless Silk String", title_en: "Lightless Silk String", type: "Relic", icon: "🐋", desc_id: "Benang dari Narwhal (Paus Abyss).", desc_en: "String from the Narwhal (Abyss Whale)." },
+                { title_id: "Lightless Eye", title_en: "Lightless Eye", type: "Relic", icon: "👁️", desc_id: "Mata pusaran dari perut Paus Abyss.", desc_en: "Vortex eye from Abyss Whale's belly." },
+                { title_id: "Dragon Lord's Crown", title_en: "Dragon Lord's Crown", type: "Relic", icon: "👑", desc_id: "Mahkota Azhdaha, Raja Geovishap.", desc_en: "Crown of Azhdaha, King of Geovishaps." },
+                { title_id: "Bloodjade Branch", title_en: "Bloodjade Branch", type: "Relic", icon: "🌿", desc_id: "Cabang terkutuk dari tubuh Azhdaha.", desc_en: "Cursed branch from Azhdaha's body." },
+                { title_id: "Gilded Scale", title_en: "Gilded Scale", type: "Relic", icon: "🛡️", desc_id: "Sisik emas Azhdaha yang mengeras.", desc_en: "Hardened golden scale of Azhdaha." },
+                { title_id: "Ring of Boreas", title_en: "Ring of Boreas", type: "Relic", icon: "💍", desc_id: "Cincin es milik Raja Serigala.", desc_en: "Ice ring of the Wolf King." },
+                { title_id: "Spirit Locket of Boreas", title_en: "Spirit Locket of Boreas", type: "Relic", icon: "🔒", desc_id: "Liontin berisi roh angin utara.", desc_en: "Locket containing the north wind spirit." },
+                { title_id: "Tail of Boreas", title_en: "Tail of Boreas", type: "Relic", icon: "🐺", desc_id: "Ekor beku Andrius.", desc_en: "Frozen tail of Andrius." },
+                { title_id: "Dvalin's Plume", title_en: "Dvalin's Plume", type: "Relic", icon: "🪶", desc_id: "Bulu punggung Stormterror.", desc_en: "Plume from Stormterror's back." },
+                { title_id: "Dvalin's Claw", title_en: "Dvalin's Claw", type: "Relic", icon: "💅", desc_id: "Cakar naga yang pernah merobek Durin.", desc_en: "Dragon claw that tore Durin apart." },
+                { title_id: "Dvalin's Sigh", title_en: "Dvalin's Sigh", type: "Relic", icon: "💨", desc_id: "Napas angin naga timur.", desc_en: "Wind breath of the east dragon." },
+                { title_id: "Shadow of the Warrior", title_en: "Shadow of the Warrior", type: "Relic", icon: "🌑", desc_id: "Bayangan Childe dalam wujud Foul Legacy.", desc_en: "Childe's shadow in Foul Legacy form." },
+                { title_id: "Shard of a Foul Legacy", title_en: "Shard of a Foul Legacy", type: "Relic", icon: "⚔️", desc_id: "Pecahan armor Abyss Childe.", desc_en: "Shard of Childe's Abyss armor." },
+                { title_id: "Tusk of Monoceros Caeli", title_en: "Tusk of Monoceros Caeli", type: "Relic", icon: "🦄", desc_id: "Tanduk paus konstelasi Childe.", desc_en: "Horn of Childe's whale constellation." },
+                { title_id: "Mudra of the Malefic General", title_en: "Mudra of the Malefic General", type: "Relic", icon: "✋", desc_id: "Tangan boneka Raiden Shogun.", desc_en: "Hand of the Raiden Shogun puppet." },
+                { title_id: "Tears of the Calamitous God", title_en: "Tears of the Calamitous God", type: "Relic", icon: "💧", desc_id: "Air mata boneka Shogun saat kalah.", desc_en: "Shogun puppet's tears upon defeat." },
+                { title_id: "The Meaning of Aeons", title_en: "The Meaning of Aeons", type: "Relic", icon: "⏳", desc_id: "Inti keabadian Raiden Makoto.", desc_en: "Essence of Raiden Makoto's eternity." },
+
+                // --- KATEGORI: ITEM KHUSUS & LAINNYA ---
+                { title_id: "Hex & Hound", title_en: "Hex & Hound", type: "Novel", icon: "🐕", desc_id: "Alegori hubungan Gold dan Albedo.", desc_en: "Allegory of Gold and Albedo." },
+                { title_id: "The Little Witch's Dictionary", title_en: "The Little Witch's Dictionary", type: "Grimoire", icon: "🧙‍♀️", desc_id: "Kamus sihir Hexenzirkel.", desc_en: "Hexenzirkel magic dictionary." },
+                { title_id: "A Drunkard's Tale", title_en: "A Drunkard's Tale", type: "Folklore", icon: "🍷", desc_id: "Kisah tentang Seelie dan istana bulan.", desc_en: "Tale of Seelies and the moon palace." },
+                { title_id: "Moon Marrow Samples", title_en: "Moon Marrow Samples", type: "Sample", icon: "🧪", desc_id: "Sampel bulan Dottore.", desc_en: "Dottore's moon samples." },
+                { title_id: "Lullaby for Columbula", title_en: "Lullaby for Columbula", type: "Song", icon: "🎵", desc_id: "Lagu untuk Columbina.", desc_en: "Song for Columbina." },
+                { title_id: "Kabukimono's Feather", title_en: "Kabukimono's Feather", type: "Relic", icon: "🪶", desc_id: "Bulu emas Scaramouche.", desc_en: "Scaramouche's golden feather." },
+                { title_id: "Nibelung's Scale", title_en: "Nibelung's Scale", type: "Relic", icon: "🛡️", desc_id: "Sisik Raja Naga Nibelung.", desc_en: "Scale of Dragon King Nibelung." },
+                { title_id: "Scroll of Streaming Song", title_en: "Scroll of Streaming Song", type: "Scripture", icon: "🌿", desc_id: "Naskah Rukkhadevata yang dihapus.", desc_en: "Erased scripture of Rukkhadevata." },
+                { title_id: "The Fall of Remuria", title_en: "The Fall of Remuria", type: "History", icon: "🏛️", desc_id: "Sejarah jatuhnya Remus.", desc_en: "History of Remus's fall." },
+                { title_id: "Mask of the Kijin", title_en: "Mask of the Kijin", type: "Relic", icon: "👺", desc_id: "Topeng Oni Chiyo.", desc_en: "Mask of Oni Chiyo." },
+                { title_id: "Tsurumi Island Murals", title_en: "Tsurumi Island Murals", type: "Art", icon: "🌫️", desc_id: "Mural Thunderbird.", desc_en: "Thunderbird murals." },
+                { title_id: "Ruu's Feather", title_en: "Ruu's Feather", type: "Relic", icon: "🪶", desc_id: "Bulu untuk Ruu.", desc_en: "Feather for Ruu." },
+                { title_id: "Gnosis (Electro)", title_en: "Gnosis (Electro)", type: "Divine", icon: "♟️", desc_id: "Jantung Dewa Listrik.", desc_en: "Heart of the Electro God." },
+                { title_id: "Gnosis (Dendro)", title_en: "Gnosis (Dendro)", type: "Divine", icon: "♟️", desc_id: "Jantung Dewa Rumput.", desc_en: "Heart of the Dendro God." },
+                { title_id: "Deshret's Map", title_en: "Deshret's Map", type: "Map", icon: "🗺️", desc_id: "Peta makam Deshret.", desc_en: "Map of Deshret's tomb." },
+                { title_id: "Narzissenkreuz Notes", title_en: "Narzissenkreuz Notes", type: "Research", icon: "📝", desc_id: "Rumus kiamat Rene.", desc_en: "Rene's apocalypse formula." },
+                { title_id: "Holy Lyre der Himmel", title_en: "Holy Lyre der Himmel", type: "Relic", icon: "🎻", desc_id: "Lyre Barbatos.", desc_en: "Barbatos's Lyre." },
+                { title_id: "Whopperflower Nectar", title_en: "Whopperflower Nectar", type: "Biology", icon: "🌸", desc_id: "Studi tanaman mimikri.", desc_en: "Study of mimicry plants." },
+                { title_id: "Foul Legacy Tech", title_en: "Foul Legacy Tech", type: "Abyss", icon: "⚡", desc_id: "Teknik Skirk.", desc_en: "Skirk's technique." },
+                { title_id: "Art of Khemia", title_en: "Art of Khemia", type: "Alchemy", icon: "⚗️", desc_id: "Seni cipta hidup Khaenri'ah.", desc_en: "Khaenri'ah's life creation art." },
+                { title_id: "Statue of Her Excellency", title_en: "Statue of Her Excellency", type: "Figure", icon: "🎎", desc_id: "Patung Raiden buatan Sara.", desc_en: "Sara's handmade Raiden statue." },
+                { title_id: "Teucer's Allowance", title_en: "Teucer's Allowance", type: "Mora", icon: "💰", desc_id: "Uang saku Teucer.", desc_en: "Teucer's allowance." },
+                { title_id: "Dull Blade", title_en: "Dull Blade", type: "Weapon", icon: "🗡️", desc_id: "Pedang Traveler.", desc_en: "Traveler's sword." },
+                { title_id: "Emergency Rations", title_en: "Emergency Rations", type: "Creature", icon: "🧚‍♀️", desc_id: "Paimon?", desc_en: "Paimon?" },
+                { title_id: "Adeptus Temptation", title_en: "Adeptus Temptation", type: "Food", icon: "🍲", desc_id: "Makanan kesukaan Adeptus.", desc_en: "Adeptus' favorite food." },
+                { title_id: "Almond Tofu", title_en: "Almond Tofu", type: "Food", icon: "🍮", desc_id: "Makanan kesukaan Xiao.", desc_en: "Xiao's favorite food." },
+                { title_id: "Osmanthus Wine", title_en: "Osmanthus Wine", type: "Drink", icon: "🍶", desc_id: "Minuman kenangan Zhongli.", desc_en: "Zhongli's memory drink." },
+                { title_id: "Dango Milk", title_en: "Dango Milk", type: "Drink", icon: "🍡", desc_id: "Minuman favorit Ei.", desc_en: "Ei's favorite drink." },
+                { title_id: "Fonta", title_en: "Fonta", type: "Drink", icon: "🥤", desc_id: "Minuman bersoda Fontaine.", desc_en: "Fontaine soda drink." },
+                { title_id: "Sango Pearl", title_en: "Sango Pearl", type: "Material", icon: "🦪", desc_id: "Mutiara Watatsumi.", desc_en: "Watatsumi pearl." },
+                { title_id: "Naku Weed", title_en: "Naku Weed", type: "Plant", icon: "🌿", desc_id: "Tanaman listrik Inazuma.", desc_en: "Inazuma electric plant." },
+                { title_id: "Cecilia", title_en: "Cecilia", type: "Flower", icon: "🌼", desc_id: "Bunga tebing Mondstadt.", desc_en: "Mondstadt cliff flower." },
+                { title_id: "Glaze Lily", title_en: "Glaze Lily", type: "Flower", icon: "🌺", desc_id: "Bunga kesukaan Guizhong.", desc_en: "Guizhong's favorite flower." },
+                { title_id: "Padisarah", title_en: "Padisarah", type: "Flower", icon: "🌷", desc_id: "Bunga ciptaan Dewi Bunga.", desc_en: "Flower created by Goddess of Flowers." },
+                { title_id: "Lumidouce Bell", title_en: "Lumidouce Bell", type: "Flower", icon: "🔔", desc_id: "Bunga perpisahan Fontaine.", desc_en: "Fontaine farewell flower." },
+                { title_id: "Rainbow Rose", title_en: "Rainbow Rose", type: "Flower", icon: "🌹", desc_id: "Mawar khas Fontaine.", desc_en: "Fontaine signature rose." },
+                { title_id: "Qingxin", title_en: "Qingxin", type: "Flower", icon: "💠", desc_id: "Bunga puncak gunung Liyue.", desc_en: "Liyue mountain peak flower." },
+                { title_id: "Violetgrass", title_en: "Violetgrass", type: "Plant", icon: "🟣", desc_id: "Tanaman tebing Liyue.", desc_en: "Liyue cliff plant." },
+                { title_id: "Wolfhook", title_en: "Wolfhook", type: "Berry", icon: "🍇", desc_id: "Buah hutan Wolvendom.", desc_en: "Wolvendom forest fruit." },
+                { title_id: "Valberry", title_en: "Valberry", type: "Berry", icon: "🍓", desc_id: "Buah pegunungan badai.", desc_en: "Stormbearer mountain fruit." }
             ],
 
-            // == 3. KOSMOLOGI ==
+            // == 3. KOSMOLOGI (STRUKTUR DUNIA & HUKUM ALAM) ==
             cosmology: [
-                { title_id: "Irminsul", title_en: "Irminsul", text_id: "Pohon perak raksasa perekam ingatan dunia.", text_en: "Giant silver tree recording world memories.", icon: "🌳" },
-                { title_id: "Kuu-Vahki", title_en: "Kuu-Vahki", text_id: "Sihir kuno manipulasi cahaya bulan.", text_en: "Ancient magic of moon light manipulation.", icon: "✨" },
-                { title_id: "Langit Palsu", title_en: "False Sky", text_id: "Kubah pelindung ciptaan Phanes.", text_en: "Protective dome created by Phanes.", icon: "🌌" },
-                { title_id: "Lunar Bloom", title_en: "Lunar Bloom", text_id: "Reaksi elemen Dendro + Energi Bulan.", text_en: "Dendro + Moon Energy elemental reaction.", icon: "🌸" },
-                { title_id: "Lautan Kuantum", title_en: "Sea of Quanta", text_id: "Lautan kekacauan di luar Teyvat.", text_en: "Sea of chaos outside Teyvat.", icon: "🌊" },
-                { title_id: "Loom of Fate", title_en: "Loom of Fate", text_id: "Mesin penenun takdir Abyss.", text_en: "Fate weaving machine of the Abyss.", icon: "🧶" }
+                // --- STRUKTUR UTAMA (THE THREE REALMS) ---
+                { title_id: "Alam Manusia", title_en: "Human Realm", text_id: "Dunia permukaan tempat manusia hidup, distabilkan oleh Archon.", text_en: "Surface world where humans live, stabilized by Archons.", icon: "🌍" },
+                { title_id: "Alam Cahaya", title_en: "Light Realm", text_id: "Dunia elemen murni (Vishap Realm). Mematikan bagi manusia.", text_en: "World of pure elements (Vishap Realm). Deadly to humans.", icon: "🐲" },
+                { title_id: "Alam Hampa", title_en: "Void Realm", text_id: "Dunia kegelapan (Abyss). Sumber korupsi dan kekuatan luar.", text_en: "World of darkness (Abyss). Source of corruption and outer power.", icon: "🌑" },
+
+                // --- LANGIT & TAKDIR ---
+                { title_id: "Langit Palsu", title_en: "The False Sky", text_id: "Kubah buatan Phanes yang memisahkan Teyvat dari alam semesta asli.", text_en: "Artificial dome by Phanes separating Teyvat from the real universe.", icon: "🌌" },
+                { title_id: "Konstelasi", title_en: "Constellations", text_id: "Pola bintang yang menentukan takdir (Stella Fortuna) pemegang Vision.", text_en: "Star patterns dictating the fate (Stella Fortuna) of Vision holders.", icon: "✨" },
+                { title_id: "Takdir", title_en: "Fate", text_id: "Skenario yang sudah tertulis di bintang-bintang, sulit diubah.", text_en: "Script written in the stars, difficult to change.", icon: "📜" },
+                { title_id: "Loom of Fate", title_en: "Loom of Fate", text_id: "Operasi Abyss untuk menenun ulang takdir tanpa campur tangan Celestia.", text_en: "Abyss operation to reweave fate without Celestia's interference.", icon: "🧶" },
+
+                // --- SISTEM ENERGI ---
+                { title_id: "Irminsul", title_en: "Irminsul", text_id: "Pohon Putih raksasa yang menyimpan seluruh memori dan sejarah dunia.", text_en: "Giant White Tree storing all memories and history of the world.", icon: "🌳" },
+                { title_id: "Ley Lines", title_en: "Ley Lines", text_id: "Akar Irminsul yang mengalirkan elemen dan memori ke permukaan.", text_en: "Roots of Irminsul flowing elements and memories to the surface.", icon: "🌱" },
+                { title_id: "Pengetahuan Terlarang", title_en: "Forbidden Knowledge", text_id: "Kebenaran dari luar Teyvat (Abyss) yang meracuni pikiran dan dunia.", text_en: "Truth from outside Teyvat (Abyss) that poisons minds and the world.", icon: "🧠" },
+                { title_id: "Energi Elemental", title_en: "Elemental Energy", text_id: "Tujuh elemen dasar pembentuk materi di Alam Manusia.", text_en: "Seven basic elements building matter in the Human Realm.", icon: "🔥" },
+                { title_id: "Energi Abyssal", title_en: "Abyssal Energy", text_id: "Energi perusak yang bisa menetralkan elemen cahaya (Light).", text_en: "Destructive energy capable of neutralizing Light elements.", icon: "👁️" },
+
+                // --- OBJEK ILAHI ---
+                { title_id: "Celestia", title_en: "Celestia", text_id: "Pulau melayang, tempat bersemayamnya 'The Heavenly Principles'.", text_en: "Floating island, abode of 'The Heavenly Principles'.", icon: "🏛️" },
+                { title_id: "Takhta Ilahi", title_en: "Divine Throne", text_id: "Tujuh kursi kekuasaan yang diciptakan dengan mencuri otoritas Naga.", text_en: "Seven seats of power created by stealing Dragon authority.", icon: "🪑" },
+                { title_id: "Gnosis", title_en: "Gnosis", text_id: "Jantung Naga (Heart of God) yang menjadi bukti otoritas Archon.", text_en: "Dragon Heart (Heart of God) serving as Archon's authority proof.", icon: "♟️" },
+                { title_id: "Vision", title_en: "Vision", text_id: "Organ sihir eksternal yang diberikan kepada manusia dengan ambisi kuat.", text_en: "External magic organ granted to humans with strong ambition.", icon: "💎" },
+                { title_id: "Delusion", title_en: "Delusion", text_id: "Vision buatan Fatui. Menggunakan sisa dewa, menukar nyawa dengan kekuatan.", text_en: "Fatui-made Vision. Uses god residue, trading life for power.", icon: "🎭" },
+                { title_id: "Celestial Nail", title_en: "Celestial Nail", text_id: "Paku langit untuk menahan penyebaran Abyss, namun menghancurkan peradaban.", text_en: "Sky nails to halt Abyss spread, but destroy civilizations.", icon: "🔩" },
+
+                // --- HUKUM & SIKLUS ---
+                { title_id: "Erosi", title_en: "Erosion", text_id: "Hukum alami yang mengikis jiwa dan memori makhluk berumur panjang.", text_en: "Natural law eroding the soul and memory of long-lived beings.", icon: "⏳" },
+                { title_id: "Samsara", title_en: "Samsara", text_id: "Siklus pengulangan waktu/peristiwa (seperti Festival Sabzeruz).", text_en: "Cycle of repeating time/events (like Sabzeruz Festival).", icon: "🔄" },
+                { title_id: "Prinsip Surgawi", title_en: "Heavenly Principles", text_id: "Hukum mutlak yang dijaga oleh 'The Sustainer' agar Teyvat tidak hancur.", text_en: "Absolute laws guarded by 'The Sustainer' to keep Teyvat intact.", icon: "⚖️" },
+                { title_id: "Kutukan Alam Liar", title_en: "Curse of Wilderness", text_id: "Hukuman bagi warga Khaenri'ah campuran menjadi Hilichurl.", text_en: "Punishment turning mixed-blood Khaenri'ahns into Hilichurls.", icon: "👹" },
+                { title_id: "Kutukan Keabadian", title_en: "Curse of Immortality", text_id: "Hukuman bagi warga Khaenri'ah murni untuk tidak bisa mati.", text_en: "Punishment for pure-blood Khaenri'ahns preventing death.", icon: "♾️" },
+
+                // --- ENTITAS ---
+                { title_id: "Descender", title_en: "Descender", text_id: "Makhluk luar yang memiliki kehendak setara 'Dunia'. (Traveler adalah ke-4).", text_en: "Outer beings with wills equal to a 'World'. (Traveler is 4th).", icon: "☄️" },
+                { title_id: "Allogenes", title_en: "Allogenes", text_id: "Sebutan kuno (Genshin) bagi pemegang Vision yang berpotensi naik ke Celestia.", text_en: "Ancient term (Genshin) for Vision holders with potential to ascend.", icon: "👤" },
+                { title_id: "Shades of Phanes", title_en: "Shades of Phanes", text_id: "4 Bayangan Pencipta: Waktu (Istaroth), Hidup, Mati, dan Ruang.", text_en: "4 Shades of Creator: Time (Istaroth), Life, Death, and Space.", icon: "🕊️" },
+                { title_id: "Seven Sovereigns", title_en: "Seven Sovereigns", text_id: "Tujuh Raja Naga asli penguasa elemen murni sebelum Phanes datang.", text_en: "Seven Dragon Kings ruling pure elements before Phanes arrived.", icon: "🐉" },
+
+                // --- SIHIR & TEKNOLOGI ---
+                { title_id: "Khemia", title_en: "Khemia", text_id: "Seni alkimia kuno Khaenri'ah untuk menciptakan kehidupan.", text_en: "Ancient Khaenri'ah alchemy art to create life.", icon: "⚗️" },
+                { title_id: "Hexerei", title_en: "Hexerei", text_id: "Sihir murni yang menggunakan Irminsul, dikuasai Hexenzirkel.", text_en: "Pure magic utilizing Irminsul, mastered by Hexenzirkel.", icon: "🧙‍♀️" },
+                { title_id: "Sinshade", title_en: "Sinshade", text_id: "Bayangan memori orang mati yang tertinggal di Enkanomiya.", text_en: "Memory shades of the dead lingering in Enkanomiya.", icon: "👻" },
+                { title_id: "Lautan Gelap", title_en: "Dark Sea", text_id: "Wilayah di luar benua Teyvat tempat dewa-dewa yang kalah melarikan diri.", text_en: "Region outside Teyvat continent where defeated gods fled.", icon: "🌊" },
+                { title_id: "Tri-Lakshana", title_en: "Tri-Lakshana", text_id: "Makhluk Sumeru yang berubah wujud saat terkena Electro/Pyro.", text_en: "Sumeru creatures changing state when hit by Electro/Pyro.", icon: "🍄" },
+                { title_id: "Withering", title_en: "Withering", text_id: "Manifestasi penyakit Irminsul yang mematikan tumbuhan dan hewan.", text_en: "Manifestation of Irminsul's sickness killing flora and fauna.", icon: "🥀" }
             ],
 
             // == 4. RAMALAN ==
@@ -1182,16 +1350,22 @@ renderTimeline: function(container) {
                 container.innerHTML = html;
             },
 
-            // --- FUNGSI RENDER WILAYAH & FAKSI (3 SECTION) ---
+            // --- FUNGSI RENDER WILAYAH & FAKSI (UPDATED FILTER) ---
             renderNations: function(container) {
                 const ui = db[this.lang].ui;
                 
-                // 1. Definisikan Kategori berdasarkan ID
-                const specialRegionIDs = ['Nod Krai', 'Khaenri\'ah', 'Vishap Realm'];
+                // 1. DAFTAR ID KHUSUS (Agar tidak masuk ke 7 Bangsa Utama)
+                const specialRegionIDs = [
+                    'Nod Krai', 'Khaenri\'ah', 'Vishap Realm', 
+                    'Enkanomiya', 'Remuria', 'Sal Vindagnyr', 
+                    'The Dark Sea', 'Mare Jivari'
+                ];
+                
                 const factionIDs = [
                     'Hexenzirkel', 'The Wild Hunt', 'Frostmoon Scions', 'Celestia', 
                     'Fatui Harbingers', 'Abyss Order', 'Narzissenkreuz Ordo', 
-                    'Temple of Silence', 'Adventurers\' Guild'
+                    'Temple of Silence', 'Adventurers\' Guild', 'The Adepti', 
+                    'House of the Hearth', 'The Eremites', 'Shuumatsuban', 'Spina di Rosula'
                 ];
                 
                 // 2. Filter Data menjadi 3 Kelompok
@@ -1231,7 +1405,7 @@ renderTimeline: function(container) {
                                 <span class="text-[0.6rem] font-bold uppercase tracking-widest text-gray-400 bg-black/5 dark:bg-white/10 px-2 py-1 rounded shadow-sm border border-white/5">${nation.el}</span>
                             </div>
                             
-                            <h3 class="text-2xl font-serif font-bold mb-2 text-el-${nation.el} relative z-10 ${nation.el === 'mystery' ? 'text-lore-mystery' : ''}">${nation.id}</h3>
+                            <h3 class="text-xl md:text-2xl font-serif font-bold mb-2 text-el-${nation.el} relative z-10 ${nation.el === 'mystery' ? 'text-lore-mystery' : ''}">${nation.id}</h3>
                             <p class="text-xs text-gray-600 dark:text-gray-400 mb-6 min-h-[40px] relative z-10 leading-relaxed">${desc}</p>
                             
                             <div class="space-y-3 text-sm border-t border-gray-200 dark:border-white/10 pt-4 relative z-10">
@@ -1664,12 +1838,16 @@ renderTimeline: function(container) {
   <div class="max-w-3xl mx-auto">
 
     <!-- divider -->
-    <div class="relative my-4">
-  <div class="border-t border-lore-gold/40"></div>
-  <span class="absolute left-1/2 -translate-x-1/2 -top-2 bg-[#0F111A] px-2 text-lore-gold text-xs font-serif">
+<div class="relative my-4">
+  <div class="border-t border-lore-gold/40 transition-colors duration-300 ease-in-out"></div>
+  <span class="absolute left-1/2 -translate-x-1/2 -top-2 
+               bg-[#F2EFE9] dark:bg-[#0F111A]
+               px-2 text-lore-gold text-xs font-serif"
+               transition-colors duration-300 ease-in-out>
     IRMINSUL ARCHIVES
   </span>
 </div>
+
 
     <!-- fixed spacer (INI KUNCINYA) -->
     <div class="h-6"></div>
