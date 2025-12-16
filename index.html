@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- JUDUL TAB BROWSER -->
-    <title>Irminsul Archives: Kronik Teyvat Lengkap</title>
+    <title>Irminsul Archives: Kronik Teyvat</title>
     <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5d/Genshin_Impact_logo.svg">
 
     <!-- LIBRARY EKSTERNAL -->
@@ -364,18 +364,6 @@
     </div>
 
     <div id="particles-container"></div>
-
-    <!-- SPOILER NOTICE -->
-<div id="spoiler-banner"
-     class="fixed bottom-20 right-4 z-50 glass px-4 py-3 rounded-lg text-xs shadow-lg max-w-xs">
-  <p class="mb-2">
-    ⚠️ This site contains <strong>heavy story spoilers</strong>.
-  </p>
-  <button onclick="document.getElementById('spoiler-banner').remove()"
-    class="mt-1 px-3 py-1 bg-lore-gold text-white rounded text-xs font-bold">
-    I Understand
-  </button>
-</div>
 
     <!-- HEADER -->
     <header class="fixed top-0 w-full z-50 glass transition-all duration-300 border-b border-lore-gold/10">
@@ -1095,31 +1083,148 @@
                 { title_id: "Withering", title_en: "Withering", text_id: "Manifestasi penyakit Irminsul yang mematikan tumbuhan dan hewan.", text_en: "Manifestation of Irminsul's sickness killing flora and fauna.", icon: "🥀" }
             ],
 
-            // == 4. RAMALAN ==
+// == 4. RAMALAN & TEORI ==
             theories: [
+                // === KOSMOLOGI & DUNIA ===
+                {
+                    title_id: "Langit Palsu & Telur Phanes", title_en: "False Sky & Phanes' Egg",
+                    desc_id: "Teyvat berada di dalam cangkang telur raksasa (Dunia Mikro) untuk melindunginya dari Abyss, namun juga mengurung penghuninya.",
+                    desc_en: "Teyvat exists inside a giant eggshell (Microcosm) to protect it from the Abyss, but also imprisons its inhabitants.",
+                    tag: "Cosmology", icon: "🌌"
+                },
+                {
+                    title_id: "Dunia Terbalik", title_en: "Inverted World",
+                    desc_id: "Teori bahwa Teyvat sebenarnya terbalik secara fisik. Abyss adalah 'langit' yang sesungguhnya (Realitas), dan Celestia ada di dasar neraka.",
+                    desc_en: "Theory that Teyvat is physically inverted. The Abyss is the true 'sky' (Reality), and Celestia is at the bottom of hell.",
+                    tag: "Wild Theory", icon: "🙃"
+                },
+                {
+                    title_id: "Samsara Teyvat", title_en: "Teyvat Samsara",
+                    desc_id: "Sejarah Teyvat adalah siklus yang berulang. Ketika peradaban maju terlalu jauh, Celestia menghancurkannya (Paku Langit) dan mereset dunia.",
+                    desc_en: "Teyvat's history is a repeating cycle. When civilization advances too far, Celestia destroys it (Skyfrost Nail) and resets the world.",
+                    tag: "Time Loop", icon: "⏳"
+                },
+                {
+                    title_id: "Vision Sebagai Baterai", title_en: "Visions as Batteries",
+                    desc_id: "Vision diberikan bukan sebagai hadiah, tapi alat penyedot ambisi manusia untuk memberi makan Celestia yang sedang sekarat.",
+                    desc_en: "Visions are not gifts, but devices to harvest human ambition to feed a dying Celestia.",
+                    tag: "Dark Lore", icon: "🔋"
+                },
+
+                // === IDENTITAS KARAKTER ===
+                {
+                    title_id: "Identitas Asli Paimon", title_en: "Paimon's True Identity",
+                    desc_id: "Paimon adalah salah satu dari 4 Bayangan Phanes (kemungkinan Dewa Ruang) yang kehilangan ingatan atau dikutuk menjadi kecil.",
+                    desc_en: "Paimon is one of Phanes' 4 Shades (possibly God of Space) who lost memories or was cursed into a diminished form.",
+                    tag: "High Probability", icon: "👑"
+                },
+                {
+                    title_id: "Venti & Istaroth", title_en: "Venti & Istaroth",
+                    desc_id: "Venti (Barbatos) adalah pecahan atau anak dari Istaroth (Dewa Waktu), menjelaskan mengapa ia tahu semua lagu masa lalu dan masa depan.",
+                    desc_en: "Venti (Barbatos) is a fragment or son of Istaroth (God of Time), explaining why he knows all songs of the past and future.",
+                    tag: "Character Lore", icon: "🍃"
+                },
+                {
+                    title_id: "Sandrone & Guizhong", title_en: "Sandrone & Guizhong",
+                    desc_id: "Sandrone (The Puppet) menggunakan sisa-sisa kesadaran atau tubuh Guizhong untuk menciptakan boneka tempur.",
+                    desc_en: "Sandrone (The Puppet) uses remnants of Guizhong's consciousness or body to create combat puppets.",
+                    tag: "Speculation", icon: "🤖"
+                },
+                {
+                    title_id: "Kaeya: Pangeran Abyss", title_en: "Kaeya: Prince of Abyss",
+                    desc_id: "Kaeya Alberich adalah keturunan murni pendiri Abyss Order dan disiapkan sebagai 'Regent' jika rencana Loom of Fate berhasil.",
+                    desc_en: "Kaeya Alberich is a pure descendant of the Abyss Order's founder, prepped as 'Regent' if the Loom of Fate succeeds.",
+                    tag: "Endgame Plot", icon: "👁️"
+                },
+                {
+                    title_id: "Albedo & Durin", title_en: "Albedo & Durin",
+                    desc_id: "Albedo adalah versi sukses dari eksperimen 'Primordial Human'. Durin adalah kakaknya yang gagal. Albedo diprediksi akan menghancurkan Mondstadt.",
+                    desc_en: "Albedo is the successful version of the 'Primordial Human' experiment. Durin is his failed brother. Albedo is predicted to destroy Mondstadt.",
+                    tag: "Prophecy", icon: "🧪"
+                },
+
+                // === FATUI & REGION ===
                 {
                     title_id: "Columbina & Tiga Bulan", title_en: "Columbina & Three Moons",
-                    desc_id: "Columbina adalah pewaris Sonnet (Bulan Beku). Dottore mencoba memanen Aria.",
-                    desc_en: "Columbina is the heir of Sonnet (Frozen Moon). Dottore attempts to harvest Aria.",
+                    desc_id: "Columbina adalah sisa ras Seelie kuno atau malaikat yang melayani Tiga Saudari Bulan, menjelaskan sayap di kepalanya.",
+                    desc_en: "Columbina is a remnant of the ancient Seelie race or an angel serving the Three Moon Sisters, explaining the wings on her head.",
                     tag: "Canon Lore", icon: "🕊️"
                 },
                 {
+                    title_id: "Tsaritsa Sang Cinta", title_en: "Tsaritsa The God of Love",
+                    desc_id: "Tsaritsa membekukan hatinya sendiri karena cintanya pada dunia terlalu besar, sehingga ia harus kejam untuk menyelamatkan dunia dari Celestia.",
+                    desc_en: "Tsaritsa froze her own heart because her love for the world was too great, forcing her to be cruel to save it from Celestia.",
+                    tag: "Archon Lore", icon: "❄️"
+                },
+                {
+                    title_id: "Capitano: Manusia Terkuat", title_en: "Capitano: Strongest Human",
+                    desc_id: "Capitano bukan dari Teyvat, atau dia adalah 'Bloodstained Knight' yang berhasil menaklukkan kutukan Abyss dengan kekuatan fisik murni.",
+                    desc_en: "Capitano is not from Teyvat, or he is the 'Bloodstained Knight' who conquered the Abyss curse with pure physical strength.",
+                    tag: "Fatui Lore", icon: "⚔️"
+                },
+                {
                     title_id: "Project Stuzha", title_en: "Project Stuzha",
-                    desc_id: "Rencana Tsaritsa membakar takdir lama dengan Gnosis.",
-                    desc_en: "Tsaritsa's plan to burn the old fate using Gnosis.",
+                    desc_id: "Rencana akhir Fatui untuk membekukan waktu atau 'Takdir' sesaat, memberikan celah bagi manusia untuk menyerang Takhta Langit.",
+                    desc_en: "Fatui's final plan to freeze time or 'Fate' momentarily, creating an opening for humanity to strike the Celestial Throne.",
                     tag: "Endgame", icon: "♟️"
+                },
+
+                // === DESCENDERS & GODS ===
+                {
+                    title_id: "Descender Ketiga = Gnosis", title_en: "3rd Descender = Gnosis",
+                    desc_id: "Gnosis dibuat dari mayat Descender Ketiga. Inilah sebabnya Skirk menyebut Gnosis sebagai 'benda sial pembawa kutukan'.",
+                    desc_en: "Gnosis are made from the corpse of the Third Descender. This is why Skirk calls Gnosis an 'unlucky cursed object'.",
+                    tag: "Confirmed", icon: "🦴"
+                },
+                {
+                    title_id: "Perang Takhta Kedua", title_en: "Second Throne War",
+                    desc_id: "Celestia saat ini dikuasai oleh 'Second Throne' (Penjajah). Phanes yang asli telah kalah atau disegel.",
+                    desc_en: "Celestia is currently ruled by the 'Second Throne' (Invaders). The original Phanes was defeated or sealed.",
+                    tag: "History", icon: "⚔️"
+                },
+                {
+                    title_id: "Alice Sang Pelintas", title_en: "Alice The Traveler",
+                    desc_id: "Alice (Ibu Klee) adalah penjaga perbatasan Teyvat yang bisa melihat 'Dunia Luar' (termasuk dunia kita/Bumi).",
+                    desc_en: "Alice (Klee's Mom) is the guardian of Teyvat's borders capable of seeing the 'Outer World' (including our Earth).",
+                    tag: "Multiverse", icon: "🧙‍♀️"
+                },
+
+                // === SPEKULASI LIAR (USER CONTEXT) ===
+                {
+                    title_id: "Loom of Fate", title_en: "Loom of Fate",
+                    desc_id: "Alat ini bukan hanya mengubah ingatan (seperti Irminsul), tapi benar-benar bisa menenun ulang realitas fisik dan membangkitkan Khaenri'ah.",
+                    desc_en: "This device doesn't just alter memories (like Irminsul), but can physically re-weave reality and resurrect Khaenri'ah.",
+                    tag: "Abyss Plot", icon: "🧶"
+                },
+                {
+                    title_id: "Elemen Ke-8: Omni/Light", title_en: "8th Element: Omni/Light",
+                    desc_id: "Elemen asli Phanes dan Traveler. Ketujuh elemen saat ini hanyalah pecahan spektrum dari cahaya putih Omni.",
+                    desc_en: "The original element of Phanes and Traveler. The current seven elements are merely spectrum fragments of Omni light.",
+                    tag: "Gameplay", icon: "✨"
+                },
+                {
+                    title_id: "Bennet Sang Lavawalker", title_en: "Bennet The Lavawalker",
+                    desc_id: "Teori jenaka namun populer bahwa Bennet sebenarnya tidak bisa mati dan merupakan reinkarnasi sage api kuno dari Mare Jivari.",
+                    desc_en: "A humorous but popular theory that Bennet is effectively immortal and is the reincarnation of an ancient fire sage from Mare Jivari.",
+                    tag: "Fun Theory", icon: "🔥"
+                },
+                {
+                    title_id: "Mata Ilahi Lisa", title_en: "Lisa's Vision",
+                    desc_id: "Lisa mengetahui rahasia harga sebuah kekuatan. Teori mengatakan umur Lisa berkurang setengah saat ia menyentuh buku sihir terkutuk.",
+                    desc_en: "Lisa knows the price of power. Theory suggests Lisa's lifespan was halved when she touched a cursed grimoire.",
+                    tag: "Tragedy", icon: "📚"
                 },
                 {
                     title_id: "Bulan Palsu Dottore", title_en: "Dottore's Fake Moon",
-                    desc_id: "Dottore membangun bulan mekanis untuk menangkap dewa.",
-                    desc_en: "Dottore builds a mechanical moon to capture a god.",
-                    tag: "Plot 6.2", icon: "⚙️"
+                    desc_id: "Di Nod Krai, Dottore mencoba menciptakan Bulan Mekanis untuk menggantikan otoritas Celestia atas siklus malam.",
+                    desc_en: "In Nod Krai, Dottore attempts to create a Mechanical Moon to replace Celestia's authority over the night cycle.",
+                    tag: "Story 6.2", icon: "⚙️"
                 },
                 {
-                    title_id: "Durin Manusia", title_en: "Human Durin",
-                    desc_id: "Durin terlahir kembali sebagai manusia berhati murni.",
-                    desc_en: "Durin is reborn as a pure-hearted human.",
-                    tag: "Redemption", icon: "🐉"
+                    title_id: "Penyatuan Si Kembar", title_en: "Reunion of Twins",
+                    desc_id: "Akhir cerita Genshin Impact: Satu saudara menjadi 'Dewa' baru (Phanes), satu lagi menjadi penjelajah. Siklus dimulai lagi.",
+                    desc_en: "Genshin Impact Ending: One sibling becomes the new 'God' (Phanes), the other remains a traveler. The cycle restarts.",
+                    tag: "Ending", icon: "🤝"
                 }
             ]
         };
@@ -2023,12 +2128,11 @@ renderTimeline: function(container) {
     <!-- divider -->
 <div class="relative my-4">
   <div class="border-t border-lore-gold/40 transition-colors duration-300 ease-in-out"></div>
-  <span class="absolute left-1/2 -translate-x-1/2 -top-2 
+<span class="absolute left-1/2 -translate-x-1/2 -top-2 
                bg-[#F2EFE9] dark:bg-[#0F111A]
-               px-2 text-lore-gold text-xs font-serif"
-               transition-colors duration-300 ease-in-out>
-    IRMINSUL ARCHIVES
-  </span>
+               px-2 text-lore-gold text-xs font-serif
+               transition-colors duration-300 ease-in-out"> IRMINSUL ARCHIVES
+</span>
 </div>
 
 
