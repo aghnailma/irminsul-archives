@@ -690,7 +690,6 @@
                 document.getElementById('disclaimer-id')?.classList.toggle('hidden', this.lang !== 'id');
                 document.getElementById('disclaimer-en')?.classList.toggle('hidden', this.lang !== 'en');
 
-                this.updateUI();
                 this.nav(this.view);
                 this.savePref();
             },
@@ -975,6 +974,17 @@
 
             app.search(query);
         });
+
+        document.getElementById('mobile-search-input')?.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter') return;
+
+            const query = this.value.trim();
+            if (!query) return;
+
+            app.closeMobileSearch(); // tutup overlay
+            app.search(query);
+        });
+
         
         // MOBILE: tekan Enter di overlay search -> jalankan pencarian & tutup overlay
         document.getElementById('mobile-search-input')?.addEventListener('keydown', function(e) {
@@ -1027,7 +1037,9 @@
 <div id="mobile-search"
   class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm hidden">
 
-  <div class="absolute bottom-0 left-0 right-0 glass rounded-t-2xl p-4">
+ <div class="absolute left-0 right-0 glass rounded-t-2xl p-4"
+     style="bottom: env(safe-area-inset-bottom, 0); transform: translateY(-40vh);">
+
     
     <div class="flex items-center gap-3 mb-3">
       <input
