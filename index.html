@@ -63,6 +63,18 @@
     <style>
         body { transition: background-color 0.5s ease, color 0.5s ease; }
         
+        @media (max-width: 768px) {
+        body {
+            padding-bottom: 96px; /* ruang untuk mobile nav */
+        }
+        }
+
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        body {
+            padding-bottom: calc(96px + env(safe-area-inset-bottom));
+        }
+        }
+       
         /* Subtle Accent Pulse */
         @keyframes pulse-gold {
         0%, 100% {
@@ -227,7 +239,8 @@
 <body class="bg-[#F2EFE9] dark:bg-lore-void text-gray-800 dark:text-gray-200 min-h-screen flex flex-col font-sans selection:bg-lore-gold selection:text-white">
 
     <!-- SPOILER NOTICE -->
-<div id="spoiler-banner" class="fixed bottom-4 right-4 z-50 glass px-4 py-3 rounded-lg text-xs shadow-lg max-w-xs">
+<div id="spoiler-banner"
+     class="fixed bottom-20 right-4 z-50 glass px-4 py-3 rounded-lg text-xs shadow-lg max-w-xs">
   <p class="mb-2">
     ⚠️ This site contains <strong>heavy story spoilers</strong>.
   </p>
@@ -280,11 +293,7 @@
             "Hutan mengingat segalanya."
         </p>
 
-        <p class="mt-3 text-xs md:text-sm text-gray-400 dark:text-gray-500 max-w-2xl mx-auto leading-relaxed">
-        Fan-made lore archive yang merangkum sejarah, kosmologi, dan teori dunia Teyvat —
-        disusun untuk pembaca Indonesia & internasional.
-        </p>
-       
+
     </div>
 
     <!-- Content -->
@@ -591,8 +600,9 @@
             },
 
             lang: 'id',
-            theme: 'light',
+            theme: 'dark',
             view: 'home',
+
 
             init: function() {
                 // load saved preference
@@ -635,8 +645,6 @@
                 this.savePref();
             },
 
-
-            updateUI: function() {},
 
             toggleCard: function(index) {
                 const content = document.getElementById(`timeline-detail-${index}`);
@@ -860,48 +868,10 @@
     <!-- fixed spacer (INI KUNCINYA) -->
     <div class="h-6"></div>
 
-    <!-- Indonesian -->
-    <div id="disclaimer-id" class="space-y-1 leading-relaxed">
-      <p>
-        Proyek ini adalah <strong>karya penggemar (fan-made)</strong> dan
-        <strong>tidak bersifat komersial</strong>.
-      </p>
-      <p>
-        Genshin Impact beserta seluruh karakter, dunia, cerita, dan aset terkait
-        merupakan <strong>hak cipta © HoYoverse</strong>.
-      </p>
-      <p>
-        Situs ini <em>tidak berafiliasi dan tidak didukung secara resmi oleh HoYoverse</em>.
-      </p>
-    </div>
-
-    <!-- English -->
-    <div id="disclaimer-en" class="hidden space-y-1 leading-relaxed">
-      <p>
-        This is a <strong>fan-made, non-commercial</strong> project.
-      </p>
-      <p>
-        Genshin Impact and all related characters, lore, world, and assets are
-        <strong>© HoYoverse</strong>.
-      </p>
-      <p>
-        This site is <em>not affiliated with or endorsed by HoYoverse</em>.
-      </p>
-    </div>
-
-  </div>
-
-  <!-- Credits Mini -->
-<div class="mt-6 text-[0.65rem] text-gray-400 dark:text-gray-500 leading-relaxed">
-  <p>
-    <strong>Irminsul Archives</strong> is a fan-made, non-commercial lore project
-    curated and written by <strong>Hanggara</strong>.
-  </p>
-  <p class="mt-1">
-    Created as an independent archive to explore the narrative depth of
-    <em>Genshin Impact</em>, with respect to the original work by HoYoverse.
-  </p>
-</div>
+        <p><strong>Irminsul Archives</strong> — Fan-made & Non-Commercial Project.</p>
+        <p>Genshin Impact © HoYoverse. Not affiliated with HoYoverse.</p>
+        <p class="mt-2 text-lore-goldDim">Curated by <strong>Hanggara</strong></p>
+    </footer>
 
 </footer>
 
