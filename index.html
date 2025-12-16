@@ -274,6 +274,18 @@
 
             <!-- Controls -->
             <div class="flex items-center gap-3">
+
+                <!-- Simple Search -->
+                <input
+                id="simple-search"
+                type="text"
+                placeholder="Cari di Irminsul..."
+                class="hidden md:block bg-black/5 dark:bg-white/5 
+                        rounded-full px-4 py-1.5 text-xs 
+                        text-gray-700 dark:text-gray-200 
+                        outline-none w-48"
+                />
+
                 <button onclick="app.toggleLang()" class="px-3 py-1 rounded glass hover:border-lore-gold transition-all text-xs font-bold shadow-sm">
                     <span id="lang-indicator">ID</span>
                 </button>
@@ -303,6 +315,12 @@
     <div class="md:hidden fixed bottom-4 left-4 right-4 h-14 glass rounded-xl flex justify-around items-center z-50 shadow-2xl border border-white/20 dark:border-white/10">
         <button onclick="app.nav('timeline')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">⏳</span></button>
         <button onclick="app.nav('nations')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌍</span></button>
+ 
+        <button onclick="app.openMobileSearch()"
+        class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold">
+        <span class="text-lg">🔍</span>
+        </button>
+
         <button onclick="app.nav('cosmology')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌌</span></button>
         <button onclick="app.nav('theories')" class="flex flex-col items-center justify-center w-full h-full text-indigo-500"><span class="text-lg">🔮</span></button>
     </div>
@@ -592,6 +610,38 @@
         // --- APP LOGIC ---
         const app = {
 
+        openMobileSearch() {
+            document.getElementById('mobile-search')?.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('mobile-search-input')?.focus();
+            }, 100);
+        },
+
+        closeMobileSearch() {
+            document.getElementById('mobile-search')?.classList.add('hidden');
+        },
+
+        search(query) {
+            const keyword = query.toLowerCase();
+            const results = [];
+
+            loreData.timeline.forEach(item => {
+                if (
+                    item.era_id.toLowerCase().includes(keyword) ||
+                    item.desc_id.toLowerCase().includes(keyword)
+                ) {
+                    results.push({
+                        type: 'Timeline',
+                        icon: item.icon,
+                        title: item.era_id,
+                        desc: item.desc_id
+                    });
+                }
+            });
+
+            this.renderSearchResults(query, results);
+        },
+
             savePref: function() {
                 localStorage.setItem(PREF_KEY, JSON.stringify({
                     theme: this.theme,
@@ -847,10 +897,108 @@
                 });
                 html += `</div>`;
                 container.innerHTML = html;
-            }
-        };
+            },
 
+            highlight(text, query) {
+                if (!query) return text;
+
+                const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const regex = new RegExp(`(${escaped})`, 'gi');
+
+                return text.replace(
+                    regex,
+                    `<mark class="bg-lore-gold/30 text-lore-gold font-semibold px-1 rounded">$1</mark>`
+                );
+            },
+
+            renderSearchResults(query, results) {
+                const container = document.getElementById('app-content');
+
+                this.view = 'search';
+
+                document.getElementById('page-title').innerText =
+                    this.lang === 'id' ? 'Hasil Pencarian' : 'Search Results';
+
+                document.getElementById('page-subtitle').innerText = `"${query}"`;
+
+                if (!results.length) {
+                    container.innerHTML = `
+                        <div class="text-center py-20 text-gray-500 dark:text-gray-400">
+                            ${this.lang === 'id'
+                                ? 'Data tidak ditemukan di Irminsul.'
+                                : 'No records found in Irminsul.'}
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = `
+                    <div class="royal-divider my-6"></div>
+                    <div class="space-y-4 max-w-4xl mx-auto">
+                `;
+
+                results.forEach((r, i) => {
+                    html += `
+                        <div class="glass p-4 rounded-xl border-l-4 border-lore-gold animate-enter"
+                            style="animation-delay:${i * 0.05}s">
+                            <div class="flex gap-3">
+                                <span class="text-2xl">${r.icon}</span>
+                                <div>
+                                    <span class="text-[0.6rem] uppercase font-bold text-gray-400">
+                                        ${r.type}
+                                    </span>
+                                    <h3 class="font-serif font-bold text-lore-gold">
+                                        ${this.highlight(r.title, query)}
+                                    </h3>
+                                    <p class="text-xs text-gray-600 dark:text-gray-300">
+                                        ${this.highlight(r.desc, query)}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+                        
+        };
+        
         document.addEventListener('DOMContentLoaded', () => app.init());
+      
+        document.getElementById('simple-search')?.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter') return;
+
+            const query = this.value.trim();
+            if (!query) return;
+
+            app.search(query);
+        });
+        
+        // MOBILE: tekan Enter di overlay search -> jalankan pencarian & tutup overlay
+        document.getElementById('mobile-search-input')?.addEventListener('keydown', function(e) {
+            if (e.key !== 'Enter') return;
+
+            const query = this.value.trim();
+            if (!query) return;
+
+            // tutup overlay mobile dulu lalu render hasil di halaman utama
+            app.closeMobileSearch();
+            app.search(query);
+        });
+
+        // optional: tekan Escape untuk langsung menutup overlay mobile
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // kalau overlay open, close
+                const overlay = document.getElementById('mobile-search');
+                if (overlay && !overlay.classList.contains('hidden')) {
+                    app.closeMobileSearch();
+                }
+            }
+        });
+
     </script>
 
 <!-- FAN-MADE DISCLAIMER (BILINGUAL – STABLE) -->
@@ -875,6 +1023,32 @@
 
 </footer>
 
+<!-- MOBILE SEARCH OVERLAY -->
+<div id="mobile-search"
+  class="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm hidden">
+
+  <div class="absolute bottom-0 left-0 right-0 glass rounded-t-2xl p-4">
+    
+    <div class="flex items-center gap-3 mb-3">
+      <input
+        id="mobile-search-input"
+        type="text"
+        placeholder="Cari di Irminsul..."
+        class="flex-grow bg-black/5 dark:bg-white/5 
+               rounded-full px-4 py-2 text-sm 
+               text-gray-800 dark:text-gray-200 outline-none"
+      />
+      <button onclick="app.closeMobileSearch()"
+        class="text-sm font-bold text-lore-gold">
+        Tutup
+      </button>
+    </div>
+
+    <p class="text-xs text-gray-500 italic">
+      Tekan Enter untuk mencari
+    </p>
+  </div>
+</div>
 
 </body>
 </html>
