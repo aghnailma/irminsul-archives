@@ -271,10 +271,92 @@
             opacity: 0.8;
         }
 
+        /* === BACKGROUND PARTICLES (ATMOSPHERE) === */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Biar bisa diklik tembus */
+            z-index: -1; /* Di belakang segalanya */
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -10px;
+            /* Ganti 0.8 jadi 0.4 agar lebih transparan/tipis */
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(198,166,104,0) 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        .dark .particle {
+            /* Ganti 0.8 jadi 0.4 juga */
+            background: radial-gradient(circle, rgba(129,140,248,0.4) 0%, rgba(30,58,138,0) 70%);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.3; /* SEBELUMNYA 0.6 -> Turunkan jadi 0.3 agar lebih tipis */
+            }
+            80% {
+                opacity: 0.15; /* SEBELUMNYA 0.4 -> Turunkan jadi 0.15 agar nyaris hilang */
+            }
+            100% {
+                transform: translateY(-120vh) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* === BACKGROUND PATTERN (GRID & VIGNETTE) === */
+        #bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Pastikan di belakang PARTIKEL (-1) */
+            pointer-events: none;
+        }
+
+        /* Membuat garis kotak-kotak tipis */
+        .grid-pattern {
+            width: 100%;
+            height: 100%;
+            /* Garis Horizontal & Vertikal */
+            background-image: 
+                linear-gradient(rgba(198, 166, 104, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(198, 166, 104, 0.01) 1px, transparent 1px);
+            background-size: 25px 25px; /* Ukuran kotak 25px */
+            
+            /* Masking: Agar grid hanya terlihat di tengah dan pudar di pinggir */
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+            mask-image: radial-gradient(circle at center, black 30%, transparent 100%);
+        }
+
+        /* Dark Mode: Garis lebih tipis & warna biru/ungu misterius */
+        .dark .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(129, 140, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(129, 140, 248, 0.02) 1px, transparent 1px);
+        }
         
     </style>
 </head>
 <body class="bg-[#F2EFE9] dark:bg-lore-void text-gray-800 dark:text-gray-200 min-h-screen flex flex-col font-sans selection:bg-lore-gold selection:text-white">
+
+    <div id="bg-pattern">
+        <div class="grid-pattern"></div>
+    </div>
+
+    <div id="particles-container"></div>
 
     <!-- SPOILER NOTICE -->
 <div id="spoiler-banner"
@@ -338,12 +420,17 @@
     <!-- Hero -->
     <div class="pt-28 pb-8 px-4 text-center relative">
         
-        <h2 id="page-title" class="text-3xl md:text-5xl font-serif font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim animate-enter">Arsip Irminsul</h2>
-        <div class="royal-divider mb-4"></div>
-        <p id="page-subtitle" class="text-gray-500 dark:text-gray-400 font-serif italic text-sm md:text-base max-w-2xl mx-auto animate-enter" style="animation-delay: 0.1s;">
-            "Hutan mengingat segalanya."
-        </p>
+    <h2 id="page-title" class="text-3xl md:text-5xl font-serif font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim animate-enter">
+        Arsip Irminsul
+    </h2>
 
+    <div class="royal-divider mb-4"></div>
+
+    <p id="page-subtitle"
+    class="text-gray-500 dark:text-gray-400 font-serif italic text-sm md:text-base max-w-2xl mx-auto animate-enter mb-3"
+    style="animation-delay: 0.1s;">
+        "Akses data rahasia."
+    <div class="royal-divider mt-4"></div>
 
     </div>
 
@@ -839,7 +926,7 @@
                 document.getElementById('disclaimer-id')?.classList.toggle('hidden', this.lang !== 'id');
                 document.getElementById('disclaimer-en')?.classList.toggle('hidden', this.lang !== 'en');
 
-                this.nav('timeline');
+                this.nav('home'); // Ubah default view ke Home
 
                 // --- PERBAIKAN SEARCH MOBILE (Start) ---
                 const mobileInput = document.getElementById('mobile-search-input');
@@ -869,6 +956,29 @@
                 }
                 // --- PERBAIKAN SEARCH MOBILE (End) ---
           
+                // --- GENERATE ATMOSPHERIC PARTICLES ---
+                const particleContainer = document.getElementById('particles-container');
+                const particleCount = 100; // Jumlah partikel (jangan kebanyakan biar ringan)
+
+                for (let i = 0; i < particleCount; i++) {
+                    const p = document.createElement('div');
+                    p.classList.add('particle');
+                    
+                    // Randomize Properties
+                    const size = Math.random() * 8 + 2; // Ukuran 2px - 10px
+                    const posX = Math.random() * 100;   // Posisi horizontal 0% - 100%
+                    const duration = Math.random() * 40 + 20; // Durasi 10s - 25s (Pelan)
+                    const delay = Math.random() * 20;   // Delay biar gak muncul barengan
+                    
+                    p.style.width = `${size}px`;
+                    p.style.height = `${size}px`;
+                    p.style.left = `${posX}%`;
+                    p.style.animationDuration = `${duration}s`;
+                    p.style.animationDelay = `-${delay}s`; // Negatif biar langsung ada yang di tengah layar
+                    
+                    particleContainer.appendChild(p);
+                }
+
             },
 
             
@@ -1006,12 +1116,13 @@
                         );
                     }
                 }
-                
+
                 // 4. Render Konten
                 const container = document.getElementById('app-content');
                 container.innerHTML = '';
                 
-                if (target === 'timeline') this.renderTimeline(container);
+                if (target === 'home') this.renderHome(container); // <--- TAMBAHAN PENTING
+                else if (target === 'timeline') this.renderTimeline(container);
                 else if (target === 'nations') this.renderNations(container);
                 else if (target === 'library') this.renderLibrary(container);
                 else if (target === 'cosmology') this.renderCosmology(container);
@@ -1028,7 +1139,6 @@ renderTimeline: function(container) {
                 const ui = db[this.lang].ui;
 
                 let html = `
-                <div class="royal-divider my-6"></div>
                 <div class="max-w-4xl mx-auto mt-4"> `; 
 
                 data.forEach((item, idx) => {
@@ -1144,7 +1254,6 @@ renderTimeline: function(container) {
                 // --- SECTION 1: TUJUH BANGSA ---
                 const titleMain = this.lang === 'id' ? "Tujuh Bangsa Teyvat" : "The Seven Nations";
                 html += `
-                    <div class="royal-divider my-8"></div>
                     <div class="flex items-center justify-center gap-4 mb-8">
                         <span class="h-[1px] w-8 bg-lore-gold/50"></span>
                         <h2 class="text-xl md:text-2xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim to-lore-gold text-center uppercase tracking-widest">${titleMain}</h2>
@@ -1193,7 +1302,6 @@ renderTimeline: function(container) {
             renderCosmology: function(container) {
                 
                 let html = `
-                <div class="royal-divider my-6"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-enter">
                 `;
                 
@@ -1217,7 +1325,6 @@ renderTimeline: function(container) {
             // --- FUNGSI RENDER PUSTAKA (BARU) ---
             renderLibrary: function(container) {
                 let html = `
-                <div class="royal-divider my-6"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-enter">
                 `;
                 
@@ -1245,12 +1352,206 @@ renderTimeline: function(container) {
                 container.innerHTML = html;
             },
             // -------------------------------------
+// --- FUNGSI RENDER HOME (DASHBOARD) ---
+            renderHome: function(container) {
+                const ui = db[this.lang].ui;
+                const isId = this.lang === 'id';
+                
+                // Hitung Statistik Data Otomatis
+                const stats = {
+                    timeline: loreData.timeline.length,
+                    nations: loreData.nations.length,
+                    library: loreData.library ? loreData.library.length : 0,
+                    theories: loreData.theories.length
+                };
+
+                let html = `
+                <div class="animate-enter space-y-8 max-w-4xl mx-auto">
+                    
+                    <div class="text-center py-10">
+                        <div class="inline-block p-4 rounded-full bg-lore-gold/10 mb-4 ring-1 ring-lore-gold/50 shadow-[0_0_20px_rgba(198,166,104,0.3)]">
+                            <span class="text-4xl">🌳</span>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim mb-4">
+                            ${isId ? 'Irminsul: Record of Tevyat' : 'Irminsul: Record of Tevyat'}
+                        </h2>
+                        <p id="typewriter-text" class="text-gray-600 dark:text-gray-400 font-mono text-sm h-6">
+                            </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-lore-gold">
+                            <div class="text-2xl mb-1">⏳</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.timeline}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Era Tercatat' : 'Eras Recorded'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-el-anemo">
+                            <div class="text-2xl mb-1">🌍</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.nations}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Entitas Politik' : 'Political Entities'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-lore-mystery">
+                            <div class="text-2xl mb-1">📚</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.library}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Arsip Terlarang' : 'Forbidden Archives'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-red-500">
+                            <div class="text-2xl mb-1">⚡</div>
+                            <div class="text-lore-gold font-bold text-sm mt-1">STABLE</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500 mt-1">
+                                ${isId ? 'Status Ley Line' : 'Ley Line Status'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-8 rounded-xl border border-white/10 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl rotate-12">❄️</div>
+                        <h3 class="text-xl font-serif font-bold text-lore-gold mb-2">
+                            ${isId ? 'Pembaruan Terakhir: Versi 6.2' : 'Latest Patch: Version 6.2'}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 max-w-lg leading-relaxed">
+                            ${isId 
+                                ? 'Data mengenai <strong>Nod-Krai</strong>, <strong>Columbina (Kuutar)</strong>, dan <strong>Project Stuzha</strong> telah ditambahkan ke dalam database. Akses Kronologi untuk detail lengkap.' 
+                                : 'Data regarding <strong>Nod-Krai</strong>, <strong>Columbina (Kuutar)</strong>, and <strong>Project Stuzha</strong> has been added. Access Timeline for full details.'}
+                        </p>
+                        <button onclick="app.nav('timeline')" class="px-6 py-2 bg-lore-gold text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[#8A7342] transition-colors shadow-lg">
+                            ${isId ? 'Akses Data' : 'Access Data'}
+                        </button>
+                    </div>
+
+                </div>`;
+                
+                container.innerHTML = html;
+
+                // Efek Mengetik (Typewriter Effect)
+                const txt = isId 
+                    ? "Menghubungkan ke kesadaran dunia... Akses diberikan." 
+                    : "Connecting to world consciousness... Access granted.";
+                let i = 0;
+                const speed = 30; 
+                const targetEl = document.getElementById("typewriter-text");
+                
+                if(targetEl) {
+                    targetEl.innerHTML = ""; // Reset
+                    function typeWriter() {
+                        if (i < txt.length) {
+                            targetEl.innerHTML += txt.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, speed);
+                        }
+                    }
+                    typeWriter();
+                }
+            },
+
+            // --- FUNGSI RENDER HOME (DASHBOARD) ---
+            renderHome: function(container) {
+                const ui = db[this.lang].ui;
+                const isId = this.lang === 'id';
+                
+                // Hitung Statistik Data Otomatis
+                const stats = {
+                    timeline: loreData.timeline.length,
+                    nations: loreData.nations.length,
+                    library: loreData.library ? loreData.library.length : 0,
+                    theories: loreData.theories.length
+                };
+
+                let html = `
+                <div class="animate-enter space-y-8 max-w-4xl mx-auto">
+                    
+                    <div class="text-center py-10">
+                        <div class="inline-block p-4 rounded-full bg-lore-gold/10 mb-4 ring-1 ring-lore-gold/50 shadow-[0_0_20px_rgba(198,166,104,0.3)]">
+                            <span class="text-4xl">🌳</span>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim mb-4">
+                            ${isId ? 'Irminsul: Record of Tevyat' : 'Irminsul: Record of Tevyat'}
+                        </h2>
+                        <p id="typewriter-text" class="text-gray-600 dark:text-gray-400 font-mono text-sm h-6">
+                            </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-lore-gold">
+                            <div class="text-2xl mb-1">⏳</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.timeline}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Era Tercatat' : 'Eras Recorded'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-el-anemo">
+                            <div class="text-2xl mb-1">🌍</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.nations}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Entitas Politik' : 'Political Entities'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-lore-mystery">
+                            <div class="text-2xl mb-1">📚</div>
+                            <div class="text-2xl font-bold text-gray-800 dark:text-white">${stats.library}</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500">
+                                ${isId ? 'Arsip Terlarang' : 'Forbidden Archives'}
+                            </div>
+                        </div>
+                        <div class="glass p-4 rounded-xl text-center border-t-2 border-red-500">
+                            <div class="text-2xl mb-1">⚡</div>
+                            <div class="text-lore-gold font-bold text-sm mt-1">STABLE</div>
+                            <div class="text-[0.6rem] uppercase tracking-widest text-gray-500 mt-1">
+                                ${isId ? 'Status Ley Line' : 'Ley Line Status'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass p-8 rounded-xl border border-white/10 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl rotate-12">❄️</div>
+                        <h3 class="text-xl font-serif font-bold text-lore-gold mb-2">
+                            ${isId ? 'Pembaruan Terakhir: Versi 6.2' : 'Latest Patch: Version 6.2'}
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 max-w-lg leading-relaxed">
+                            ${isId 
+                                ? 'Data mengenai <strong>Nod-Krai</strong>, <strong>Columbina (Kuutar)</strong>, dan <strong>Project Stuzha</strong> telah ditambahkan ke dalam database. Akses Kronologi untuk detail lengkap.' 
+                                : 'Data regarding <strong>Nod-Krai</strong>, <strong>Columbina (Kuutar)</strong>, and <strong>Project Stuzha</strong> has been added. Access Timeline for full details.'}
+                        </p>
+                        <button onclick="app.nav('timeline')" class="px-6 py-2 bg-lore-gold text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-[#8A7342] transition-colors shadow-lg">
+                            ${isId ? 'Akses Data' : 'Access Data'}
+                        </button>
+                    </div>
+
+                </div>`;
+                
+                container.innerHTML = html;
+
+                // Efek Mengetik (Typewriter Effect)
+                const txt = isId 
+                    ? "Menghubungkan ke kesadaran dunia... Akses diberikan." 
+                    : "Connecting to world consciousness... Access granted.";
+                let i = 0;
+                const speed = 30; 
+                const targetEl = document.getElementById("typewriter-text");
+                
+                if(targetEl) {
+                    targetEl.innerHTML = ""; // Reset
+                    function typeWriter() {
+                        if (i < txt.length) {
+                            targetEl.innerHTML += txt.charAt(i);
+                            i++;
+                            setTimeout(typeWriter, speed);
+                        }
+                    }
+                    typeWriter();
+                }
+            },
 
             renderTheories: function(container) {
                 const ui = db[this.lang].ui;
 
                 let html = `
-                <div class="royal-divider my-6"></div>
                 <div class="max-w-4xl mx-auto space-y-6 animate-enter">
                 `;
                 
@@ -1313,7 +1614,6 @@ renderTimeline: function(container) {
                 }
 
                 let html = `
-                    <div class="royal-divider my-6"></div>
                     <div class="space-y-4 max-w-4xl mx-auto">
                 `;
 
