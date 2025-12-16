@@ -270,6 +270,8 @@
             margin: 0 auto;
             opacity: 0.8;
         }
+
+        
     </style>
 </head>
 <body class="bg-[#F2EFE9] dark:bg-lore-void text-gray-800 dark:text-gray-200 min-h-screen flex flex-col font-sans selection:bg-lore-gold selection:text-white">
@@ -349,16 +351,30 @@
     <main id="app-content" class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 pb-24 space-y-8"></main>
 
     <!-- Mobile Nav -->
-    <div class="md:hidden fixed bottom-4 left-4 right-4 h-14 glass rounded-xl flex justify-around items-center z-50 shadow-2xl border border-white/20 dark:border-white/10">
-        <button onclick="app.nav('timeline')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">⏳</span></button>
-        <button onclick="app.nav('nations')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌍</span></button>
-        <button onclick="app.nav('library')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">📚</span></button>
-        <button onclick="app.nav('cosmology')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌌</span></button>
-        <button onclick="app.nav('theories')" class="flex flex-col items-center justify-center w-full h-full text-indigo-500"><span class="text-lg">🔮</span></button>
-    
-        <button onclick="app.openMobileSearch()"
-        class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold">
-        <span class="text-lg">🔍</span>
+    <div class="md:hidden fixed bottom-4 left-4 right-4 h-16 glass rounded-2xl flex justify-between items-center z-50 shadow-2xl border border-white/20 dark:border-white/10 p-1.5 gap-1">
+        
+        <button id="mobile-nav-timeline" onclick="app.nav('timeline')" class="mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300">
+            <span class="text-xl">⏳</span>
+        </button>
+        
+        <button id="mobile-nav-nations" onclick="app.nav('nations')" class="mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300">
+            <span class="text-xl">🌍</span>
+        </button>
+
+        <button id="mobile-nav-library" onclick="app.nav('library')" class="mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300">
+            <span class="text-xl">📚</span>
+        </button>
+
+        <button id="mobile-nav-cosmology" onclick="app.nav('cosmology')" class="mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300">
+            <span class="text-xl">🌌</span>
+        </button>
+
+        <button id="mobile-nav-theories" onclick="app.nav('theories')" class="mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300">
+            <span class="text-xl">🔮</span>
+        </button>
+
+        <button onclick="app.openMobileSearch()" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold transition-colors">
+            <span class="text-xl">🔍</span>
         </button>
 
     </div>
@@ -684,20 +700,86 @@
             document.getElementById('mobile-search')?.classList.add('hidden');
         },
 
-        search(query) {
+            search(query) {
             const keyword = query.toLowerCase();
             const results = [];
+            const isId = this.lang === 'id';
 
+            // 1. CARI DI TIMELINE (Termasuk Detail Points!)
             loreData.timeline.forEach(item => {
+                const title = isId ? item.era_id : item.era_en;
+                const desc = isId ? item.desc_id : item.desc_en;
+                const details = isId ? item.details_id : item.details_en;
+                
+                // Cek judul, deskripsi, DAN isi detail
+                const matchTitle = title.toLowerCase().includes(keyword);
+                const matchDesc = desc.toLowerCase().includes(keyword);
+                const matchDetail = details.some(d => d.toLowerCase().includes(keyword));
+
+                if (matchTitle || matchDesc || matchDetail) {
+                    results.push({
+                        type: isId ? 'Kronologi' : 'Timeline',
+                        icon: item.icon,
+                        title: title,
+                        desc: desc // Tampilkan deskripsi utama saja di hasil
+                    });
+                }
+            });
+
+            // 2. CARI DI WILAYAH & FAKSI
+            loreData.nations.forEach(item => {
+                const id = item.id;
+                const desc = isId ? item.desc_id : item.desc_en;
+                const leader = isId ? item.leader_id : item.leader_en;
+
                 if (
-                    item.era_id.toLowerCase().includes(keyword) ||
-                    item.desc_id.toLowerCase().includes(keyword)
+                    id.toLowerCase().includes(keyword) || 
+                    desc.toLowerCase().includes(keyword) ||
+                    leader.toLowerCase().includes(keyword)
                 ) {
                     results.push({
-                        type: 'Timeline',
+                        type: isId ? 'Wilayah/Faksi' : 'Nation/Faction',
                         icon: item.icon,
-                        title: item.era_id,
-                        desc: item.desc_id
+                        title: item.id,
+                        desc: desc
+                    });
+                }
+            });
+
+            // 3. CARI DI PUSTAKA (LIBRARY) - Baru!
+            if (loreData.library) {
+                loreData.library.forEach(item => {
+                    const title = isId ? item.title_id : item.title_en;
+                    const desc = isId ? item.desc_id : item.desc_en;
+                    
+                    if (
+                        title.toLowerCase().includes(keyword) ||
+                        desc.toLowerCase().includes(keyword)
+                    ) {
+                        results.push({
+                            type: isId ? 'Pustaka' : 'Library',
+                            icon: item.icon,
+                            title: title,
+                            desc: desc
+                        });
+                    }
+                });
+            }
+
+            // 4. CARI DI TEORI
+            loreData.theories.forEach(item => {
+                const title = isId ? item.title_id : item.title_en;
+                const desc = isId ? item.desc_id : item.desc_en;
+
+                if (
+                    title.toLowerCase().includes(keyword) ||
+                    desc.toLowerCase().includes(keyword)
+                ) {
+                    results.push({
+                        type: isId ? 'Ramalan' : 'Prophecy',
+                        icon: item.icon,
+                        title: title,
+                        desc: desc
                     });
                 }
             });
@@ -718,6 +800,18 @@
 
 
             init: function() {
+
+                // --- BACK TO TOP LOGIC ---
+                const backToTopBtn = document.getElementById('back-to-top');
+                
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) { // Muncul setelah scroll 300px
+                        backToTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    } else { // Sembunyi jika di atas
+                        backToTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    }
+                });
+
                 // load saved preference
                 const saved = JSON.parse(localStorage.getItem(PREF_KEY) || '{}');
 
@@ -843,26 +937,31 @@
             },
 
             nav: function(target) {
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // ← TAMBAHKAN INI
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 this.view = target;
                 const dict = db[this.lang];
                 
+                // 1. Update Judul Halaman
                 document.getElementById('page-title').innerText = dict.titles[target];
                 document.getElementById('page-subtitle').innerText = dict.subtitles[target];
 
+                // 2. LOGIKA DESKTOP NAV (Highlight Tombol Atas)
                 document.querySelectorAll('.nav-btn').forEach(btn => {
                     const id = btn.getAttribute('data-id');
                     const isRamalan = id.includes('theories');
                     
+                    // Reset class dasar
                     btn.className = "nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300";
 
                     if(id.includes(target)) {
+                        // Jika Aktif
                         if (isRamalan) {
                              btn.classList.add('bg-lore-mystery', 'text-white', 'shadow-md', 'hover:bg-lore-mysteryHover'); 
                         } else {
                              btn.classList.add('bg-lore-gold', 'text-white', 'shadow-md');
                         }
                     } else {
+                        // Jika Tidak Aktif
                         if (isRamalan) {
                              btn.classList.add('text-indigo-600', 'dark:text-indigo-400', 'hover:bg-indigo-50', 'dark:hover:bg-indigo-900/30'); 
                         } else {
@@ -871,18 +970,56 @@
                     }
                 });
 
+                // 3. LOGIKA MOBILE NAV (PERFECT FIT EDITION)
+                // Reset semua tombol: Hapus scale, atur base class
+                document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+                    // Class Standar (Mati)
+                    btn.className = "mobile-nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 transition-all duration-300 rounded-xl hover:bg-black/5 dark:hover:bg-white/5";
+                });
+
+                // Cari tombol yang harus AKTIF
+                const activeMobileBtn = document.getElementById(`mobile-nav-${target}`);
+                
+                if (activeMobileBtn) {
+                    // Hapus text abu-abu
+                    activeMobileBtn.classList.remove('text-gray-500', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+                    
+                    // Tambahkan Font Bold
+                    activeMobileBtn.classList.add('font-bold'); 
+
+                    // Cek Warna: Ungu untuk Ramalan, Emas untuk sisanya
+                    if (target === 'theories') {
+                        // EFEK GLOW UNGU
+                        activeMobileBtn.classList.add(
+                            'text-indigo-400',          
+                            'bg-indigo-900/40',         // Background lebih gelap
+                            'border', 'border-indigo-500/30', // Border halus
+                            'shadow-[inset_0_0_10px_rgba(129,140,248,0.2)]' // Glow DALAM (Inset) agar sudut tetap tajam
+                        );
+                    } else {
+                        // EFEK GLOW EMAS
+                        activeMobileBtn.classList.add(
+                            'text-lore-gold',           
+                            'bg-lore-gold/10',          
+                            'border', 'border-lore-gold/30',      
+                            'shadow-[inset_0_0_10px_rgba(198,166,104,0.15)]' // Glow DALAM (Inset)
+                        );
+                    }
+                }
+                
+                // 4. Render Konten
                 const container = document.getElementById('app-content');
                 container.innerHTML = '';
                 
                 if (target === 'timeline') this.renderTimeline(container);
                 else if (target === 'nations') this.renderNations(container);
-                else if (target === 'library') this.renderLibrary(container); // <--- TAMBAHAN INI
+                else if (target === 'library') this.renderLibrary(container);
                 else if (target === 'cosmology') this.renderCosmology(container);
                 else if (target === 'theories') this.renderTheories(container);
-
-                // tandai nav aktif
+            
+                // Tandai nav desktop (fallback)
                 document.querySelector(`[data-id="nav_${target}"]`)?.classList.add('active');
-                },
+            },
             
             
 
@@ -1285,6 +1422,16 @@ renderTimeline: function(container) {
   </div>
 </div>
 
+    <button id="back-to-top" 
+            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full glass 
+                   border border-lore-gold/50 text-lore-gold shadow-lg 
+                   flex items-center justify-center transition-all duration-300 
+                   opacity-0 translate-y-10 pointer-events-none hover:bg-lore-gold hover:text-white group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
 </body>
 </html>
