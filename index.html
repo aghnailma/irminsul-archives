@@ -268,6 +268,7 @@
             <nav class="hidden md:flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1 rounded-full backdrop-blur-md">
                 <button onclick="app.nav('timeline')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_timeline">Kronologi</button>
                 <button onclick="app.nav('nations')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_nations">Wilayah</button>
+                <button onclick="app.nav('library')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_library">Pustaka</button>
                 <button onclick="app.nav('cosmology')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_cosmology">Kosmologi</button>
                 <button onclick="app.nav('theories')" class="nav-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300" data-id="nav_theories">Ramalan</button>
             </nav>
@@ -315,14 +316,15 @@
     <div class="md:hidden fixed bottom-4 left-4 right-4 h-14 glass rounded-xl flex justify-around items-center z-50 shadow-2xl border border-white/20 dark:border-white/10">
         <button onclick="app.nav('timeline')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">⏳</span></button>
         <button onclick="app.nav('nations')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌍</span></button>
- 
+        <button onclick="app.nav('library')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">📚</span></button>
+        <button onclick="app.nav('cosmology')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌌</span></button>
+        <button onclick="app.nav('theories')" class="flex flex-col items-center justify-center w-full h-full text-indigo-500"><span class="text-lg">🔮</span></button>
+    
         <button onclick="app.openMobileSearch()"
         class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold">
         <span class="text-lg">🔍</span>
         </button>
 
-        <button onclick="app.nav('cosmology')" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lore-gold"><span class="text-lg">🌌</span></button>
-        <button onclick="app.nav('theories')" class="flex flex-col items-center justify-center w-full h-full text-indigo-500"><span class="text-lg">🔮</span></button>
     </div>
 
     <!-- Script -->
@@ -330,15 +332,17 @@
         const PREF_KEY = 'irminsul_pref';
         const db = {
             id: {
-                nav: { timeline: "Kronologi", nations: "Wilayah", cosmology: "Kosmologi", theories: "Ramalan" },
-                titles: { timeline: "Garis Waktu Teyvat", nations: "Geopolitik & Faksi", cosmology: "Hukum & Struktur Dunia", theories: "Ramalan & Teori Fans", home: "Terminal Irminsul Online" },
-                subtitles: { timeline: "Dari Era Naga hingga Era Luna III.", nations: "Status Tujuh Bangsa dan Wilayah Otonom.", cosmology: "Langit Palsu, Lautan Gelap, dan Tiga Alam.", theories: "Analisis Masa Depan dan Kebenaran Tersembunyi.", home: "Akses data rahasia." },
+                // UPDATE: Menambahkan 'library'
+                nav: { timeline: "Kronologi", nations: "Wilayah & Faksi", library: "Pustaka", cosmology: "Kosmologi", theories: "Ramalan" },
+                titles: { timeline: "Garis Waktu Teyvat", nations: "Geopolitik & Faksi", library: "Arsip & Relik Kuno", cosmology: "Hukum & Struktur Dunia", theories: "Ramalan & Teori Fans", home: "Terminal Irminsul Online" },
+                subtitles: { timeline: "Dari Era Naga hingga Era Luna III.", nations: "Tujuh Bangsa dan Organisasi Non-Teritorial.", library: "Buku terlarang dan memori artefak.", cosmology: "Langit Palsu, Lautan Gelap, dan Tiga Alam.", theories: "Analisis Masa Depan dan Kebenaran Tersembunyi.", home: "Akses data rahasia." },
                 ui: { read_more: "Lihat Detail", collapse: "Tutup", archon: "Archon", leader: "Pemimpin/Faksi", status: "Status", warning: " PERINGATAN: Mengandung Spoiler Berat & Spekulasi " }
             },
             en: {
-                nav: { timeline: "Timeline", nations: "Regions", cosmology: "Cosmology", theories: "Prophecy" },
-                titles: { timeline: "Timeline of Teyvat", nations: "Geopolitics & Factions", cosmology: "World Laws & Structure", theories: "Prophecy & Fan Theories", home: "Irminsul Terminal Online" },
-                subtitles: { timeline: "From Dragon Era to Luna III Era.", nations: "Status of The Seven and Autonomous Regions.", cosmology: "False Sky, Dark Sea, and Natural Laws.", theories: "Future analysis and hidden truths.", home: "Access classified data." },
+                // UPDATE: Adding 'library'
+                nav: { timeline: "Timeline", nations: "Regions & Factions", library: "Archives", cosmology: "Cosmology", theories: "Prophecy" },
+                titles: { timeline: "Timeline of Teyvat", nations: "Geopolitics & Factions", library: "Ancient Relics & Archives", cosmology: "World Laws & Structure", theories: "Prophecy & Fan Theories", home: "Irminsul Terminal Online" },
+                subtitles: { timeline: "From Dragon Era to Luna III Era.", nations: "The Seven Nations and Non-Territorial Organizations.", library: "Forbidden books and artifact memories.", cosmology: "False Sky, Dark Sea, and Natural Laws.", theories: "Future analysis and hidden truths.", home: "Access classified data." },
                 ui: { read_more: "View Details", collapse: "Collapse", archon: "Archon", leader: "Leader/Faction", status: "Status", warning: "WARNING: Contains Heavy Spoilers & Speculation" }
             }
         };
@@ -555,17 +559,63 @@
                 }
             ],
             
-            // == 2. WILAYAH ==
+            // == 2. WILAYAH & FAKSI (UPDATED: VERSI 6.2 LUNA III) ==
             nations: [
-                { id: "Mondstadt", el: "anemo", icon: "🍃", desc_id: "Kota Kebebasan.", desc_en: "City of Freedom.", leader_id: "Knights of Favonius", leader_en: "Knights of Favonius", archon: "Barbatos" },
-                { id: "Liyue", el: "geo", icon: "🔶", desc_id: "Kota Kontrak.", desc_en: "City of Contracts.", leader_id: "Liyue Qixing", leader_en: "Liyue Qixing", archon: "Morax (Retired)" },
-                { id: "Inazuma", el: "electro", icon: "⚡", desc_id: "Negeri Keabadian.", desc_en: "Land of Eternity.", leader_id: "Raiden Shogun", leader_en: "Raiden Shogun", archon: "Beelzebul" },
-                { id: "Sumeru", el: "dendro", icon: "🌿", desc_id: "Pusat Kebijaksanaan.", desc_en: "Center of Wisdom.", leader_id: "Nahida", leader_en: "Nahida", archon: "Buer" },
+                // -- TUJUH BANGSA UTAMA --
+                { id: "Mondstadt", el: "anemo", icon: "🍃", desc_id: "Kota Kebebasan & Angin Utara.", desc_en: "City of Freedom & Northern Wind.", leader_id: "Knights of Favonius", leader_en: "Knights of Favonius", archon: "Barbatos" },
+                { id: "Liyue", el: "geo", icon: "🔶", desc_id: "Pelabuhan Kontrak & Perdagangan.", desc_en: "Harbor of Contracts & Commerce.", leader_id: "Liyue Qixing", leader_en: "Liyue Qixing", archon: "Morax (Retired)" },
+                { id: "Inazuma", el: "electro", icon: "⚡", desc_id: "Kepulauan Keabadian.", desc_en: "Archipelago of Eternity.", leader_id: "Raiden Shogun", leader_en: "Raiden Shogun", archon: "Beelzebul" },
+                { id: "Sumeru", el: "dendro", icon: "🌿", desc_id: "Hutan Kebijaksanaan.", desc_en: "Forest of Wisdom.", leader_id: "Nahida", leader_en: "Nahida", archon: "Buer" },
                 { id: "Fontaine", el: "hydro", icon: "💧", desc_id: "Bangsa Keadilan.", desc_en: "Nation of Justice.", leader_id: "Neuvillette", leader_en: "Neuvillette", archon: "Destroyed" },
-                { id: "Natlan", el: "pyro", icon: "🔥", desc_id: "Bangsa Perang.", desc_en: "Nation of War.", leader_id: "Mavuika", leader_en: "Mavuika", archon: "Mavuika" },
-                { id: "Snezhnaya", el: "cryo", icon: "❄️", desc_id: "Pusat Fatui.", desc_en: "Fatui HQ.", leader_id: "The Tsaritsa", leader_en: "The Tsaritsa", archon: "Tsaritsa" },
-                { id: "Nod Krai", el: "lunar", icon: "🌕", desc_id: "Wilayah Otonom / Sisa Bulan.", desc_en: "Autonomous Region / Moon Remnant.", leader_id: "Frostmoon Scions", leader_en: "Frostmoon Scions", archon: "Sonnet (Dormant)" },
-                { id: "Khaenri'ah", el: "abyss", icon: "🌑", desc_id: "Kerajaan Bawah Tanah.", desc_en: "Underground Kingdom.", leader_id: "Abyss Order", leader_en: "Abyss Order", archon: "None" }
+                
+                // UPDATE NATLAN (Pasca-Sacrifice Capitano)
+                { id: "Natlan", el: "pyro", icon: "🔥", desc_id: "Tanah Kebangkitan. Api Suci telah stabil.", desc_en: "Land of Resurrection. Sacred Flame stabilized.", leader_id: "Mavuika (Weakened)", leader_en: "Mavuika (Weakened)", archon: "Mavuika" },
+                
+                // UPDATE SNEZHNAYA (Project Stuzha)
+                { id: "Snezhnaya", el: "cryo", icon: "❄️", desc_id: "Tanah Tanpa Kasih. Persiapan 'Stuzha'.", desc_en: "Land of Loveless Snow. Preparing 'Stuzha'.", leader_id: "The Tsaritsa", leader_en: "The Tsaritsa", archon: "Tsaritsa" },
+                
+                // -- WILAYAH KHUSUS (NOD KRAI & ABYSS) --
+                { id: "Nod Krai", el: "lunar", icon: "🌕", desc_id: "Sisa Bulan Keempat. Tanah 'Black Elysium'.", desc_en: "Remnant of 4th Moon. The 'Black Elysium'.", leader_id: "Lauma (Moonchanter)", leader_en: "Lauma (Moonchanter)", archon: "Sonnet (Dormant)" },
+                { id: "Khaenri'ah", el: "abyss", icon: "🌑", desc_id: "Puing-puing Dinasti Gerhana & Bulan Merah.", desc_en: "Ruins of Eclipse & Crimson Moon Dynasties.", leader_id: "Abyss Order", leader_en: "Abyss Order", archon: "None" },
+
+                // -- FAKSI KOSMIK & KUNO (Deep Lore 6.2) --
+                { id: "Hexenzirkel", el: "mystery", icon: "🔮", desc_id: "Intervensi via 'Hexerei'. Penjaga Batas Dunia.", desc_en: "Intervening via 'Hexerei'. World Boundary Keepers.", leader_id: "Alice (Elder)", leader_en: "Alice (Elder)", archon: "None" },
+                { id: "The Wild Hunt", el: "void", icon: "🐺", desc_id: "Pasukan Abyssal Elit pengejar Moon Marrow.", desc_en: "Elite Abyssal Force hunting Moon Marrow.", leader_id: "Rerir (The Sinner)", leader_en: "Rerir (The Sinner)", archon: "Sinner" },
+                { id: "Frostmoon Scions", el: "lunar", icon: "🙏", desc_id: "Pemuja Dewi Sonnet. Menanti 'Kuutar'.", desc_en: "Worshippers of Sonnet. Awaiting 'Kuutar'.", leader_id: "Lauma", leader_en: "Lauma", archon: "Sonnet" }
+            ],
+
+            // == 5. PUSTAKA (LIBRARY - ARSIP AGUNG) ==
+            library: [
+                {
+                    title_id: "Hymns of the Far North", title_en: "Hymns of the Far North",
+                    type: "Book", icon: "📜",
+                    desc_id: "Naskah yang hilang. Mengungkap bahwa Dewi Bulan adalah ciptaan Raja Naga Nibelung, bukan Phanes.",
+                    desc_en: "Lost text. Reveals Moon Sisters were created by Dragon King Nibelung, not Phanes."
+                },
+                {
+                    title_id: "The Little Witch's Dictionary", title_en: "The Little Witch's Dictionary",
+                    type: "Grimoire", icon: "🧙‍♀️",
+                    desc_id: "Panduan dari Hexenzirkel untuk membuka potensi 'Hexerei' (Sihir Murni) dalam Vision pengguna.",
+                    desc_en: "Hexenzirkel guide to unlocking 'Hexerei' (Pure Magic) potential within Visions."
+                },
+                {
+                    title_id: "Moon Marrow Samples", title_en: "Moon Marrow Samples",
+                    type: "Relic", icon: "🧪",
+                    desc_id: "Sampel esensi Aria (Bulan Abadi) yang diekstrak Dottore untuk menciptakan 'Bulan Palsu'.",
+                    desc_en: "Essence samples of Aria (Eternal Moon) extracted by Dottore to create a 'Fake Moon'."
+                },
+                {
+                    title_id: "Lullaby for Columbula", title_en: "Lullaby for Columbula",
+                    type: "Song", icon: "🎵",
+                    desc_id: "Lagu kuno Nod-Krai yang mengonfirmasi identitas Columbina sebagai 'Kuutar' (Bulan Baru).",
+                    desc_en: "Ancient Nod-Krai song confirming Columbina's identity as 'Kuutar' (New Moon)."
+                },
+                {
+                    title_id: "Paralogism: Durin's Record", title_en: "Paralogism: Durin's Record",
+                    type: "Report", icon: "🐲",
+                    desc_id: "Catatan tentang pemurnian jiwa Durin menjadi manusia melalui intervensi Albedo & Hexenzirkel.",
+                    desc_en: "Records of Durin's soul purification into human form via Albedo & Hexenzirkel intervention."
+                }
             ],
 
             // == 3. KOSMOLOGI ==
@@ -674,7 +724,7 @@
                 document.getElementById('mobile-search-btn').innerText = uiText.btn;
                 document.getElementById('mobile-help-text').innerText = uiText.help;
                 // --- APPLY SAVED LANGUAGE UI (End) ---
-                
+
                 this.applyTheme();
                 document.getElementById('lang-indicator').innerText = this.lang.toUpperCase();
 
@@ -807,9 +857,10 @@
                 
                 if (target === 'timeline') this.renderTimeline(container);
                 else if (target === 'nations') this.renderNations(container);
+                else if (target === 'library') this.renderLibrary(container); // <--- TAMBAHAN INI
                 else if (target === 'cosmology') this.renderCosmology(container);
                 else if (target === 'theories') this.renderTheories(container);
-            
+
                 // tandai nav aktif
                 document.querySelector(`[data-id="nav_${target}"]`)?.classList.add('active');
                 },
@@ -863,43 +914,89 @@
                 container.innerHTML = html;
             },
 
+            // --- FUNGSI RENDER WILAYAH & FAKSI (PEMISAHAN SECTION) ---
             renderNations: function(container) {
                 const ui = db[this.lang].ui;
+                
+                // 1. Daftar ID yang dikategorikan sebagai FAKSI (Bukan Wilayah)
+                const factionIDs = ['Hexenzirkel', 'The Wild Hunt', 'Frostmoon Scions', 'Celestia', 'Fatui Harbingers', 'Abyss Order'];
+                
+                // 2. Filter Data
+                const allData = loreData.nations;
+                const territories = allData.filter(item => !factionIDs.includes(item.id));
+                const factions = allData.filter(item => factionIDs.includes(item.id));
 
-                let html = `
-                <div class="royal-divider my-6"></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                `;
-
-                loreData.nations.forEach((nation, idx) => {
+                // 3. Helper untuk membuat HTML Card (Supaya kode rapi)
+                const createCard = (nation, idx) => {
                     const desc = this.lang === 'id' ? nation.desc_id : nation.desc_en;
                     const leader = this.lang === 'id' ? nation.leader_id : nation.leader_en;
                     
-                    html += `
+                    // Tentukan warna border berdasarkan elemen/tipe
+                    let borderColor = 'border-gray-500'; // default
+                    if (['pyro','geo','anemo','dendro','hydro','electro','cryo'].includes(nation.el)) borderColor = `text-el-${nation.el}`; 
+                    else if (nation.el === 'mystery') borderColor = 'text-lore-mystery';
+                    else if (nation.el === 'void') borderColor = 'text-gray-400';
+                    else if (nation.el === 'lunar') borderColor = 'text-lore-gold';
+
+                    return `
                         <div class="glass nation-card rounded-xl p-6 relative group duration-300 animate-enter" style="animation-delay: ${idx * 0.05}s">
                             <div class="card-watermark">${nation.icon}</div>
                             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-50 text-el-${nation.el} group-hover:h-1.5 transition-all"></div>
+                            
                             <div class="flex justify-between items-center mb-4 relative z-10">
                                 <span class="text-3xl filter drop-shadow-lg transform group-hover:scale-110 transition-transform">${nation.icon}</span>
-                                <span class="text-xs font-bold uppercase tracking-wider text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">${nation.el}</span>
+                                <span class="text-[0.6rem] font-bold uppercase tracking-widest text-gray-400 bg-black/5 dark:bg-white/10 px-2 py-1 rounded shadow-sm border border-white/5">${nation.el}</span>
                             </div>
-                            <h3 class="text-2xl font-serif font-bold mb-2 text-el-${nation.el} relative z-10">${nation.id}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6 min-h-[40px] relative z-10">${desc}</p>
+                            
+                            <h3 class="text-2xl font-serif font-bold mb-2 text-el-${nation.el} relative z-10 ${nation.el === 'mystery' ? 'text-lore-mystery' : ''}">${nation.id}</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mb-6 min-h-[40px] relative z-10 leading-relaxed">${desc}</p>
                             
                             <div class="space-y-3 text-sm border-t border-gray-200 dark:border-white/10 pt-4 relative z-10">
-                                <div class="flex justify-between">
-                                    <span class="text-[0.65rem] uppercase text-gray-400 font-bold">${ui.leader}</span>
-                                    <span class="font-bold text-gray-800 dark:text-gray-200 text-xs text-right">${leader}</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[0.6rem] uppercase text-gray-500 dark:text-gray-500 font-bold tracking-wider">${ui.leader}</span>
+                                    <span class="font-bold text-gray-800 dark:text-gray-200 text-xs text-right truncate ml-2 max-w-[60%]">${leader}</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-[0.65rem] uppercase text-gray-400 font-bold">${ui.archon}</span>
-                                    <span class="text-xs text-right">${nation.archon}</span>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[0.6rem] uppercase text-gray-500 dark:text-gray-500 font-bold tracking-wider">${ui.archon}</span>
+                                    <span class="text-xs text-right text-lore-goldDim font-semibold">${nation.archon}</span>
                                 </div>
                             </div>
                         </div>
                     `;
-                });
-                html += `</div>`;
+                };
+
+                let html = '';
+
+                // --- SECTION 1: WILAYAH (TERRITORIES) ---
+                const titleNation = this.lang === 'id' ? "Wilayah & Teritori" : "Nations & Territories";
+                html += `
+                    <div class="royal-divider my-8"></div>
+                    <div class="flex items-center justify-center gap-4 mb-8">
+                        <span class="h-[1px] w-12 bg-lore-gold/50"></span>
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim to-lore-gold text-center uppercase tracking-widest">${titleNation}</h2>
+                        <span class="h-[1px] w-12 bg-lore-gold/50"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+                        ${territories.map((n, i) => createCard(n, i)).join('')}
+                    </div>
+                `;
+
+                // --- SECTION 2: FAKSI (FACTIONS) ---
+                if (factions.length > 0) {
+                    const titleFaction = this.lang === 'id' ? "Organisasi & Faksi Kuno" : "Ancient Orders & Factions";
+                    html += `
+                        <div class="royal-divider my-8 opacity-50"></div>
+                         <div class="flex items-center justify-center gap-4 mb-8">
+                            <span class="h-[1px] w-12 bg-indigo-500/50"></span>
+                            <h2 class="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600 text-center uppercase tracking-widest">${titleFaction}</h2>
+                            <span class="h-[1px] w-12 bg-indigo-500/50"></span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${factions.map((f, i) => createCard(f, i + territories.length)).join('')}
+                        </div>
+                    `;
+                }
+
                 container.innerHTML = html;
             },
 
@@ -926,6 +1023,38 @@
                 html += `</div>`;
                 container.innerHTML = html;
             },
+
+            // --- FUNGSI RENDER PUSTAKA (BARU) ---
+            renderLibrary: function(container) {
+                let html = `
+                <div class="royal-divider my-6"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 animate-enter">
+                `;
+                
+                loreData.library.forEach((item, idx) => {
+                    const title = this.lang === 'id' ? item.title_id : item.title_en;
+                    const desc = this.lang === 'id' ? item.desc_id : item.desc_en;
+                    
+                    html += `
+                        <div class="glass p-5 rounded-lg border-l-4 border-lore-gold hover:bg-white/40 dark:hover:bg-white/5 transition-all group cursor-default" style="animation-delay: ${idx * 0.05}s">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-lore-gold/10 flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 transition-transform">
+                                    ${item.icon}
+                                </div>
+                                <div>
+                                    <span class="text-[0.6rem] font-bold uppercase tracking-wider text-lore-goldDim mb-1 block">${item.type}</span>
+                                    <h3 class="text-lg font-serif font-bold text-gray-800 dark:text-lore-gold leading-tight mb-2">${title}</h3>
+                                    <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+                container.innerHTML = html;
+            },
+            // -------------------------------------
 
             renderTheories: function(container) {
                 const ui = db[this.lang].ui;
