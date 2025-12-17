@@ -20,7 +20,7 @@
     
     <!-- JUDUL TAB BROWSER -->
     <title>Irminsul Archives: Kronik Teyvat</title>
-    <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/5/5d/Genshin_Impact_logo.svg">
+    <link rel="icon" type="image/x-icon" href="Irminsul-Icon.png">
 
     <!-- LIBRARY EKSTERNAL -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -370,8 +370,8 @@
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <!-- Brand -->
             <div class="flex items-center gap-3 cursor-pointer group" onclick="app.nav('home')">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-lore-gold to-[#8A7342] flex items-center justify-center shadow-lg ring-2 ring-white/50 dark:ring-white/10">
-                    <span class="text-white font-serif font-bold text-xl">I</span>
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-lore-gold to-[#000000] flex items-center justify-center shadow-lg ring-2 ring-white/50 dark:ring-white/10">
+                    <img src="Irminsul-Icon.png" alt="Irminsul Icon" class="w-10 h-10 object-contain">
                 </div>
                 <div class="flex flex-col justify-center">
                     <h1 class="font-serif font-bold text-lg tracking-[0.15em] text-gray-800 dark:text-white uppercase leading-none">Irminsul</h1>
@@ -1835,7 +1835,7 @@ renderTimeline: function(container) {
                             <span class="text-4xl">🌳</span>
                         </div>
                         <h2 class="text-3xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-lore-goldDim via-lore-gold to-lore-goldDim mb-4">
-                            ${isId ? 'Irminsul: Record of Tevyat' : 'Irminsul: Record of Tevyat'}
+                            ${isId ? 'Record of Tevyat' : 'Record of Tevyat'}
                         </h2>
                         <p id="typewriter-text" class="text-gray-600 dark:text-gray-400 font-mono text-sm h-6">
                             </p>
@@ -1875,7 +1875,7 @@ renderTimeline: function(container) {
                     <div class="glass p-8 rounded-xl border border-white/10 relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl rotate-12">❄️</div>
                         <h3 class="text-xl font-serif font-bold text-lore-gold mb-2">
-                            ${isId ? 'Pembaruan Terakhir: Versi 6.2' : 'Latest Patch: Version 6.2'}
+                            ${isId ? 'Pembaruan Terakhir: Versi CANDRA III' : 'Latest Patch: LUNA III'}
                         </h3>
                         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 max-w-lg leading-relaxed">
                             ${isId 
@@ -1893,8 +1893,8 @@ renderTimeline: function(container) {
 
                 // Efek Mengetik (Typewriter Effect)
                 const txt = isId 
-                    ? "Menghubungkan ke kesadaran dunia... Akses diberikan." 
-                    : "Connecting to world consciousness... Access granted.";
+                    ? "Menghubungkan ke kesadaran dunia..." 
+                    : "Connecting to world consciousness...";
                 let i = 0;
                 const speed = 30; 
                 const targetEl = document.getElementById("typewriter-text");
